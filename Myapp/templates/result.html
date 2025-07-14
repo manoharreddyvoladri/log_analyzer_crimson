@@ -1,0 +1,333 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Visualization Results</title>
+</head>
+<style>
+  body, html {
+      background-color: #1c152a;
+      font-family: "Helvetica 55", sans-serif;
+  }
+  .apexcharts-yaxis-label, .apexcharts-xaxis-label {
+      fill: #fff !important;
+  }
+</style>
+<body class="theBody">
+    {% include 'includes/leftLogoutBtn.html' %}
+    {% include 'includes/topLogoutBtn.html' %}
+    {% include 'includes/dropdown.html' with inPage="result" %}
+    {% include 'includes/navbar.html' %}
+    {% include 'includes/sidebar.html' with inPage="result" %}
+
+    <div class="centerContent absolute top-[15%] left-[9%] xl:left-[16%] xl:top-[10%] w-[80%] z-[-30] text-white">
+        <div class="realContent">
+            <p class="text-[#E2E2E2] text-4xl title">Visualization</p>
+        </div>
+
+        <div class="w-full max-w-6xl mx-auto mt-12">
+            <div class="flex flex-col lg:flex-row gap-8">
+
+                <div class="flex-1 bg-[#23203a] rounded-2xl shadow-lg p-8 border border-[#3a3655] flex flex-col items-center">
+                    <h2 class="text-xl font-bold text-white mb-3">File Prediction</h2>
+                    <p class="text-gray-400 text-center mb-5 text-sm">Upload a new log file to train the model.</p>
+                    <a href="{% url 'Prediction_Task' user_name 'website' %}" class="w-full text-center bg-[#49A84D] cursor-pointer text-white font-semibold transition-all hover:bg-[#267a2e] text-sm py-3 px-8 rounded-lg border-none shadow-lg">
+                        Upload new file
+                    </a>
+                    <hr class="border-gray-600 my-6 w-full">
+                    <h2 class="text-xl font-bold text-white mb-3">Overall Error Forecast</h2>
+                    <p class="text-gray-400 text-center mb-5 text-sm">View the forecast for all combined ERROR messages.</p>
+                    <button id="show-combined-error-btn" class="w-full text-center bg-blue-600 cursor-pointer text-white font-semibold transition-all hover:bg-blue-700 text-sm py-3 px-8 rounded-lg border-none shadow-lg">
+                        Show Combined Error Forecast
+                    </button>
+                    <p id="combined-error-message" class="text-red-400 mt-4"></p>
+                </div>
+
+                <div class="flex-1 bg-[#23203a] rounded-2xl shadow-lg p-8 border border-[#3a3655] flex flex-col">
+                    <h2 class="text-xl font-bold text-white mb-6 text-center">Forecast a Specific Log Message</h2>
+                    <form action="{% url 'Result_Forecast' user_name %}" method="post" class="flex flex-col items-center gap-4">
+                        {% csrf_token %}
+                        <label for="input_msg" class="text-base font-semibold text-[#E2E2E2]">Enter Log Message:</label>
+                        <input type="text" id="input_msg" name="input_msg" value="{{ input_msg|default:'' }}" placeholder="e.g., EPU Ambient Temperature" class="w-full h-[40px] rounded-lg text-white text-sm border border-[#CAB2B2] bg-[#291A48] px-3 focus:outline-none focus:ring-2 focus:ring-[#49A84D]" required />
+                        <input class="bg-[#49A84D] cursor-pointer text-white font-semibold transition-all hover:bg-[#267a2e] text-xs py-2 px-6 rounded-lg border-none shadow mt-2" type="submit" value="Predict"/>
+                    </form>
+                    <div class="mt-4">
+                        {% if error_msg %}
+                            <div class="text-red-400 bg-[#2d1a1a] p-3 rounded text-center shadow">{{ error_msg }}</div>
+                        {% endif %}
+                        {% if level_guess %}
+                            <div class="mt-4 text-lg font-semibold text-center">
+                              Predicted Log Level:
+                              {% if level_guess|lower == 'error' %}<span class="bg-[#1c152a] px-2 py-1 rounded text-red-500">{{ level_guess }}</span>
+                              {% elif level_guess|lower == 'info' %}<span class="bg-[#1c152a] px-2 py-1 rounded text-green-500">{{ level_guess }}</span>
+                              {% elif level_guess|lower == 'warn' or level_guess|lower == 'warning' %}<span class="bg-[#1c152a] px-2 py-1 rounded text-yellow-400">{{ level_guess }}</span>
+                              {% else %}<span class="bg-[#1c152a] px-2 py-1 rounded text-white">{{ level_guess }}</span>
+                              {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="combined-error-section" class="hidden mt-8">
+            <div class="w-full flex flex-col items-center">
+                <div class="w-full max-w-6xl">
+                    <h2 class="text-2xl font-bold mb-8 text-white text-center">Combined Forecast: All Distinct ERROR Messages</h2>
+                    <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 mb-8 border-2 border-red-500/80">
+                        <div class="pt-6 px-2 pb-0">
+                            <canvas id="combinedErrorChart" style="width:100%;height:400px;"></canvas>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto rounded-lg shadow-lg border border-[#3a235a]">
+                        <table class="min-w-full bg-[#291A48] text-white rounded-lg">
+                            <thead class="bg-[#23203a]">
+                              <tr id="combined-table-header">
+                                </tr>
+                            </thead>
+                            <tbody id="combined-table-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {% if forecast_table %}
+        <div class="w-full flex flex-col items-center mt-12">
+            <h2 class="text-2xl font-bold mb-4 text-white flex items-center gap-2">
+                Forecast for
+                {% if level_guess|lower == 'error' %}<span class="text-red-500">{{ input_msg }}</span>
+                {% elif level_guess|lower == 'info' %}<span class="text-green-500">{{ input_msg }}</span>
+                {% elif level_guess|lower == 'warn' or level_guess|lower == 'warning' %}<span class="text-yellow-400">{{ input_msg }}</span>
+                {% else %}<span class="text-white">{{ input_msg }}</span>
+                {% endif %}
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl my-8">
+                <div class="bg-[#291A48] p-4 rounded-lg text-center shadow-lg border border-transparent hover:border-purple-400 transition">
+                    <p class="text-gray-400 text-sm font-semibold">Total Historical</p>
+                    <p class="text-3xl font-bold text-white mt-1">{{ total_historical }}</p>
+                </div>
+                <div class="bg-[#291A48] p-4 rounded-lg text-center shadow-lg border border-transparent hover:border-purple-400 transition">
+                    <p class="text-gray-400 text-sm font-semibold">Total Predicted (7 months)</p>
+                    <p class="text-3xl font-bold text-white mt-1">{{ total_predicted }}</p>
+                </div>
+                <div class="bg-[#291A48] p-4 rounded-lg text-center shadow-lg border border-transparent hover:border-purple-400 transition">
+                    <p class="text-gray-400 text-sm font-semibold">Immediate Trend</p>
+                    {% if forecast_percent_change is not None %}
+                        <p class="text-3xl font-bold mt-1" style="color: {{ forecast_percent_color }};">
+                            {{ forecast_percent_change|floatformat:2 }}%
+                        </p>
+                    {% else %}
+                        <p class="text-xl text-gray-500 mt-2">N/A</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full max-w-4xl mb-8 border-2 border-blue-500">
+                <div class="pt-6 px-2 pb-0">
+                    <canvas id="forecastLogChart" style="width:100%;height:300px;"></canvas>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto w-full max-w-2xl rounded-lg shadow-lg border border-[#3a235a]">
+                <table class="min-w-full bg-[#291A48] text-white rounded-lg text-center">
+                    <thead class="bg-[#23203a] text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-lg">Month</th>
+                            <th class="px-6 py-3 text-lg">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in forecast_table %}
+                        <tr class="hover:bg-[#3a235a] transition-all">
+                            <td class="border-b border-[#3a235a] px-6 py-3">{{ row.Month|date:"F Y" }}</td>
+                            <td class="border-b border-[#3a235a] px-6 py-3">{{ row.Count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('forecastLogChart')) {
+                const forecastLabels = [{% for row in forecast_table %}'{{ row.Month|date:"F Y" }}',{% endfor %}];
+                const forecastCounts = [{% for row in forecast_table %}{{ row.Count }},{% endfor %}];
+                const actualLength = {{ forecast_actual.values|length|default:0 }};
+                const actualData = forecastCounts.slice(0, actualLength);
+                const predictedData = Array(actualLength - 1).fill(null).concat(forecastCounts.slice(actualLength - 1));
+
+                let lineColor = '#49A84D';
+                {% if level_guess|lower == 'error' %} lineColor = '#ef4444';
+                {% elif level_guess|lower == 'info' %} lineColor = '#22c55e';
+                {% elif level_guess|lower == 'warn' or level_guess|lower == 'warning' %} lineColor = '#eab308';
+                {% endif %}
+
+                const ctxForecastLog = document.getElementById('forecastLogChart').getContext('2d');
+                new Chart(ctxForecastLog, {
+                    type: 'line',
+                    data: {
+                        labels: forecastLabels,
+                        datasets: [
+                            {
+                                label: 'Actual',
+                                data: actualData,
+                                borderColor: lineColor,
+                                borderWidth: 2.5,
+                                tension: 0.4,
+                                fill: false,
+                            },
+                            {
+                                label: 'Predicted',
+                                data: predictedData,
+                                borderColor: lineColor,
+                                borderDash: [10, 8],
+                                borderWidth: 2.5,
+                                tension: 0.4,
+                                fill: false,
+                            }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' }, beginAtZero: true } }, plugins: { legend: { labels: { color: '#fff' } } } }
+                });
+            }
+        });
+        </script>
+        {% endif %}
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const showBtn = document.getElementById('show-combined-error-btn');
+        const combinedErrorSection = document.getElementById('combined-error-section');
+        const errorMsgElement = document.getElementById('combined-error-message');
+        const tableHeader = document.getElementById('combined-table-header');
+        const tableBody = document.getElementById('combined-table-body');
+        const chartCanvas = document.getElementById('combinedErrorChart');
+        let combinedErrorChart = null;
+        let forecastData = null; // To cache the data
+
+        showBtn.addEventListener('click', async function() {
+            // If section is visible, hide it and return
+            if (!combinedErrorSection.classList.contains('hidden')) {
+                combinedErrorSection.classList.add('hidden');
+                showBtn.textContent = 'Show Combined Error Forecast';
+                return;
+            }
+
+            // If we already have data, just show the section
+            if (forecastData) {
+                combinedErrorSection.classList.remove('hidden');
+                showBtn.textContent = 'Hide Combined Error Forecast';
+                combinedErrorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
+
+            // Fetch data
+            showBtn.textContent = 'Loading Forecast...';
+            showBtn.disabled = true;
+            errorMsgElement.textContent = '';
+
+            try {
+                const response = await fetch("{% url 'get_combined_error_forecast' %}");
+                const data = await response.json();
+
+                if (!response.ok || !data.combined_error_data || data.combined_error_data.length === 0) {
+                    throw new Error(data.error || 'No forecast data could be generated.');
+                }
+                
+                forecastData = data.combined_error_data; // Cache the data
+
+                // 1. Render Chart
+                if (combinedErrorChart) {
+                    combinedErrorChart.destroy();
+                }
+                
+                const datasets = forecastData.flatMap(error => {
+                    const splitIndex = 5; // First 5 = actual, remaining = predicted
+                    return [
+                        {
+                            label: `${error.label} (Actual)`,
+                            data: error.values.slice(0, splitIndex),
+                            borderColor: error.color,
+                            borderWidth: 2.5,
+                            fill: false,
+                            tension: 0.3,
+                            spanGaps: true,
+                        },
+                        {
+                            label: `${error.label} (Predicted)`,
+                            data: Array(splitIndex).fill(null).concat(error.values.slice(splitIndex)),
+                            borderColor: error.color,
+                            borderDash: [10, 6],
+                            borderWidth: 2.5,
+                            fill: false,
+                            tension: 0.3,
+                            spanGaps: true,
+                        }
+                    ];
+                });
+
+                const labels = forecastData.length > 0 ? forecastData[0].months : [];
+                
+                combinedErrorChart = new Chart(chartCanvas.getContext('2d'), {
+                    type: 'line',
+                    data: { labels: labels, datasets: datasets },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' }, beginAtZero: true } }, plugins: { legend: { position: 'top', labels: { color: '#fff' } } } }
+                });
+
+                // 2. Render Table
+                // Clear previous table content
+                tableHeader.innerHTML = '';
+                tableBody.innerHTML = '';
+
+                // Create Header
+                const headerRow = document.createElement('tr');
+                let headerHTML = '<th class="px-6 py-3 text-left">Error Message</th>';
+                if (labels.length > 0) {
+                    labels.forEach((month, index) => {
+                        const isPredicted = index >= 5; // Assuming first 5 are actual
+                        headerHTML += `<th class="px-6 py-3 text-center ${isPredicted ? 'bg-yellow-900/50' : ''}">${month}</th>`;
+                    });
+                }
+                tableHeader.innerHTML = headerHTML;
+
+
+                // Create Body
+                forecastData.forEach(error => {
+                    const bodyRow = document.createElement('tr');
+                    bodyRow.className = 'hover:bg-[#3a235a] transition-all';
+                    let bodyHTML = `<td class="border-b border-[#3a235a] px-6 py-3"><span class="inline-block w-3 h-3 rounded-full mr-2" style="background-color: ${error.color}"></span>${error.label}</td>`;
+                    error.values.forEach((val, index) => {
+                        const isPredicted = index >= 5;
+                        bodyHTML += `<td class="border-b border-[#3a235a] px-6 py-3 text-center ${isPredicted ? 'bg-yellow-900/50' : ''}">${val}</td>`;
+                    });
+                    bodyRow.innerHTML = bodyHTML;
+                    tableBody.appendChild(bodyRow);
+                });
+
+                // 3. Show the section
+                combinedErrorSection.classList.remove('hidden');
+                showBtn.textContent = 'Hide Combined Error Forecast';
+                combinedErrorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            } catch (error) {
+                console.error('Forecast Error:', error);
+                errorMsgElement.textContent = error.message;
+                showBtn.textContent = 'Show Combined Error Forecast';
+            } finally {
+                showBtn.disabled = false;
+            }
+        });
+    });
+    </script>
+</body>
+</html>

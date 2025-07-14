@@ -1,0 +1,1346 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>Document</title>
+</head>
+<script>
+  let Count_data2="{{Count_data}}"
+  let default_words2="{{default_words}}"
+  let last_values="{{last_values}}"
+  if (Count_data2){
+    console.log(Count_data2,default_words2,lastvalues)
+  }
+</script>
+<style>
+    .apexcharts-yaxis-label {
+      fill: #fff !important;
+    }
+    .apexcharts-xaxis-label {
+      fill: #fff !important;
+    }
+    *{
+        margin: 0px;
+        padding: 0px;
+        font-family: "Helvetica 55";
+      }
+      @font-face {
+          font-family: "Helvetica 55";
+          src: url("{% static '../static/HelveticaNeueLTStd-Roman.otf' %}" );
+      }
+    @font-face {
+        font-family: "ArrayRegular";
+        src: url("{% static '../static/Array-Regular.otf' %}")
+    }
+    .projectType::-webkit-scrollbar {
+        height: 7px;
+    }
+    .projectType::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+        box-shadow: inset 0px 4px 30.3px rgba(255, 255, 255, 0.4);
+    }
+    .projectType::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #ececec 0%, #dfd9da 100%);
+    }
+    .theBody::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #222222 0%, #272727 100%);
+    }
+    .theBody::-webkit-scrollbar {
+        width: 8px;
+    }
+    .theBody::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+    }
+    .theBody::-webkit-scrollbar-thumb {
+        background: #4c4c4d;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    }
+    .theBody{
+      overflow-x: hidden;
+    }
+    .otherContent{
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+    }
+    .anotherContent{
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+    }
+    .asideContainer{
+        box-shadow: 0px 0px 7.3px 1px rgba(77, 32, 255, 0.25);
+    }
+    .asideItem:hover{
+        background-color: rgba(55, 48, 155, 0.25);
+        border-radius: 5px;
+        transition: 0.2s ease all;
+        cursor: pointer;
+    }
+    .title{
+        font-family: "ArrayRegular";
+    }
+    details {
+      width: 90%;
+      margin: 0 auto ;
+      background: #282828;
+      margin-bottom: .5rem;
+      box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    summary {
+      padding: 1rem;
+      display: block;
+      background: #333;
+      padding-left: 2.2rem;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    summary:before {
+      border-width: .4rem;
+      border-style: solid;
+      position: absolute;
+      top: 1.3rem;
+      left: 1rem;
+      transform: rotate(0);
+      transform-origin: .2rem 50%;
+      transition: .25s transform ease;
+    }
+
+    details[open] > summary:before {
+      transform: rotate(90deg);
+    }
+    
+    details summary::-webkit-details-marker {
+      display:none;
+    }
+    
+    details > p {
+      padding-bottom: 1rem;
+      margin-bottom: 0;
+    }
+  .wordContentBlock::-webkit-scrollbar-track-piece {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #222222 0%, #272727 100%);
+  }
+  .wordContentBlock::-webkit-scrollbar {
+      width: 8px;
+  }
+  .wordContentBlock::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+  }
+  .wordContentBlock::-webkit-scrollbar-thumb {
+      background: #4c4c4d;
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  }
+  .addDetailsSummary{
+    top: 35%;
+  }
+
+  .addDataDetails{
+    width: 90%;
+    margin: 0 auto ;
+    background: none;
+    margin-bottom: 0rem;
+    box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .addDataDetails[open] > .addDetailsSummary{
+    top: 8%;
+  }
+  
+  details summary::-webkit-details-marker {
+    display:none;
+  }
+
+  .addDetailsSummary{
+    padding: 0rem;
+    display: block;
+    background: none;
+    padding-left: 0rem;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+  .wordTitle{
+    padding: 1rem;
+    display: block;
+    background: #26293c;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+  .apexcharts-tooltip {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+  .apexcharts-line .apexcharts-tooltip {
+    width: 500px !important; 
+}
+</style>
+<body class="theBody bg-[#1c152a]">
+    {% include 'includes/leftLogoutBtn.html' %}
+    {% include 'includes/topLogoutBtn.html' %}
+    {% include 'includes/dropdown.html' with inPage="result" %}
+    {% include 'includes/navbar.html' %}
+    {% include 'includes/sidebar.html' with inPage="result" %}
+    <div class="centerContent absolute top-[15%] left-[9%] xl:left-[16%] xl:top-[10%] w-[80%] z-[-30] text-white">
+        <div class="realContent">
+            <p class="text-[#E2E2E2] text-4xl title">Visualization</p>
+        </div>
+        <div class="mt-8 w-[100%]">
+            <!-- <form action="{% url 'Visualization_Task' user_name  'website' %}" method="post" class="w-[100%]">
+                {% csrf_token %}
+                <label class="mt-1">Enter String: </label>
+                 <select class="w-96 mr-2 ml-2 h-[40px] rounded-lg mt-1 text-white text-sm border-[0.2px] border-[#CAB2B2] border-dashed bg-[#291A48]" name="search_string">
+                  <option value="logPsm4Paramters">logPsm4Paramters</option>
+                 </select>
+                <input class="xl:mt-0 mt-4 bg-[#291A48] cursor-pointer text-[#ffffff] hover:border-none transition-all hover:bg-[#49A84D] text-xs pt-2 pb-2 pr-4 pl-4 rounded-lg border-dashed border-[0.1px] border-[#D8FFD9]" type="submit" value="Submit"/>
+            </form> -->
+        </div>
+        <form action="{% url 'Sorting_Data' user_name %}" method="post" class="flex items-center mt-4">
+          {% csrf_token %}
+          <label class="mt-1">Select anyone</label>
+          <select id="option_name" name="option_name" class="w-auto mr-2 ml-2 h-auto rounded-lg mt-1 text-white text-sm border-[0.2px] border-[#CAB2B2] border-dashed bg-[#291A48]">
+            {% if option_value %}
+            <option value="{{option_value}}" style="color:white;">{{option_value}}</option>
+            <option class="text-white text-sm" value="Today">Today</option>
+            <option class="text-white text-sm" value="Last_Day">Last_Day</option>
+            <option class="text-white text-sm" value="Last_Week">Last Week</option>
+            <option class="text-white text-sm" value="Last_Month">Last Month</option>
+           
+            {% else %}
+            <option class="text-white text-sm" value="Today">Today</option>
+            <option class="text-white text-sm" value="Last_Day">Last_Day</option>
+            <option class="text-white text-sm" value="Last_Week">Last Week</option>
+            <option class="text-white text-sm" value="Last_Month">Last Month</option>
+            {% endif %}
+            <!-- <option class="text-white text-sm" value="All_Data">All Data</option> -->
+          </select>
+          <input class="xl:mt-1 mt-4 cursor-pointer bg-[#291A48] text-[#ffffff] hover:border-none transition-all hover:bg-[#49A84D] text-xs pt-2 pb-2 pr-4 pl-4 rounded-lg border-dashed border-[0.1px] border-[#D8FFD9]" type="submit" value="Submit"/>
+        </form>
+        {% if Search_String %}
+        <div class="tableContent mt-12 w-[100%] mb-10 flex justify-center">
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-[90%]">
+              {% for key,values in Search_String.items %}
+                  <div class="flex wordTitle items-center justify-between {{ key }}">
+                      <p class="text-white text-xl">Substring: {{ key }}</p>
+                      <div class="buttons flex gap-x-3 items-center">
+                        <div class="flex gap-x-1 pl-3 pr-3 pt-1 pb-1 rounded-md infoBtn" onclick="callDjangoFunction('{{ key|escapejs }}', 'INFO')">
+                            <svg class="mt-[0.5px]" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="infoPath" d="M8.25 12.75H9.75V8.25H8.25V12.75ZM9 6.75C9.2125 6.75 9.39075 6.678 9.53475 6.534C9.67875 6.39 9.7505 6.212 9.75 6C9.7495 5.788 9.6775 5.61 9.534 5.466C9.3905 5.322 9.2125 5.25 9 5.25C8.7875 5.25 8.6095 5.322 8.466 5.466C8.3225 5.61 8.2505 5.788 8.25 6C8.2495 6.212 8.3215 6.39025 8.466 6.53475C8.6105 6.67925 8.7885 6.751 9 6.75ZM9 16.5C7.9625 16.5 6.9875 16.303 6.075 15.909C5.1625 15.515 4.36875 14.9808 3.69375 14.3063C3.01875 13.6318 2.4845 12.838 2.091 11.925C1.6975 11.012 1.5005 10.037 1.5 9C1.4995 7.963 1.6965 6.988 2.091 6.075C2.4855 5.162 3.01975 4.36825 3.69375 3.69375C4.36775 3.01925 5.1615 2.485 6.075 2.091C6.9885 1.697 7.9635 1.5 9 1.5C10.0365 1.5 11.0115 1.697 11.925 2.091C12.8385 2.485 13.6323 3.01925 14.3063 3.69375C14.9803 4.36825 15.5148 5.162 15.9098 6.075C16.3048 6.988 16.5015 7.963 16.5 9C16.4985 10.037 16.3015 11.012 15.909 11.925C15.5165 12.838 14.9823 13.6318 14.3063 14.3063C13.6303 14.9808 12.8365 15.5152 11.925 15.9097C11.0135 16.3042 10.0385 16.501 9 16.5ZM9 15C10.675 15 12.0938 14.4187 13.2563 13.2562C14.4188 12.0937 15 10.675 15 9C15 7.325 14.4188 5.90625 13.2563 4.74375C12.0938 3.58125 10.675 3 9 3C7.325 3 5.90625 3.58125 4.74375 4.74375C3.58125 5.90625 3 7.325 3 9C3 10.675 3.58125 12.0937 4.74375 13.2562C5.90625 14.4187 7.325 15 9 15Z" fill="#939393"/>
+                            </svg>                                    
+                            <p class="text-white text-sm">Info</p>
+                        </div>
+                        <div class="flex gap-x-1 pl-3 pr-3 pt-1 pb-1 rounded-md warningBtn" onclick="callDjangoFunction('{{ key|escapejs }}', 'WARNING')">
+                            <svg class="mt-[0.5px]" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="warningPath" d="M9 1.5C13.1422 1.5 16.5 4.85775 16.5 9C16.5 13.1422 13.1422 16.5 9 16.5C4.85775 16.5 1.5 13.1422 1.5 9C1.5 4.85775 4.85775 1.5 9 1.5ZM9 3C7.4087 3 5.88258 3.63214 4.75736 4.75736C3.63214 5.88258 3 7.4087 3 9C3 10.5913 3.63214 12.1174 4.75736 13.2426C5.88258 14.3679 7.4087 15 9 15C10.5913 15 12.1174 14.3679 13.2426 13.2426C14.3679 12.1174 15 10.5913 15 9C15 7.4087 14.3679 5.88258 13.2426 4.75736C12.1174 3.63214 10.5913 3 9 3ZM9 11.25C9.19891 11.25 9.38968 11.329 9.53033 11.4697C9.67098 11.6103 9.75 11.8011 9.75 12C9.75 12.1989 9.67098 12.3897 9.53033 12.5303C9.38968 12.671 9.19891 12.75 9 12.75C8.80109 12.75 8.61032 12.671 8.46967 12.5303C8.32902 12.3897 8.25 12.1989 8.25 12C8.25 11.8011 8.32902 11.6103 8.46967 11.4697C8.61032 11.329 8.80109 11.25 9 11.25ZM9 4.5C9.19891 4.5 9.38968 4.57902 9.53033 4.71967C9.67098 4.86032 9.75 5.05109 9.75 5.25V9.75C9.75 9.94891 9.67098 10.1397 9.53033 10.2803C9.38968 10.421 9.19891 10.5 9 10.5C8.80109 10.5 8.61032 10.421 8.46967 10.2803C8.32902 10.1397 8.25 9.94891 8.25 9.75V5.25C8.25 5.05109 8.32902 4.86032 8.46967 4.71967C8.61032 4.57902 8.80109 4.5 9 4.5Z" fill="#939393"/>
+                            </svg>                                    
+                            <p class="text-white text-sm">Warning</p>
+                        </div>
+                        <div class="flex gap-x-1 pl-3 pr-3 pt-1 pb-1 rounded-md criticalBtn" onclick="callDjangoFunction('{{ key|escapejs }}', 'ERROR')">
+                            <svg class="mt-[0.5px]" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="criticalPath" d="M1.125 9C1.125 10.5575 1.58686 12.0801 2.45218 13.3751C3.31749 14.6702 4.5474 15.6795 5.98637 16.2756C7.42534 16.8716 9.00874 17.0275 10.5363 16.7237C12.0639 16.4198 13.4671 15.6698 14.5685 14.5685C15.6698 13.4671 16.4198 12.0639 16.7237 10.5363C17.0275 9.00874 16.8716 7.42534 16.2756 5.98637C15.6795 4.5474 14.6702 3.31749 13.3751 2.45218C12.0801 1.58686 10.5575 1.125 9 1.125C6.91142 1.125 4.90838 1.95469 3.43153 3.43153C1.95469 4.90838 1.125 6.91142 1.125 9ZM14.1469 13.3594L4.64062 3.85312C5.93473 2.77594 7.58471 2.2213 9.26672 2.29807C10.9487 2.37484 12.5413 3.07748 13.7319 4.26808C14.9225 5.45868 15.6252 7.05127 15.7019 8.73328C15.7787 10.4153 15.2241 12.0653 14.1469 13.3594ZM4.635 14.1525C3.27281 12.9957 2.42494 11.346 2.27731 9.56498C2.12969 7.78399 2.69436 6.01715 3.8475 4.65188L13.3481 14.1525C12.1299 15.1819 10.5865 15.7466 8.99156 15.7466C7.39664 15.7466 5.85325 15.1819 4.635 14.1525Z" fill="#939393"/>
+                            </svg>                                    
+                            <p class="text-white text-sm">Critical</p>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="wordContentBlock bg-[#1b1e32] min-h-16 max-h-96 overflow-auto pt-5 pb-8 pl-12 pr-12 hidden">
+                    <div class="flex justify-end mb-3">
+                        <svg class="cursor-pointer closeBtn" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_312_14)">
+                            <path d="M15 0C23.2845 0 30 6.7155 30 15C30 23.2845 23.2845 30 15 30C6.7155 30 0 23.2845 0 15C0 6.7155 6.7155 0 15 0ZM18.3105 10.2555L15.015 13.545L11.7225 10.2555C11.5513 10.0834 11.3244 9.97792 11.0824 9.95813C10.8405 9.93833 10.5994 10.0055 10.4025 10.1475L10.2765 10.2555C10.1813 10.3503 10.1057 10.4629 10.0541 10.587C10.0025 10.7111 9.97599 10.8441 9.97599 10.9785C9.97599 11.1129 10.0025 11.2459 10.0541 11.37C10.1057 11.4941 10.1813 11.6067 10.2765 11.7015L13.569 14.991L10.2765 18.2805C10.0845 18.4723 9.97663 18.7324 9.97649 19.0037C9.97642 19.1381 10.0028 19.2711 10.0542 19.3952C10.1055 19.5194 10.1808 19.6322 10.2758 19.7272C10.3707 19.8223 10.4834 19.8977 10.6075 19.9492C10.7316 20.0007 10.8646 20.0272 10.999 20.0273C11.2703 20.0274 11.5305 19.9198 11.7225 19.728L15.015 16.4355L18.3105 19.728C18.6705 20.088 19.23 20.1225 19.6305 19.8345L19.7565 19.7265C19.8517 19.6317 19.9273 19.5191 19.9789 19.395C20.0305 19.2709 20.057 19.1379 20.057 19.0035C20.057 18.8691 20.0305 18.7361 19.9789 18.612C19.9273 18.4879 19.8517 18.3753 19.7565 18.2805L16.4625 14.991L19.755 11.7015C19.9326 11.5072 20.0285 11.2518 20.0227 10.9886C20.0168 10.7254 19.9097 10.4746 19.7237 10.2883C19.5376 10.102 19.2869 9.9947 19.0237 9.98858C18.7604 9.98247 18.505 10.0781 18.3105 10.2555Z" fill="#FF4560"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_312_14">
+                            <rect width="30" height="30" fill="white"/>
+                            </clipPath>
+                            </defs>
+                        </svg>                                                              
+                    </div>
+                  </div>
+              {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 barChartContainer">
+          <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+            <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                class="h-6 w-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                ></path>
+              </svg>
+            </div>
+            <div class="flex justify-between items-center w-[100%] mr-5">
+              <p class="text-white">Temperature Bar graph (1-30: Green, 30-60: Orange, >60: Red) - Units: Degree Celsius (°C)</p>
+              <div class="flex gap-x-2">
+                <div class="flex justify-center items-center gap-x-1">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5" cy="5" r="5" fill="#22C55E"/>
+                  </svg>      
+                  <p class="text-white">0-30</p>              
+                </div>
+                <div class="flex justify-center items-center gap-x-1">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5" cy="5" r="5" fill="#eab308"/>
+                  </svg>      
+                  <p class="text-white">30-60</p>              
+                </div>
+                <div class="flex justify-center items-center gap-x-1">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5" cy="5" r="5" fill="#ef4444"/>
+                  </svg>      
+                  <p class="text-white">>60</p>              
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-6 px-2 pb-0 temperatureBarChart">
+            <div id="bar-chart-temperature"></div>
+          </div>
+        </div>
+        <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 barChartContainer">
+          <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+            <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                class="h-6 w-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-white">Charge Bar graph (1-30: Green, 30-60: Orange, >60: Red) - Units: Percentage(%)</p>
+            </div>
+          </div>
+          <div class="pt-6 px-2 pb-0 chargeBarChart">
+            <div id="bar-chart-charge"></div>
+          </div>
+        </div>
+        <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 barChartContainer">
+          <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+            <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                class="h-6 w-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-white">Time Bar graph (1-30: Green, 30-60: Orange, >60: Red) - Units: Minutes</p>
+            </div>
+          </div>
+          <div class="pt-6 px-2 pb-0 timeBarChart">
+            <div id="bar-chart-time"></div>
+          </div>
+        </div>
+        <div class="flex gap-x-5 flex-wrap lineCharts"></div>
+        <div class="flex gap-x-5 flex-wrap mb-5 pieCharts"></div>
+            <p class="hidden lastVal">{{ last_values.items }}</p>
+            <p class="hidden defaultWords">{{ default_words }}</p>
+            <p class="hidden countDataItems">{{ Count_data.items }}</p>
+            <p class="hidden logLevelItems">{{ log_levels.items }}</p>
+            <p class="hidden searchStringItems">{{ Search_String.items }}</p>
+    </div>
+</body>
+<script>
+  let x="{{last_values}}"
+  
+  let z="{{default_words}}"
+  let Count_data="{{Count_data}}"
+  
+  if (x){
+    console.log(x)
+    
+    console.log(z)
+    console.log(Count_data)
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let previousValues;
+    let wholeData
+    let times;
+    let x_scale_values;
+    
+    setInterval(function() {
+      let changed_date='{{option_value}}'
+      if (changed_date){
+        var params = {
+        param1: changed_date,
+    };
+      }
+      else{
+        var params = {
+        param1: "Today",
+    };
+      }
+        $.ajax({
+            url: '/Visualization_Loop',
+            method: 'GET',
+            data: params,
+            success: function(data) {
+              wholeData = data
+                console.log(data);
+                times = data
+                renderLineChart(data)
+            },
+            error: function(error) {
+                console.error("error", error);
+            }
+        });
+    }, 1000);
+</script>
+<script>
+  
+  setInterval(function() {
+    
+      $.ajax({
+          url: '/Meter_values',
+          method: 'GET',
+          success: function(data) {
+            wholeData = data
+              console.log(data);
+              times = data
+              renderLineChart(data)
+          },
+          error: function(error) {
+              console.error("error", error);
+          }
+      });
+  }, 2000);
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  const wordContentBlock = document.querySelector(".wordContentBlock")
+  
+  const infoBtn = document.querySelector(".infoBtn")
+  const infoPath = document.querySelector(".infoPath")
+  infoBtn.classList.add("bg-[#1c152a]")
+
+  const warningBtn = document.querySelector(".warningBtn")
+  const warningPath = document.querySelector(".warningPath")
+  warningBtn.classList.add("bg-[#1c152a]")
+
+  const criticalBtn = document.querySelector(".criticalBtn")
+  const criticalPath = document.querySelector(".criticalPath")
+  criticalBtn.classList.add("bg-[#1c152a]")
+
+  const closeBtn = document.querySelector(".closeBtn")
+
+  closeBtn.addEventListener("click", () => {
+    wordContentBlock.classList.add("hidden")
+
+    infoBtn.classList.add("bg-[#1c152a]")
+    infoBtn.classList.remove("bg-[#3B71CA]")
+    infoPath.setAttribute("fill", "#939393")
+
+    warningBtn.classList.add("bg-[#1c152a]")
+    warningBtn.classList.remove("bg-[#E4A11B]")
+    warningPath.setAttribute("fill", "#939393")
+
+    criticalBtn.classList.add("bg-[#1c152a]")
+    criticalBtn.classList.remove("bg-[#DC4C64]")
+    criticalPath.setAttribute("fill", "#939393")
+
+    healthBtn.classList.add("bg-[#1c152a]")
+    healthBtn.classList.remove("bg-[#14A44D]")
+    healthPath.setAttribute("fill", "#939393")
+  })
+
+  function callDjangoFunction(param1, param2) {
+      $.ajax({
+          url: "{% url 'Soring_Word_Wise' %}",  // URL pattern name
+          type: 'GET',
+          data: {
+              'param1': param1,
+              'param2': param2
+          },
+          success: function(response) {
+              console.log('Success:', response);
+              if((param2 === "INFO")){
+                  infoBtn.classList.add("bg-[#3B71CA]")
+                  infoPath.setAttribute("fill", "#fff")
+
+                  warningBtn.classList.add("bg-[#1c152a]")
+                  warningBtn.classList.remove("bg-[#E4A11B]")
+                  warningPath.setAttribute("fill", "#939393")
+
+                  criticalBtn.classList.add("bg-[#1c152a]")
+                  criticalBtn.classList.remove("bg-[#DC4C64]")
+                  criticalPath.setAttribute("fill", "#939393")
+
+                  wordContentBlock.classList.remove("hidden")
+                  if(document.querySelector(".tag")){
+                      document.querySelectorAll(".tag").forEach((t) => {
+                          t.remove()
+                      })
+                  }
+                  for( let i=0; i<response.Requested_Data.length; ++i){
+                      const tag = document.createElement("p")
+                      tag.classList.add("tag")
+                      tag.classList.add("mt-2")
+                      tag.classList.add("text-white")
+                      tag.classList.add("mr-2")
+                      tag.classList.add("ml-2")
+                      tag.innerHTML = response.Requested_Data[i]
+                      wordContentBlock.appendChild(tag)
+                  }
+              }
+              else if((param2 === "WARNING")){
+                  warningBtn.classList.add("bg-[#E4A11B]")
+                  warningPath.setAttribute("fill", "#fff")
+
+                  infoBtn.classList.add("bg-[#1c152a]")
+                  infoBtn.classList.remove("bg-[#3B71CA]")
+                  infoPath.setAttribute("fill", "#939393")
+
+                  criticalBtn.classList.add("bg-[#1c152a]")
+                  criticalBtn.classList.remove("bg-[#DC4C64]")
+                  criticalPath.setAttribute("fill", "#939393")
+
+                  wordContentBlock.classList.remove("hidden")
+                  if(document.querySelector(".tag")){
+                      document.querySelectorAll(".tag").forEach((t) => {
+                          t.remove()
+                      })
+                  }
+                  for( let i=0; i<response.Requested_Data.length; ++i){
+                      const tag = document.createElement("p")
+                      tag.classList.add("tag")
+                      tag.classList.add("mt-2")
+                      tag.classList.add("text-white")
+                      tag.classList.add("mr-2")
+                      tag.classList.add("ml-2")
+                      tag.innerHTML = response.Requested_Data[i]
+                      wordContentBlock.appendChild(tag)
+                  }
+              }
+              else if((param2 === "ERROR")){
+                  criticalBtn.classList.add("bg-[#DC4C64]")
+                  criticalPath.setAttribute("fill", "#fff")
+
+                  infoBtn.classList.add("bg-[#1c152a]")
+                  infoBtn.classList.remove("bg-[#3B71CA]")
+                  infoPath.setAttribute("fill", "#939393")
+
+                  warningBtn.classList.add("bg-[#1c152a]")
+                  warningBtn.classList.remove("bg-[#E4A11B]")
+                  warningPath.setAttribute("fill", "#939393")
+                  
+                  wordContentBlock.classList.remove("hidden")
+                  if(document.querySelector(".tag")){
+                      document.querySelectorAll(".tag").forEach((t) => {
+                          t.remove()
+                      })
+                  }
+                  for( let i=0; i<response.Requested_Data.length; ++i){
+                      const tag = document.createElement("p")
+                      tag.classList.add("tag")
+                      tag.classList.add("mt-2")
+                      tag.classList.add("text-white")
+                      tag.classList.add("mr-2")
+                      tag.classList.add("ml-2")
+                      tag.innerHTML = response.Requested_Data[i]
+                      wordContentBlock.appendChild(tag)
+                  }
+              }
+          },
+          error: function(xhr, status, error) {
+              console.error('Error:', error);
+          }
+      });
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    const lastVal = document.querySelector(".lastVal")
+    const barChartContainer = document.querySelector(".barChartContainer")
+    if(lastVal.innerHTML == "dict_items([])"){
+      barChartContainer.classList.add("hidden")
+    }
+    else{
+      barChartContainer.classList.remove("hidden")
+    }
+
+    let lastValTimeXCords = []
+    let lastValTimeYCords = []
+
+    let lastValChargeXCords = []
+    let lastValChargeYCords = []
+
+    let lastValTemperatureXCords = []
+    let lastValTemperatureYCords = []
+
+    const defaultWords = document.querySelector(".defaultWords")
+    const countDataItems = document.querySelector(".countDataItems")
+    const logLevelItems = document.querySelector(".logLevelItems")
+    const searchStringItems = document.querySelector(".searchStringItems")
+    let defaultWordSeps = defaultWords.innerHTML.match(/\[([^\]]*)\]/g);
+    let lastVarSepNums = lastVal.innerHTML.slice(12, lastVal.innerHTML.length-2).match(/\d+/g)
+    let lastValSep = lastVal.innerHTML.slice(12, lastVal.innerHTML.length-2).match(/'([^']*)'/g)
+    let lastValYCods = []
+    let lastValXCods = []
+    let pieTitles = []
+    let pieNumsSeps = []
+    let countNums = 0
+    console.log(countDataItems.innerHTML)
+    countDataItems.innerHTML.match(/'([^']*)'/g).forEach((item) => {
+      if(countNums%4 === 0){
+        pieTitles.push(item.slice(1, item.length - 1))
+      }
+      countNums++;
+    })
+    let nums = []
+    countDataItems.innerHTML.match(/\{([^}]*)\}/g).toString().match(/\d+/g).forEach((item) => {
+      pieNumsSeps.pop()
+      nums.push(Number(item))
+      console.log(nums)
+      pieNumsSeps.push(nums)
+    })
+
+    lastValSep.forEach( (lastY) => {
+        lastValYCods.push(lastY.slice(1, lastY.length-1))
+    })
+    lastVarSepNums.forEach( (lastX) => {
+        lastValXCods.push(Number(lastX))
+    })
+
+    lastValYCods.forEach((xCord) => {
+      if(xCord.split(" ")[xCord.split(" ").length - 1] === "Remaining"){
+        lastValTimeYCords.push(xCord)
+        lastValTimeXCords.push(lastValXCods[lastValYCods.indexOf(xCord)])
+      }
+      else if(xCord.split(" ")[xCord.split(" ").length - 1] === "charge"){
+        lastValChargeYCords.push(xCord)
+        lastValChargeXCords.push(lastValXCods[lastValYCods.indexOf(xCord)])
+      }
+      else if(xCord.split(" ")[xCord.split(" ").length - 1] === "Temperature"){
+        lastValTemperatureYCords.push(xCord)
+        lastValTemperatureXCords.push(lastValXCods[lastValYCods.indexOf(xCord)])
+      }
+    })
+
+    console.log("lastValTimeYCords", lastValTimeYCords)
+    console.log("lastValTimeXCords", lastValTimeXCords)
+
+    console.log("lastValChargeYCords", lastValChargeYCords)
+    console.log("lastValChargeXCords", lastValChargeXCords)
+
+    console.log("lastValTemperatureYCords", lastValTemperatureYCords)
+    console.log("lastValTemperatureXCords", lastValTemperatureXCords)
+
+
+    let defaultNumsForLineChart = []
+    let defaultWordsForLineChart = []
+
+    let de = defaultWords.innerHTML.match(/'([^']*)'/g).forEach((word) => {
+      defaultWordsForLineChart.push(word.slice(1, word.length - 1))
+    })
+
+    for (let i=0; i<defaultWordSeps.length; ++i){
+      let defs = []
+      defaultWordSeps[i].match(/\[([^\]]*)\]/g).toString().slice(1, defaultWordSeps[i].length - 1).split(",").forEach((item) => {
+        defs.push(Number(item))
+      })
+      defaultNumsForLineChart.push(defs)
+    }
+
+    console.log("lastValXCods", lastValXCods)
+    console.log("lastValYCods", lastValYCods)
+
+    let changingLastValXCords = []
+
+    
+
+    for(let i=0; i<lastValYCods.length; ++i){
+      if (lastValYCods[i].split(" ")[lastValYCods[i].split(" ").length - 1] === "charge"){
+        changingLastValXCords.push(lastValYCods[i] + " (%)");
+      }
+      else if (lastValYCods[i].split(" ")[lastValYCods[i].split(" ").length - 1] === "Temperature") {
+        changingLastValXCords.push(lastValYCods[i] + " (°C)");
+      }
+      else{
+        changingLastValXCords.push(lastValYCods[i] + " (minutes)");
+      }
+    }
+    
+    const chartConfigTemperature = {
+      series: [
+        {
+          name: "Value",
+          data: lastValTemperatureXCords,
+        },
+      ],
+      chart: {
+        type: "bar",
+        height: 240,
+        toolbar: {
+          show: false,
+        },
+      },
+      legend:{
+        show: true,
+      },
+      dataLabels: {
+        enabled: true,
+      },
+      colors: [
+        function({ value, seriesIndex, w }) {
+          if (value <= 30) {
+            return '#22c55e'; // Green for values <= 30
+          } else if (value > 30 && value <= 60) {
+            return '#eab308'; // Yellow for values between 30 and 60
+          } else {
+            return '#ef4444'; // Red for values > 60
+          }
+        }
+      ],
+      plotOptions: {
+        bar: {
+          columnWidth: "40%",
+          borderRadius: 2,
+        },
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+          formatter: function (value) {
+            return `${value}(°C)`;
+          }
+        },
+        categories: lastValTemperatureYCords,
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: false,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    };
+    
+const chartTemperature = new ApexCharts(document.querySelector("#bar-chart-temperature"), chartConfigTemperature);
+chartTemperature.render();
+
+const chartConfigCharge = {
+  series: [
+    {
+      name: "Value",
+      data: lastValChargeXCords,
+    },
+  ],
+  chart: {
+    type: "bar",
+    height: 240,
+    toolbar: {
+      show: false,
+    },
+  },
+  title: {
+    show: "",
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  colors: [
+  function({ value, seriesIndex, w }) {
+    if (value <= 30) {
+      return '#22c55e'
+    }
+    else if((value > 30) && (value <= 60)){
+        return '#eab308'
+    }
+    else if((value > 60)){
+        return '#ef4444'
+    }
+  }
+],
+  plotOptions: {
+    bar: {
+      columnWidth: "40%",
+      borderRadius: 2,
+    },
+  },
+  xaxis: {
+    axisTicks: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "12px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+    categories: lastValChargeYCords,
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "12px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+  },
+  grid: {
+    show: false,
+    borderColor: "#dddddd",
+    strokeDashArray: 5,
+    xaxis: {
+      lines: {
+        show: true,
+      },
+    },
+    padding: {
+      top: 5,
+      right: 20,
+    },
+  },
+  fill: {
+    opacity: 0.8,
+  },
+  tooltip: {
+    theme: "dark",
+  },
+};
+const chartCharge = new ApexCharts(document.querySelector("#bar-chart-charge"), chartConfigCharge);
+chartCharge.render();
+
+const chartConfigTime = {
+  series: [
+    {
+      name: "Value",
+      data: lastValTimeXCords,
+    },
+  ],
+  chart: {
+    type: "bar",
+    height: 240,
+    toolbar: {
+      show: false,
+    },
+  },
+  title: {
+    show: "",
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  colors: [
+  function({ value, seriesIndex, w }) {
+    if (value <= 30) {
+      return '#22c55e'
+    }
+    else if((value > 30) && (value <= 60)){
+        return '#eab308'
+    }
+    else if((value > 60)){
+        return '#ef4444'
+    }
+  }
+],
+  plotOptions: {
+    bar: {
+      columnWidth: "40%",
+      borderRadius: 2,
+    },
+  },
+  xaxis: {
+    axisTicks: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "12px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+    categories: lastValTimeYCords,
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "12px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+  },
+  grid: {
+    show: false,
+    borderColor: "#dddddd",
+    strokeDashArray: 5,
+    xaxis: {
+      lines: {
+        show: true,
+      },
+    },
+    padding: {
+      top: 5,
+      right: 20,
+    },
+  },
+  fill: {
+    opacity: 0.8,
+  },
+  tooltip: {
+    theme: "dark",
+  },
+};
+const chartTime = new ApexCharts(document.querySelector("#bar-chart-time"), chartConfigTime);
+chartTime.render();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+  function renderLineChart(data){
+    if(document.body.contains(document.querySelector(`.lineCharty${i}`)) === false){
+      const lineCharts = document.querySelector(".lineCharts")
+      var lineChartID = []
+      for(let i=0; i<defaultNumsForLineChart.length; ++i){
+        let categories = Object.values(Object.values(data.x_scale_values))[i.toString()]
+        console.log("categories", categories)
+        if(document.body.contains(document.querySelector(`.lineCharty${i}`))){
+          document.querySelector(`.lineChart${i}`).remove()
+        }
+        const lineChartDivElement = `
+              <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md xl:w-[49%] w-full mt-9 lineCharty${i}">
+                <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                  <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                      class="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="block max-w-sm font-sans text-sm font-normal leading-normal text-white antialiased lineChartName">
+                      ${defaultWordsForLineChart[i]}
+                    </p>
+                  </div>
+                </div>
+                <div class="pt-6 px-2 pb-0">
+                  <div id="lineChart${i}"></div>
+                </div>
+              </div>
+        `
+
+        lineCharts.insertAdjacentHTML('beforeend', lineChartDivElement);
+        lineChartID.push(document.querySelector(`#lineChart${i}`))
+
+        const lineChartRenderer = new ApexCharts(lineChartID[i], {
+          series: [
+            {
+              data: defaultNumsForLineChart[i],
+            },
+          ],
+          chart: {
+            type: "line",
+            height: 240,
+            toolbar: {
+              show: false,
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          colors: ["#25aef3"],
+          stroke: {
+            lineCap: "round",
+            curve: "smooth",
+          },
+          markers: {
+            size: 5,
+            hover: {
+              sizeOffset: 3,
+            },
+            discrete: defaultNumsForLineChart[i].map((value, index) => {
+              let color;
+              if (value <= 30) {
+                color = "#00E396";
+              } else if (value > 30 && value <= 60) {
+                color = "#FEB019";
+              } else {
+                color = "#FF4560";
+              }
+              return {
+                seriesIndex: 0,
+                dataPointIndex: index,
+                fillColor: color,
+                strokeColor: color,
+                size: 5,
+              };
+            }),
+          },
+          grid: {
+            show: false,
+            borderColor: "#dddddd",
+            strokeDashArray: 5,
+            xaxis: {
+              lines: {
+                show: true,
+              },
+            },
+            padding: {
+              top: 5,
+              right: 20,
+            },
+          },
+          fill: {
+            opacity: 0.8,
+          },
+          tooltip: {
+            theme: "dark",
+            x: {
+              formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                const currentValue = defaultNumsForLineChart[i][dataPointIndex];
+                console.log("defaultWordsForLineChart[i]", defaultWordsForLineChart[i]);
+                currentNameOfChart = currentValue;
+                return `${times.Time_Values[defaultWordsForLineChart[i]][dataPointIndex]} Value: ${currentValue}`;
+              },
+            },
+            y: {
+              formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+                console.log("value", value);
+                let contentBefore = '';
+                let contentAfter = '';
+                if (value > 30) {
+                  if (times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]].length === 9) {
+                    for (let x = 0; x < 4; x++) {
+                      contentBefore += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    for (let x = 5; x < 9; x++) {
+                      contentAfter += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    return `
+                    <br>
+                    <strong>Before</strong>
+                    <br>
+                    ${contentBefore}
+                    <br>
+                    <strong>Present</strong>
+                    <br>
+                    <p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][4]}</p>
+                    <br>
+                    <strong>After</strong>
+                    <br>
+                    ${contentAfter}
+                  `;
+                  } else if (times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]].length === 5) {
+                    for (let x = 0; x < 4; x++) {
+                      contentBefore += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    return `
+                    <br>
+                    <strong>Before</strong>
+                    <br>
+                    ${contentBefore}
+                    <br>
+                    <strong>Present</strong>
+                    <br>
+                    <p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][4]}</p>
+                  `;
+                  } else {
+                    for (let x = 0; x < times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]].length; x++) {
+                      contentBefore += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    return `
+                    <br>
+                    <strong>All Logs</strong>
+                    <br>
+                    ${contentBefore}
+                    <br>
+                  `;
+                  }
+                } else {
+                  return `
+                    <strong>${value}</strong>
+                  `;
+                }
+              },
+            },
+          },
+        });
+        
+        lineChartRenderer.render();
+        
+        let yAxisTitle = defaultWordsForLineChart[i].split(" ").slice(-1)[0] === "charge"
+        ? "Percentage(%)"
+        : (defaultWordsForLineChart[i].split(" ").slice(-1)[0] === "Temperature") ? "Celsius(°C)" : "Minutes"
+
+        function zoomOutChart(){
+          lineChartRenderer.updateOptions({
+            xaxis: {
+              min: undefined, 
+              max: undefined,
+              type: 'category',  
+              axisTicks: {
+                show: false,
+              },
+              axisBorder: {
+                show: false,
+              },
+              title: {
+                text: `${defaultWordsForLineChart[i]} - Date and Time`,
+                style: {
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                },
+              },
+              categories: categories
+            },
+            yaxis: {
+              min: undefined, 
+              max: undefined,
+              title: {
+                text: yAxisTitle,
+                style: {
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                },
+              },
+            }
+          });
+        }
+        setTimeout(zoomOutChart, 1);
+      }
+    }
+    
+  }
+
+  
+</script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+  const pieCharts = document.querySelector(".pieCharts")  
+  var pieChartID = []
+  var pieChartConfig = []
+  var username = "{{ user_name }}".replace(" ", "%20")
+  for (var i = 0; i < pieTitles.length; ++i) {
+    const chartDivElement = `
+      <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md mt-9 xl:w-[32%] w-full">
+            <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+              <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                  class="h-6 w-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-white">Substring: ${pieTitles[i]}</p>
+              </div>
+            </div>
+            <div class="py-6 mt-4 grid place-items-center px-2">
+              <div id="${"pieChartID"+i}"></div>
+            </div>
+          </div>
+    `
+    pieCharts.insertAdjacentHTML('beforeend', chartDivElement);
+    pieChartID.push(document.querySelector(`#pieChartID${i}`))
+    
+    
+    const pieChartConfig = {
+      series: pieNumsSeps[i],
+      chart: {
+        type: "pie",
+        events: {
+          dataPointSelection: function(event, chartContext, config) {
+            var selectedDataIndex = config.dataPointIndex;
+            var urls = [
+                `http://127.0.0.1:8000/All_Data/${username}`,
+                `http://127.0.0.1:8000/Show_Warning/${username}`,
+                `http://127.0.0.1:8000/Show_Errors/${username}`
+            ];
+            if (urls[selectedDataIndex]) {
+                window.location.href = urls[selectedDataIndex];
+            }
+          }
+        },
+        width: 280,
+        height: 280,
+        toolbar: {
+          show: false,
+        }
+      },
+      labels: ["Info", "Warning", "Error"],
+      title: {
+        show: "",
+      },
+      plotOptions: {
+        pie: {
+          labels: {
+            show: true,
+            offset: -25,
+            minAngleToShowLabel: 10
+          },
+          size: "100%",
+          dataLabels: {
+            offset: -25
+          }
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val, opts) {
+          return opts.w.config.series[opts.seriesIndex]; 
+        },
+        style: {
+          fontFamily: "Inter, sans-serif",
+          fontSize: "14px",
+          fontWeight: "bold",
+          colors: ["#fff"]
+        },
+      },
+      colors: ["#020617", "#ff8f00", "#e84c3d"],
+      legend: {
+        show: true,
+        position: "bottom",
+        fontFamily: "Inter, sans-serif",
+        labels: {
+          colors: "#fff",
+        }
+      }
+    };
+    
+    
+    const pieChart = new ApexCharts(pieChartID[i], pieChartConfig)
+    pieChart.render()
+  }
+</script>
+<!-- <script>
+  setTimeout(function() {
+      location.reload();
+  }, 10000); // 10000 milliseconds = 10 seconds
+</script> -->
+</html>

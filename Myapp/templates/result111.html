@@ -1,0 +1,2153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>Document</title>
+</head>
+<style>
+  .apexcharts-legend-marker{
+    margin-right: 8px !important;
+  }
+    .apexcharts-yaxis-label {
+      fill: #fff !important;
+    }
+    .apexcharts-xaxis-label {
+      fill: #fff !important;
+    }
+    *{
+        margin: 0px;
+        padding: 0px;
+        font-family: "Helvetica 55";
+      }
+      @font-face {
+          font-family: "Helvetica 55";
+          src: url("{% static '../static/HelveticaNeueLTStd-Roman.otf' %}" );
+      }
+    @font-face {
+        font-family: "ArrayRegular";
+        src: url("{% static '../static/Array-Regular.otf' %}")
+    }
+    .projectType::-webkit-scrollbar {
+        height: 7px;
+    }
+    .projectType::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+        box-shadow: inset 0px 4px 30.3px rgba(255, 255, 255, 0.4);
+    }
+    .projectType::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #ececec 0%, #dfd9da 100%);
+    }
+    .theBody::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #222222 0%, #272727 100%);
+    }
+    .theBody::-webkit-scrollbar {
+        width: 8px;
+    }
+    .theBody::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+    }
+    .theBody::-webkit-scrollbar-thumb {
+        background: #4c4c4d;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    }
+    .theBody{
+      overflow-x: hidden;
+    }
+    .otherContent{
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+    }
+    .anotherContent{
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+    }
+    .asideContainer{
+        box-shadow: 0px 0px 7.3px 1px rgba(77, 32, 255, 0.25);
+    }
+    .asideItem:hover{
+        background-color: rgba(55, 48, 155, 0.25);
+        border-radius: 5px;
+        transition: 0.2s ease all;
+        cursor: pointer;
+    }
+    .title{
+        font-family: "ArrayRegular";
+    }
+    details {
+      width: 90%;
+      margin: 0 auto ;
+      background: #282828;
+      margin-bottom: .5rem;
+      box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    summary {
+      padding: 1rem;
+      display: block;
+      background: #333;
+      padding-left: 2.2rem;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    summary:before {
+      border-width: .4rem;
+      border-style: solid;
+      position: absolute;
+      top: 1.3rem;
+      left: 1rem;
+      transform: rotate(0);
+      transform-origin: .2rem 50%;
+      transition: .25s transform ease;
+    }
+
+    details[open] > summary:before {
+      transform: rotate(90deg);
+    }
+    
+    details summary::-webkit-details-marker {
+      display:none;
+    }
+    
+    details > p {
+      padding-bottom: 1rem;
+      margin-bottom: 0;
+    }
+  .wordContentBlock::-webkit-scrollbar-track-piece {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #222222 0%, #272727 100%);
+  }
+  .wordContentBlock::-webkit-scrollbar {
+      width: 8px;
+  }
+  .wordContentBlock::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+  }
+  .wordContentBlock::-webkit-scrollbar-thumb {
+      background: #4c4c4d;
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  }
+  .addDetailsSummary{
+    top: 35%;
+  }
+
+  .addDataDetails{
+    width: 90%;
+    margin: 0 auto ;
+    background: none;
+    margin-bottom: 0rem;
+    box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .addDataDetails[open] > .addDetailsSummary{
+    top: 8%;
+  }
+  
+  details summary::-webkit-details-marker {
+    display:none;
+  }
+
+  .addDetailsSummary{
+    padding: 0rem;
+    display: block;
+    background: none;
+    padding-left: 0rem;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+  .wordTitle{
+    padding: 1rem;
+    display: block;
+    background: #26293c;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+  .apexcharts-tooltip {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+  .apexcharts-line .apexcharts-tooltip {
+    width: 500px !important; 
+}
+</style>
+<body class="theBody bg-[#1c152a]">
+    {% include 'includes/leftLogoutBtn.html' %}
+    {% include 'includes/topLogoutBtn.html' %}
+    {% include 'includes/dropdown.html' with inPage="result" %}
+    {% include 'includes/navbar.html' %}
+    {% include 'includes/sidebar.html' with inPage="result" %}
+    <div class="centerContent absolute top-[15%] left-[9%] xl:left-[16%] xl:top-[10%] w-[80%] z-[-30] text-white">
+        <div class="realContent">
+            <p class="text-[#E2E2E2] text-4xl title">Visualization</p>
+        </div>
+        <!-- Enhanced Search & Filter Card (always visible) -->
+        <div class="flex flex-col items-start w-full max-w-2xl mx-auto bg-[#23203a] rounded-2xl shadow-lg p-8 mt-8 mb-8 border border-[#3a3655]">
+            <form id="substringForm" action="javascript:void(0);" method="post" class="w-full flex flex-col md:flex-row items-center gap-4 mb-4">
+                <label class="text-base font-semibold text-[#E2E2E2]">Search Substring:</label>
+                <input list="substringOptions" id="search_string" name="search_string" placeholder="Type or select substring" class="w-64 h-[40px] rounded-lg text-white text-sm border border-[#CAB2B2] bg-[#291A48] px-3 focus:outline-none focus:ring-2 focus:ring-[#49A84D]" autocomplete="off" />
+                <datalist id="substringOptions">
+                  <option value="logPsm4Paramters"></option>
+                  <!-- Add more options here if needed -->
+                </datalist>
+                <input class="bg-[#49A84D] cursor-pointer text-white font-semibold transition-all hover:bg-[#267a2e] text-xs py-2 px-6 rounded-lg border-none shadow" type="submit" value="Search"/>
+                <button type="button" id="resetBtn" class="ml-2 bg-[#CAB2B2] text-[#23203a] font-semibold text-xs py-2 px-4 rounded-lg border-none shadow hover:bg-[#b0a6a6]">Reset</button>
+            </form>
+            <p id="substringError" class="text-red-400 text-sm mt-2 hidden">Data not available, please check the substring</p>
+            <!-- Filter Option -->
+            <form id="filterForm" class="w-full flex flex-col md:flex-row items-center gap-4 mt-2">
+                <label class="text-base font-semibold text-[#E2E2E2]">Filter:</label>
+                <select id="option_name" name="option_name" class="w-48 h-[40px] rounded-lg text-white text-sm border border-[#CAB2B2] bg-[#291A48] px-3 focus:outline-none focus:ring-2 focus:ring-[#49A84D]">
+                    <option class="text-white text-sm" value="Today">Today</option>
+                    <option class="text-white text-sm" value="Last_Day">Yesterday</option>
+                    <option class="text-white text-sm" value="Last_Week">Last Week</option>
+                    <option class="text-white text-sm" value="Last_Month">Last Month</option>
+                </select>
+                <button type="button" id="applyFilterBtn" class="bg-[#49A84D] cursor-pointer text-white font-semibold transition-all hover:bg-[#267a2e] text-xs py-2 px-6 rounded-lg border-none shadow">Apply Filter</button>
+            </form>
+        </div>
+
+        <!-- Dashboard Content: Only visible after valid search -->
+        <div id="dashboardContent" class="hidden">
+            <p class="text-white text-2xl font-semibold tracking-wide mt-9">Live Data</p>
+            <!-- Log Levels Over Time Chart Card (Chart.js) -->
+            <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 barChartContainer border-2 border-blue-500">
+              <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.25-6.75L18.75 12M4.5 10.5v6.75A2.25 2.25 0 006.75 19.5h10.5a2.25 2.25 0 002.25-2.25V10.5" />
+                  </svg>
+                </div>
+                <div class="flex justify-between items-center w-[100%] mr-5">
+                  <p class="text-white text-lg font-medium">Log Levels Over Time</p>
+                  <div class="flex gap-x-2">
+                    <span class="flex items-center"><span class="dot-green">■</span><span class="ml-1 text-white">INFO</span></span>
+                    <span class="flex items-center"><span class="dot-yellow">■</span><span class="ml-1 text-white">WARNING</span></span>
+                    <span class="flex items-center"><span class="dot-red">■</span><span class="ml-1 text-white">ERROR</span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="pt-6 px-2 pb-0">
+                <canvas id="logLevelChart" style="width:100%;height:300px;"></canvas>
+              </div>
+            </div>
+            <!-- Filtered Log Levels Chart Card (Chart.js) -->
+            <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 barChartContainer border-2 border-blue-500">
+              <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.25-6.75L18.75 12M4.5 10.5v6.75A2.25 2.25 0 006.75 19.5h10.5a2.25 2.25 0 002.25-2.25V10.5" />
+                  </svg>
+                </div>
+                <div class="flex justify-between items-center w-[100%] mr-5">
+                  <p class="text-white text-lg font-medium">Filtered Log Levels (<span id="filterLabel">by Date Filter</span>)</p>
+                  <div class="flex gap-x-2">
+                    <span class="flex items-center"><span class="dot-green">■</span><span class="ml-1 text-white">INFO</span></span>
+                    <span class="flex items-center"><span class="dot-yellow">■</span><span class="ml-1 text-white">WARNING</span></span>
+                    <span class="flex items-center"><span class="dot-red">■</span><span class="ml-1 text-white">ERROR</span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="pt-6 px-2 pb-0">
+                <canvas id="filteredLogLevelChart" style="width:100%;height:300px;"></canvas>
+              </div>
+            </div>
+            <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 barChartContainer border-2 border-blue-500">
+              <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                    class="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex justify-between items-center w-[100%] mr-5">
+                  <p class="text-white text-lg font-medium">Temperatures</p>
+                  <div class="flex gap-x-2">
+                    <div class="flex justify-center items-center gap-x-1">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5" r="5" fill="#22C55E"/>
+                      </svg>      
+                      <p class="text-white">0-30</p>              
+                    </div>
+                    <div class="flex justify-center items-center gap-x-1">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5" r="5" fill="#eab308"/>
+                      </svg>      
+                      <p class="text-white">30-60</p>              
+                    </div>
+                    <div class="flex justify-center items-center gap-x-1">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5" r="5" fill="#ef4444"/>
+                      </svg>      
+                      <p class="text-white">>60</p>              
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pt-6 px-2 pb-0 temperatureBarChart">
+                <div id="bar-chart-temperature"></div>
+              </div>
+            </div>
+            <div class="flex gap-x-9 flex-wrap">
+              <div class="relative flex justify-center items-center flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full xl:w-[49%] mt-9 barChartContainer chargeBarChart border-2 border-blue-500 ">
+                <div>
+                  <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                    <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                        class="h-6 w-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div class="flex justify-between items-center w-[100%] mr-5">
+                      <p class="text-white text-lg font-medium">Battery Charge - Units: Percentage</p>
+                      <div class="flex gap-x-2">
+                        <div class="flex justify-center items-center gap-x-1">
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="5" cy="5" r="5" fill="#22C55E"/>
+                          </svg>      
+                          <p class="text-white">0-30</p>              
+                        </div>
+                        <div class="flex justify-center items-center gap-x-1">
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="5" cy="5" r="5" fill="#eab308"/>
+                          </svg>      
+                          <p class="text-white">>60</p>              
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pt-6 px-2 pb-0">
+                    <div id="bar-chart-charge"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex gap-x-5 flex-wrap mb-5 pieCharts w-full lg:w-[48%] pb-5"></div>
+            </div>
+            <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 barChartContainer timeBarChart border-2 border-blue-500">
+              <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                    class="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex justify-between items-center w-[100%] mr-5">
+                  <p class="text-white text-lg font-medium">Battery Time Remaining - Units: Minutes</p>
+                  <div class="flex gap-x-2">
+                    <div class="flex justify-center items-center gap-x-1">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5" r="5" fill="#22C55E"/>
+                      </svg>      
+                      <p class="text-white">0-30</p>              
+                    </div>
+                    <div class="flex justify-center items-center gap-x-1">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5" r="5" fill="#eab308"/>
+                      </svg>      
+                      <p class="text-white">30-60</p>              
+                    </div>
+                    <div class="flex justify-center items-center gap-x-1">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5" r="5" fill="#ef4444"/>
+                      </svg>      
+                      <p class="text-white">>60</p>              
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pt-6 px-2 pb-0">
+                <div id="bar-chart-time"></div>
+              </div>
+            </div>
+            <p class="text-white text-2xl font-semibold tracking-wide mt-9">Historical Data</p>
+            <!-- Complete History Log Levels Chart Card (Chart.js) -->
+            <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 barChartContainer border-2 border-blue-500">
+              <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.25-6.75L18.75 12M4.5 10.5v6.75A2.25 2.25 0 006.75 19.5h10.5a2.25 2.25 0 002.25-2.25V10.5" />
+                  </svg>
+                </div>
+                <div class="flex justify-between items-center w-[100%] mr-5">
+                  <p class="text-white text-lg font-medium">Complete History Log Levels</p>
+                  <div class="flex gap-x-2">
+                    <span class="flex items-center"><span class="dot-green">■</span><span class="ml-1 text-white">INFO</span></span>
+                    <span class="flex items-center"><span class="dot-yellow">■</span><span class="ml-1 text-white">WARNING</span></span>
+                    <span class="flex items-center"><span class="dot-red">■</span><span class="ml-1 text-white">ERROR</span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="pt-6 px-2 pb-0">
+                <canvas id="historyLogLevelChart" style="width:100%;height:300px;"></canvas>
+              </div>
+            </div>
+            <div class="flex gap-x-5 flex-wrap lineCharts mb-9"></div>
+            <p class="hidden lastVal">{{ last_values.items }}</p>
+            <p class="hidden lastValWords">{{ last_values.items }}</p>
+            <p class="hidden lastValNums">{{ last_values.items }}</p>
+            <p class="hidden defaultWords">{{ default_words }}</p>
+            <p class="hidden countDataItems">{{ Count_data.items }}</p>
+            <p class="hidden logLevelItems">{{ log_levels.items }}</p>
+            <p class="hidden searchStringItems">{{ Search_String.items }}</p></div>
+    <!-- Forecasting Section: Below Live Data -->
+    <div id="forecast-section" class="w-full flex flex-col items-center mt-12">
+        <div class="w-full max-w-2xl bg-[#23203a] rounded-2xl shadow-lg p-8 border border-[#3a3655] mb-8">
+            <form action="{% url 'Result_Forecast' user_name %}" method="post" class="flex flex-col md:flex-row items-center gap-4">
+                {% csrf_token %}
+                <label class="text-base font-semibold text-[#E2E2E2]">Log Message to Forecast:</label>
+                <input type="text" name="input_msg" value="{{ input_msg|default:'' }}" placeholder="Enter a log message to forecast" class="w-64 h-[40px] rounded-lg text-white text-sm border border-[#CAB2B2] bg-[#291A48] px-3 focus:outline-none focus:ring-2 focus:ring-[#49A84D]" required />
+                <input class="bg-[#49A84D] cursor-pointer text-white font-semibold transition-all hover:bg-[#267a2e] text-xs py-2 px-6 rounded-lg border-none shadow" type="submit" value="Predict"/>
+            </form>
+            {% if error_msg %}
+                <div class="mt-4 text-red-400 bg-[#2d1a1a] p-3 rounded text-center shadow">{{ error_msg }}</div>
+            {% endif %}
+            {% if level_guess %}
+                <div class="mt-4 text-lg font-semibold">
+                  Predicted Log Level:
+                  {% if level_guess|lower == 'error' %}
+                    <span class="bg-[#1c152a] px-2 py-1 rounded text-red-500">{{ level_guess }}</span>
+                  {% elif level_guess|lower == 'info' %}
+                    <span class="bg-[#1c152a] px-2 py-1 rounded text-green-500">{{ level_guess }}</span>
+                  {% elif level_guess|lower == 'warn' or level_guess|lower == 'warning' %}
+                    <span class="bg-[#1c152a] px-2 py-1 rounded text-yellow-400">{{ level_guess }}</span>
+                  {% else %}
+                    <span class="bg-[#1c152a] px-2 py-1 rounded text-white">{{ level_guess }}</span>
+                  {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        {% if forecast_table %}
+        <div class="w-full flex flex-col items-center">
+            <h2 class="text-2xl font-bold mb-4 text-white flex items-center gap-2"> Monthly  
+              {% if level_guess %}
+                {% if level_guess|lower == 'error' %}
+                  <span class="text-red-500">{{ input_msg }}</span>
+                {% elif level_guess|lower == 'info' %}
+                  <span class="text-green-500">{{ input_msg }}</span>
+                {% elif level_guess|lower == 'warn' or level_guess|lower == 'warning' %}
+                  <span class="text-yellow-400">{{ input_msg }}</span>
+                {% else %}
+                  <span class="text-white">{{ input_msg }}</span>
+                {% endif %}
+              {% else %}
+                <span class="text-white">{{ input_msg }}</span>
+              {% endif %}
+              Message Counts
+             </h2>
+            <!-- Forecasting Line Chart (like live/historical) -->
+            <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md w-full mt-9 mb-8 border-2 border-blue-500">
+              <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.25-6.75L18.75 12M4.5 10.5v6.75A2.25 2.25 0 006.75 19.5h10.5a2.25 2.25 0 002.25-2.25V10.5" />
+                  </svg>
+                </div>
+                <div class="flex justify-between items-center w-[100%] mr-5">
+                  <p class="text-white text-lg font-medium">Forecasted Log Message Trend</p>
+                </div>
+              </div>
+              <div class="pt-6 px-2 pb-0">
+                <canvas id="forecastLogChart" style="width:100%;height:300px;"></canvas>
+              </div>
+            </div>
+            <div class="overflow-x-auto w-full max-w-2xl rounded-lg shadow-lg border border-[#3a235a]">
+                <table class="min-w-full bg-[#291A48] text-white rounded-lg text-center">
+                    <thead class="bg-[#23203a] text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-lg">Month</th>
+                            <th class="px-6 py-3 text-lg">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in forecast_table %}
+                        <tr class="hover:bg-[#3a235a] transition-all">
+                            <td class="border-b border-[#3a235a] px-6 py-3">{{ row.Month|date:"F Y" }}</td>
+                            <td class="border-b border-[#3a235a] px-6 py-3">{{ row.Count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+
+
+        
+        {% if combined_error_data %}
+        <h3>Combined Forecast: All Distinct ERROR Messages</h3>
+        <div>
+        <canvas id="combinedErrorChart" width="800" height="400"></canvas>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+        const combinedErrorData = {{ combined_error_data|safe }};
+        const ctx = document.getElementById('combinedErrorChart').getContext('2d');
+        const datasets = combinedErrorData.map((item, idx) => ({
+            label: item.label,
+            data: item.values,
+            borderColor: `hsl(${idx * 60}, 70%, 50%)`,
+            fill: false,
+            tension: 0.3,
+            borderWidth: 2,
+            pointRadius: 2,
+        }));
+        const labels = combinedErrorData.length > 0 ? combinedErrorData[0].months : [];
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets,
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true, position: 'top' },
+                    title: { display: true, text: 'Forecasted ERROR Messages (Actual & Predicted)' }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Month' } },
+                    y: { title: { display: true, text: 'Count' }, beginAtZero: true }
+                }
+            }
+        });
+        </script>
+        {% endif %}
+
+        {% if combined_error_data %}
+            {% for error in combined_error_data %}
+                <h4>{{ error.label }}</h4>
+                <table border="1" style="margin-bottom: 20px;">
+                    <tr>
+                        <th>Month</th>
+                        <th>Count</th>
+                    </tr>
+                    {% for month, value in error.month_value_pairs %}
+                        <tr>
+                            <td>{{ month }}</td>
+                            <td>{{ value }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endfor %}
+        {% endif %}
+
+
+            
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+        {% if forecast_table %}
+        // Prepare data for forecast log chart
+        const forecastLabels = [
+          {% for row in forecast_table %}'{{ row.Month|date:"F Y" }}',{% endfor %}
+        ];
+        const forecastCounts = [
+          {% for row in forecast_table %}{{ row.Count }},{% endfor %}
+        ];
+        // Split actual and predicted for dashes
+        const actualLength = 5;
+        const actualData = forecastCounts.slice(0, actualLength);
+        const predictedData = Array(actualLength).fill(null).concat(forecastCounts.slice(actualLength));
+        // Determine color and dash for log level
+        let lineColor = '#49A84D';
+        let dashStyle = [];
+        {% if level_guess %}
+          {% if level_guess|lower == 'error' %}
+            lineColor = '#ef4444';
+          {% elif level_guess|lower == 'info' %}
+            lineColor = '#22c55e';
+          {% elif level_guess|lower == 'warn' or level_guess|lower == 'warning' %}
+            lineColor = '#eab308';
+          {% endif %}
+        {% endif %}
+        const ctxForecastLog = document.getElementById('forecastLogChart').getContext('2d');
+        // Create gradient fill for shadow effect
+        const gradientFill = ctxForecastLog.createLinearGradient(0, 0, 0, 300);
+        gradientFill.addColorStop(0, 'rgba(73,168,77,0.3)');  // Stronger at top
+        gradientFill.addColorStop(1, 'rgba(73,168,77,0.0)');  // Fades at bottom
+
+        if (window.forecastLogChartInstance) {
+          window.forecastLogChartInstance.destroy();
+        }
+        window.forecastLogChartInstance = new Chart(ctxForecastLog, {
+          type: 'line',
+          data: {
+            labels: forecastLabels,
+            datasets: [
+              {
+                label: '{{ input_msg }} (Actual)',
+                data: actualData,
+                borderColor: lineColor,
+                backgroundColor: gradientFill,
+                borderWidth: 2.5,
+                pointRadius: 4,
+                pointHoverRadius: 7,
+                pointBackgroundColor: lineColor,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                order: 1,
+                segment: { borderDash: () => undefined },
+                spanGaps: true,
+              },
+              {
+                label: '{{ input_msg }} (Predicted)',
+                data: predictedData,
+                borderColor: lineColor,
+                borderDash: [10, 8],
+                backgroundColor: 'rgba(73,168,77,0.10)',
+                borderWidth: 2.5,
+                pointRadius: 4,
+                pointHoverRadius: 7,
+                pointBackgroundColor: lineColor,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                tension: 0.4,
+                fill: false,
+                order: 2,
+                segment: { borderDash: () => [10, 8] },
+                spanGaps: true,
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                enabled: true,
+                backgroundColor: '#23203a',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: lineColor,
+                borderWidth: 1.5,
+                padding: 10,
+                caretSize: 7,
+                cornerRadius: 8,
+                displayColors: false,
+                mode: 'index',
+                intersect: false,
+                position: 'nearest',
+                callbacks: {
+                  title: ctx => ctx[0].label,
+                  label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y}`
+                }
+              }
+            },
+            layout: { padding: 20 },
+            scales: {
+              x: {
+                display: true,
+                grid: { display: false, drawBorder: false },
+                ticks: { color: '#fff', font: { size: 15, weight: 'bold' }, padding: 6 },
+                title: {
+                  display: true,
+                  text: 'Month',
+                  color: '#fff',
+                  font: { size: 16, weight: 'bold' },
+                  padding: { top: 12 }
+                },
+                border: { display: false },
+              },
+              y: {
+                display: true,
+                grid: { display: false, drawBorder: false },
+                ticks: { color: '#fff', font: { size: 15, weight: 'bold' }, padding: 6 },
+                title: {
+                  display: true,
+                  text: 'Log Count',
+                  color: '#fff',
+                  font: { size: 16, weight: 'bold' },
+                  padding: { right: 12 }
+                },
+                border: { display: false },
+              }
+            },
+            hover: { mode: 'index', intersect: false },
+            animation: { duration: 1200, easing: 'easeInOutQuart' },
+            elements: {
+              line: { borderJoinStyle: 'round' },
+              point: { borderWidth: 2 }
+            }
+          }
+        });
+        {% endif %}
+        </script>
+    </div>
+    </div>
+</body>
+<script>
+  let x="{{last_values}}"
+  
+  let z="{{default_words}}"
+  let Count_data="{{Count_data}}"
+  
+  if (x){
+    //console.log(x)
+    
+    //console.log(z)
+    //console.log(Count_data)
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// --- Substring validation and feedback ---
+const substringOptions = [
+  'logPsm4Paramters',
+  // Add more options here or render from backend
+];
+const substringInput = document.getElementById('search_string');
+const substringForm = document.getElementById('substringForm');
+const substringError = document.getElementById('substringError');
+const datalist = document.getElementById('substringOptions');
+const dashboardContent = document.getElementById('dashboardContent');
+const resetBtn = document.getElementById('resetBtn');
+
+substringForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const value = substringInput.value.trim();
+  let found = false;
+  for (let option of datalist.options) {
+    if (option.value === value) {
+      found = true;
+      break;
+    }
+  }
+  if (!found) {
+    substringError.classList.remove('hidden');
+    substringInput.classList.add('border-red-400');
+    dashboardContent.classList.add('hidden');
+  } else {
+    substringError.classList.add('hidden');
+    substringInput.classList.remove('border-red-400');
+    dashboardContent.classList.remove('hidden');
+    // Optionally, display the searched substring somewhere
+    // document.getElementById('searchedStringDisplay').textContent = value;
+  }
+});
+
+resetBtn.addEventListener('click', function() {
+  substringInput.value = '';
+  dashboardContent.classList.add('hidden');
+  substringError.classList.add('hidden');
+  substringInput.classList.remove('border-red-400');
+});
+// --- End substring validation ---
+  let changed_date='{{option_value}}'
+  if (changed_date){
+    var params = {
+    param1: changed_date,
+};
+  }
+  else{
+    var params = {
+    param1: "Today",
+};
+}
+    $.ajax({
+        url: '/Visualization_Loop',
+        method: 'GET',
+        data: params,
+
+        success: function(data) {
+          
+          wholeData = data
+            console.log(data);
+            times = data
+            renderLineChart(data)
+            const lastValWords = document.querySelector(".lastValWords")
+            const lastValNums = document.querySelector(".lastValNums")
+
+            let lastX = []
+            let lastY = []
+
+            lastValWords.innerHTML = Object.values(Object.keys(data.last_values))
+            lastValNums.innerHTML = Object.values(Object.values(data.last_values))
+
+            lastValWords.innerHTML.split(",").forEach((lastValWord) => {
+              lastX.push(lastValWord.slice(0, lastValWord.length))
+            })
+
+            lastValNums.innerHTML.split(",").forEach((lastValWord) => {
+              lastY.push(Number(lastValWord))
+            })
+
+            const defaultWords = document.querySelector(".defaultWords")
+            const countDataItems = document.querySelector(".countDataItems")
+            const logLevelItems = document.querySelector(".logLevelItems")
+            const searchStringItems = document.querySelector(".searchStringItems")
+            
+            renderBarGraphs(data, lastX, lastY)
+
+            if (document.querySelector("#bar-chart-charge").children.length > 1) {
+              document.querySelector("#bar-chart-charge").removeChild(document.querySelector("#bar-chart-charge").firstChild);
+            }
+            if (document.querySelector("#bar-chart-time").children.length > 1) {
+              document.querySelector("#bar-chart-time").removeChild(document.querySelector("#bar-chart-time").firstChild);
+            }
+            if (document.querySelector("#bar-chart-temperature").children.length > 1) {
+              document.querySelector("#bar-chart-temperature").removeChild(document.querySelector("#bar-chart-temperature").firstChild);
+            }
+        },
+        error: function(error) {
+            //console.error("error", error);
+        }
+    });
+
+
+    let previousValues;
+    let wholeData
+    let times;
+    let x_scale_values;
+    setInterval(function() {
+      let changed_date='{{option_value}}'
+      if (changed_date){
+        var params = {
+        param1: changed_date,
+    };
+      }
+      else{
+        var params = {
+        param1: "Today",
+    };
+  }
+        $.ajax({
+            url: '/Visualization_Loop',
+            method: 'GET',
+            data: params,
+
+            success: function(data) {
+              
+              wholeData = data
+                console.log(data);
+                times = data
+                renderLineChart(data)
+                const lastValWords = document.querySelector(".lastValWords")
+                const lastValNums = document.querySelector(".lastValNums")
+
+                let lastX = []
+                let lastY = []
+
+                lastValWords.innerHTML = Object.values(Object.keys(data.last_values))
+                lastValNums.innerHTML = Object.values(Object.values(data.last_values))
+
+                lastValWords.innerHTML.split(",").forEach((lastValWord) => {
+                  lastX.push(lastValWord.slice(0, lastValWord.length))
+                })
+
+                lastValNums.innerHTML.split(",").forEach((lastValWord) => {
+                  lastY.push(Number(lastValWord))
+                })
+
+                const defaultWords = document.querySelector(".defaultWords")
+                const countDataItems = document.querySelector(".countDataItems")
+                const logLevelItems = document.querySelector(".logLevelItems")
+                const searchStringItems = document.querySelector(".searchStringItems")
+                
+                renderBarGraphs(data, lastX, lastY)
+
+                if (document.querySelector("#bar-chart-charge").children.length > 1) {
+                  document.querySelector("#bar-chart-charge").removeChild(document.querySelector("#bar-chart-charge").firstChild);
+                }
+                if (document.querySelector("#bar-chart-time").children.length > 1) {
+                  document.querySelector("#bar-chart-time").removeChild(document.querySelector("#bar-chart-time").firstChild);
+                }
+                if (document.querySelector("#bar-chart-temperature").children.length > 1) {
+                  document.querySelector("#bar-chart-temperature").removeChild(document.querySelector("#bar-chart-temperature").firstChild);
+                }
+            },
+            error: function(error) {
+                //console.error("error", error);
+            }
+        });
+    }, 10000);
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  const wordContentBlock = document.querySelector(".wordContentBlock")
+  
+  const infoBtn = document.querySelector(".infoBtn")
+  const infoPath = document.querySelector(".infoPath")
+  infoBtn.classList.add("bg-[#1c152a]")
+
+  const warningBtn = document.querySelector(".warningBtn")
+  const warningPath = document.querySelector(".warningPath")
+  warningBtn.classList.add("bg-[#1c152a]")
+
+  const criticalBtn = document.querySelector(".criticalBtn")
+  const criticalPath = document.querySelector(".criticalPath")
+  criticalBtn.classList.add("bg-[#1c152a]")
+
+  const closeBtn = document.querySelector(".closeBtn")
+
+  closeBtn.addEventListener("click", () => {
+    wordContentBlock.classList.add("hidden")
+
+    infoBtn.classList.add("bg-[#1c152a]")
+    infoBtn.classList.remove("bg-[#3B71CA]")
+    infoPath.setAttribute("fill", "#939393")
+
+    warningBtn.classList.add("bg-[#1c152a]")
+    warningBtn.classList.remove("bg-[#E4A11B]")
+    warningPath.setAttribute("fill", "#939393")
+
+    criticalBtn.classList.add("bg-[#1c152a]")
+    criticalBtn.classList.remove("bg-[#DC4C64]")
+    criticalPath.setAttribute("fill", "#939393")
+  })
+
+  function callDjangoFunction(param1, param2) {
+      $.ajax({
+          url: "{% url 'Soring_Word_Wise' %}",  // URL pattern name
+          type: 'GET',
+          data: {
+              'param1': param1,
+              'param2': param2
+          },
+          success: function(response) {
+              //console.log('Success:', response);
+              if((param2 === "INFO")){
+                  infoBtn.classList.add("bg-[#3B71CA]")
+                  infoPath.setAttribute("fill", "#fff")
+
+                  warningBtn.classList.add("bg-[#1c152a]")
+                  warningBtn.classList.remove("bg-[#E4A11B]")
+                  warningPath.setAttribute("fill", "#939393")
+
+                  criticalBtn.classList.add("bg-[#1c152a]")
+                  criticalBtn.classList.remove("bg-[#DC4C64]")
+                  criticalPath.setAttribute("fill", "#939393")
+
+                  wordContentBlock.classList.remove("hidden")
+                  if(document.querySelector(".tag")){
+                      document.querySelectorAll(".tag").forEach((t) => {
+                          t.remove()
+                      })
+                  }
+                  for( let i=0; i<response.Requested_Data.length; ++i){
+                      const tag = document.createElement("p")
+                      tag.classList.add("tag")
+                      tag.classList.add("mt-2")
+                      tag.classList.add("text-white")
+                      tag.classList.add("mr-2")
+                      tag.classList.add("ml-2")
+                      tag.innerHTML = response.Requested_Data[i]
+                      wordContentBlock.appendChild(tag)
+                  }
+              }
+              else if((param2 === "WARNING")){
+                  warningBtn.classList.add("bg-[#E4A11B]")
+                  warningPath.setAttribute("fill", "#fff")
+
+                  infoBtn.classList.add("bg-[#1c152a]")
+                  infoBtn.classList.remove("bg-[#3B71CA]")
+                  infoPath.setAttribute("fill", "#939393")
+
+                  criticalBtn.classList.add("bg-[#1c152a]")
+                  criticalBtn.classList.remove("bg-[#DC4C64]")
+                  criticalPath.setAttribute("fill", "#939393")
+
+                  wordContentBlock.classList.remove("hidden")
+                  if(document.querySelector(".tag")){
+                      document.querySelectorAll(".tag").forEach((t) => {
+                          t.remove()
+                      })
+                  }
+                  for( let i=0; i<response.Requested_Data.length; ++i){
+                      const tag = document.createElement("p")
+                      tag.classList.add("tag")
+                      tag.classList.add("mt-2")
+                      tag.classList.add("text-white")
+                      tag.classList.add("mr-2")
+                      tag.classList.add("ml-2")
+                      tag.innerHTML = response.Requested_Data[i]
+                      wordContentBlock.appendChild(tag)
+                  }
+              }
+              else if((param2 === "ERROR")){
+                  criticalBtn.class
+                  wordContentBlock.classList.remove("hidden")
+                  if(document.querySelector(".tag")){
+                      document.querySelectorAll(".tag").forEach((t) => {
+                          t.remove()
+                      })
+                  }
+                  for( let i=0; i<response.Requested_Data.length; ++i){
+                      const tag = document.createElement("p")
+                      tag.classList.add("tag")
+                      tag.classList.add("mt-2")
+                      tag.classList.add("text-white")
+                      tag.classList.add("mr-2")
+                      tag.classList.add("ml-2")
+                      tag.innerHTML = response.Requested_Data[i]
+                      wordContentBlock.appendChild(tag)
+                  }
+              }
+          },
+          error: function(xhr, status, error) {
+              //console.error('Error:', error);
+          }
+      });
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    const lastVal = document.querySelector(".lastVal")
+    const barChartContainer = document.querySelector(".barChartContainer")
+
+    let lastValTimeXCords = []
+    let lastValTimeYCords = []
+
+    let lastValChargeXCords = []
+    let lastValChargeYCords = []
+
+    let lastValTemperatureXCords = []
+    let lastValTemperatureYCords = []
+
+    const defaultWords = document.querySelector(".defaultWords")
+    const countDataItems = document.querySelector(".countDataItems")
+    const logLevelItems = document.querySelector(".logLevelItems")
+    const searchStringItems = document.querySelector(".searchStringItems")
+    let defaultWordSeps = defaultWords.innerHTML.match(/\[([^\]]*)\]/g);
+    let lastVarSepNums = lastVal.innerHTML.slice(12, lastVal.innerHTML.length-2).match(/\d+/g)
+    let lastValSep = lastVal.innerHTML.slice(12, lastVal.innerHTML.length-2).match(/'([^']*)'/g)
+    let lastValYCods = []
+    let lastValXCods = []
+    let pieTitles = []
+    let pieNumsSeps = []
+    let countNums = 0
+    //console.log(countDataItems.innerHTML)
+    countDataItems.innerHTML.match(/'([^']*)'/g).forEach((item) => {
+      if(countNums%4 === 0){
+        pieTitles.push(item.slice(1, item.length - 1))
+      }
+      countNums++;
+    })
+    let nums = []
+    countDataItems.innerHTML.match(/\{([^}]*)\}/g).toString().match(/\d+/g).forEach((item) => {
+      pieNumsSeps.pop()
+      nums.push(Number(item))
+      //console.log(nums)
+      pieNumsSeps.push(nums)
+    })
+
+    lastValSep.forEach( (lastY) => {
+        lastValYCods.push(lastY.slice(1, lastY.length-1))
+    })
+    lastVarSepNums.forEach( (lastX) => {
+        lastValXCods.push(Number(lastX))
+    })
+
+    lastValYCods.forEach((xCord) => {
+      if(xCord.split(" ")[xCord.split(" ").length - 1] === "Remaining"){
+        lastValTimeYCords.push(xCord)
+        lastValTimeXCords.push(lastValXCods[lastValYCods.indexOf(xCord)])
+      }
+      else if(xCord.split(" ")[xCord.split(" ").length - 1] === "charge"){
+        lastValChargeYCords.push(xCord)
+        lastValChargeXCords.push(lastValXCods[lastValYCods.indexOf(xCord)])
+      }
+      else if(xCord.split(" ")[xCord.split(" ").length - 1] === "Temperature"){
+        lastValTemperatureYCords.push(xCord)
+        lastValTemperatureXCords.push(lastValXCods[lastValYCods.indexOf(xCord)])
+      }
+    })
+
+    console.log("lastValTimeYCords", lastValTimeYCords)
+    console.log("lastValTimeXCords", lastValTimeXCords)
+
+    console.log("lastValChargeYCords", lastValChargeYCords)
+    console.log("lastValChargeXCords", lastValChargeXCords)
+
+    console.log("lastValTemperatureYCords", lastValTemperatureYCords)
+    console.log("lastValTemperatureXCords", lastValTemperatureXCords)
+
+    let changingLastValXCords = []
+
+    for(let i=0; i<lastValYCods.length; ++i){
+      if (lastValYCods[i].split(" ")[lastValYCods[i].split(" ").length - 1] === "charge"){
+        changingLastValXCords.push(lastValYCods[i] + " (%)");
+      }
+      else if (lastValYCods[i].split(" ")[lastValYCods[i].split(" ").length - 1] === "Temperature") {
+        changingLastValXCords.push(lastValYCods[i] + " (°C)");
+      }
+      else{
+        changingLastValXCords.push(lastValYCods[i] + " (minutes)");
+      }
+    }
+
+    const chartConfigTemperature = {
+      series: [
+        {
+          name: "Value",
+          data: lastValTemperatureXCords,
+        },
+      ],
+      chart: {
+        type: "bar",
+        height: 240,
+        toolbar: {
+          show: false,
+        },
+      },
+      legend:{
+        show: true,
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          fontSize: '24px',
+          fontWeight: 'bold',
+        }
+      },
+      colors: [
+        function({ value, seriesIndex, w }) {
+          if (value <= 30) {
+            return '#22c55e'; // Green for values <= 30
+          } else if (value > 30 && value <= 60) {
+            return '#eab308'; // Yellow for values between 30 and 60
+          } else {
+            return '#ef4444'; // Red for values > 60
+          }
+        }
+      ],
+      plotOptions: {
+        bar: {
+          columnWidth: "40%",
+          borderRadius: 2,
+        },
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "14px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+          formatter: function (value) {
+            return `${value}(°C)`;
+          }
+        },
+        categories: lastValTemperatureYCords,
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "18px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: false,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    };
+    
+  const chartTemperature = new ApexCharts(document.querySelector("#bar-chart-temperature"), chartConfigTemperature);
+  chartTemperature.render();
+
+  const chartConfigCharge = {
+  series: [
+    {
+      name: "Value",
+      data: lastValChargeXCords,
+    },
+  ],
+  chart: {
+    type: "bar",
+    height: 240,
+    toolbar: {
+      show: false,
+    },
+  },
+  title: {
+    show: "",
+  },
+  dataLabels: {
+    enabled: true,
+    style: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+    }
+  },
+  colors: [
+  function({ value, seriesIndex, w }) {
+    if (value <= 30) {
+      return '#22c55e'
+    }
+    else if((value > 30) && (value <= 60)){
+        return '#eab308'
+    }
+    else if((value > 60)){
+        return '#ef4444'
+    }
+  }
+  ],
+  plotOptions: {
+    bar: {
+      columnWidth: "40%",
+      borderRadius: 2,
+    },
+  },
+  xaxis: {
+    axisTicks: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "18px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+    categories: lastValChargeYCords,
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "18px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+  },
+  grid: {
+    show: false,
+    borderColor: "#dddddd",
+    strokeDashArray: 5,
+    xaxis: {
+      lines: {
+        show: true,
+      },
+    },
+    padding: {
+      top: 5,
+      right: 20,
+    },
+  },
+  fill: {
+    opacity: 0.8,
+  },
+  tooltip: {
+    theme: "dark",
+  },
+  };
+  const chartCharge = new ApexCharts(document.querySelector("#bar-chart-charge"), chartConfigCharge);
+  chartCharge.render();
+
+  const chartConfigTime = {
+  series: [
+    {
+      name: "Value",
+      data: lastValTimeXCords,
+    },
+  ],
+  chart: {
+    type: "bar",
+    height: 240,
+    toolbar: {
+      show: false,
+    },
+  },
+  title: {
+    show: "",
+  },
+  dataLabels: {
+    enabled: true,
+    style: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+    }
+  },
+  colors: [
+  function({ value, seriesIndex, w }) {
+    if (value <= 30) {
+      return '#22c55e'
+    }
+    else if((value > 30) && (value <= 60)){
+        return '#eab308'
+    }
+    else if((value > 60)){
+        return '#ef4444'
+    }
+  }
+  ],
+  plotOptions: {
+    bar: {
+      columnWidth: "40%",
+      borderRadius: 2,
+    },
+  },
+  xaxis: {
+    axisTicks: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "18px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+    categories: lastValTimeYCords,
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "18px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+  },
+  grid: {
+    show: false,
+    borderColor: "#dddddd",
+    strokeDashArray: 5,
+    xaxis: {
+      lines: {
+        show: true,
+      },
+    },
+    padding: {
+      top: 5,
+      right: 20,
+    },
+  },
+  fill: {
+    opacity: 0.8,
+  },
+  tooltip: {
+    theme: "dark",
+  },
+  };
+  const chartTime = new ApexCharts(document.querySelector("#bar-chart-time"), chartConfigTime);
+  chartTime.render();
+
+
+function renderBarGraphs(data, lastX, lastY){
+  
+  if(lastX.includes("Battery Time Remaining") === false){
+    document.querySelector(".timeBarChart").classList.add("hidden")
+  }
+  if(lastX.includes("Battery charge") === false){
+    document.querySelector(".chargeBarChart").classList.add("hidden")
+  }
+
+  let lastValTimeXCords = []
+  let lastValTimeYCords = []
+
+  let lastValChargeXCords = []
+  let lastValChargeYCords = []
+
+  let lastValTemperatureXCords = []
+  let lastValTemperatureYCords = []
+
+
+  console.log("lastX", lastX)
+  //console.log("lastY", lastY)
+  //console.log("rendering BAR GRAPH", Object.values(Object.keys(data.last_values))[i].split(" ")[Object.values(Object.keys(data.last_values))[i].split(" ").length - 1])
+
+  for(let i=0; i<lastX.length; ++i){
+    if(lastX[i].split(" ")[lastX[i].split(" ").length - 1] === "charge"){
+      lastValChargeYCords.push(lastX[i])
+      lastValChargeXCords.push(lastY[i])
+    }
+    else if(lastX[i].split(" ")[lastX[i].split(" ").length - 1] === "Temperature"){
+      lastValTemperatureYCords.push(lastX[i])
+      lastValTemperatureXCords.push(lastY[i])
+    }
+
+    else{
+      lastValTimeYCords.push(lastX[i])
+      lastValTimeXCords.push(lastY[i])
+    }
+  }
+
+    chartTemperature.updateSeries([{
+      data: lastValTemperatureXCords
+    }]);
+
+    chartTemperature.updateOptions({
+      xaxis: {
+        categories: lastValTemperatureYCords
+      }
+    });
+
+    chartCharge.updateSeries([{
+      data: lastValChargeXCords
+    }]);
+
+    chartCharge.updateOptions({
+      xaxis: {
+        categories: lastValChargeYCords
+      }
+    });
+
+    chartTime.updateSeries([{
+      data: lastValTimeXCords
+    }]);
+
+    chartTime.updateOptions({
+      xaxis: {
+        categories: lastValTimeYCords
+      }
+    });
+
+}
+  
+  //console.log("rendering BAR GRAPH", Object.values(Object.values(data.last_values)))
+
+    
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+  function renderLineChart(data){
+    //console.log("rendered", data)
+
+    let defaultNumsForLineChart = Object.values(Object.values(data.default_words))
+    let defaultWordsForLineChart = Object.values(Object.keys(data.default_words))
+    
+      const lineCharts = document.querySelector(".lineCharts")
+      var lineChartID = []
+      for(let i=0; i<defaultNumsForLineChart.length; ++i){
+        //console.log("defaultNumsForLineChart", defaultNumsForLineChart)
+        //console.log("defaultWordsForLineChart", defaultWordsForLineChart)
+        let categories = Object.values(Object.values(data.x_scale_values))[i.toString()]
+        //console.log("categories", categories)
+        if(document.body.contains(document.querySelector(`.lineCharty${i}`))){
+          document.querySelector(`.lineCharty${i}`).remove()
+        }
+        const lineChartDivElement = `
+              <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md xl:w-[49%] w-full mt-9 lineCharty${i} border-2 border-blue-500">
+                <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                  <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                      class="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex justify-between items-center w-[100%] mr-5">
+                  <p class="block max-w-sm font-sans text-lg font-medium leading-normal text-white antialiased lineChartName">
+                      ${defaultWordsForLineChart[i]}
+                    </p>
+                    <div class="flex gap-x-2">
+                      <div class="flex justify-center items-center gap-x-1">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="5" cy="5" r="5" fill="#22C55E"/>
+                        </svg>      
+                        <p class="text-white">0-30</p>              
+                      </div>
+                      <div class="flex justify-center items-center gap-x-1">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="5" cy="5" r="5" fill="#eab308"/>
+                        </svg>      
+                        <p class="text-white">30-60</p>              
+                      </div>
+                      <div class="flex justify-center items-center gap-x-1">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="5" cy="5" r="5" fill="#ef4444"/>
+                        </svg>      
+                        <p class="text-white">>60</p>              
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="pt-6 px-2 pb-0">
+                <div id="lineChart${i}"></div>
+              </div>
+            </div>
+        `
+
+        lineCharts.insertAdjacentHTML('beforeend', lineChartDivElement);
+        lineChartID.push(document.querySelector(`#lineChart${i}`))
+
+        const lineChartRenderer = new ApexCharts(lineChartID[i], {
+          series: [
+            {
+             
+              data: defaultNumsForLineChart[i],
+            },
+          ],
+          chart: {
+            type: "line",
+            height: 240,
+            toolbar: {
+              show: false,
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          colors: ["#25aef3"],
+          stroke: {
+            lineCap: "round",
+            curve: "smooth",
+          },
+          markers: {
+            size: 5,
+            hover: {
+              sizeOffset: 3,
+            },
+            discrete: defaultNumsForLineChart[i].map((value, index) => {
+              let color;
+              if (value <= 30) {
+                color = "#00E396";
+              } else if (value > 30 && value <= 60) {
+                color = "#FEB019";
+              } else {
+                color = "#FF4560";
+              }
+              return {
+                seriesIndex: 0,
+                dataPointIndex: index,
+                fillColor: color,
+                strokeColor: color,
+                size: 5,
+              };
+            }),
+          },
+          grid: {
+            show: false,
+            borderColor: "#dddddd",
+            strokeDashArray: 5,
+            xaxis: {
+              lines: {
+                show: true,
+              },
+            },
+            padding: {
+              top: 5,
+              right: 20,
+            },
+          },
+          fill: {
+            opacity: 0.8,
+          },
+          tooltip: {
+            theme: "dark",
+            x: {
+              formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                const currentValue = defaultNumsForLineChart[i][dataPointIndex];
+                //console.log("defaultWordsForLineChart[i]", defaultWordsForLineChart[i]);
+                               currentNameOfChart = currentValue;
+                return `${times.Time_Values[defaultWordsForLineChart[i]][dataPointIndex]} Value: ${currentValue}`;
+              },
+            },
+            y: {
+              formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+                //console.log("value", value);
+                let contentBefore = '';
+                let contentAfter = '';
+                if (value > 30) {
+                  if (times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]].length === 9) {
+                    for (let x = 0; x < 4; x++) {
+                      contentBefore += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    for (let x = 5; x < 9; x++) {
+                      contentAfter += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    return `
+                    <br>
+                    <strong>Before</strong>
+                    <br>
+                    ${contentBefore}
+                    <br>
+                    <strong>Present</strong>
+                    <br>
+                    <p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][4]}</p>
+                    <br>
+                    <strong>After</strong>
+                    <br>
+                    ${contentAfter}
+                  `;
+                  } else if (times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]].length === 5) {
+                    for (let x = 0; x < 4; x++) {
+                      contentBefore += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    return `
+                    <br>
+
+                    <strong>Before</strong>
+                    <br>
+                    ${contentBefore}
+                   
+                    <br>
+                    <strong>Present</strong>
+                   
+                    <br>
+                    <p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][4]}</p>
+                  `;
+                  } else {
+                    for (let x = 0; x < times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]].length; x++) {
+                      contentBefore += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    return `
+                    <br>
+                    <strong>All Logs</strong>
+                    <br>
+                    ${contentBefore}
+                    <br>
+                  `;
+                  }
+                } else {
+                  return `
+                    <strong>${value}</strong>
+                  `;
+                }
+              },
+            },
+          });
+        
+        lineChartRenderer.render();
+        
+        let yAxisTitle = defaultWordsForLineChart[i].split(" ").slice(-1)[0] === "charge"
+        ? "Percentage(%)"
+        : (defaultWordsForLineChart[i].split(" ").slice(-1)[0] === "Temperature") ? "Celsius(°C)" : "Minutes"
+
+        function zoomOutChart(){
+          lineChartRenderer.updateOptions({
+            xaxis: {
+              min: undefined, 
+              max: undefined,
+              type: 'category',  
+              axisTicks: {
+                show: false,
+              },
+              axisBorder: {
+                show: false,
+              },
+              title: {
+                text: `${defaultWordsForLineChart[i]} - Date and Time`,
+                style: {
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                },
+              },
+              categories: categories
+            },
+            yaxis: {
+              min: undefined, 
+              max: undefined,
+              title: {
+                text: yAxisTitle,
+                style: {
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                },
+              },
+            }
+          });
+        }
+        setTimeout(zoomOutChart, 1);
+      }
+    }
+
+  
+</script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+  const pieCharts = document.querySelector(".pieCharts")  
+  var pieChartID = []
+  var pieChartConfig = []
+  var username = "{{ user_name }}".replace(" ", "%20")
+  for (var i = 0; i < pieTitles.length; ++i) {
+    const chartDivElement = `
+      <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md mt-9 w-full border-2 border-blue-500 h-full">
+            <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+              <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                  class="h-6 w-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-white">Substring: ${pieTitles[i]}</p>
+              </div>
+            </div>
+            <div class="py-6 mt-4 grid place-items-center px-2">
+              <div id="${"pieChartID"+i}"></div>
+            </div>
+          </div>
+    `
+    pieCharts.insertAdjacentHTML('beforeend', chartDivElement);
+    pieChartID.push(document.querySelector(`#pieChartID${i}`))
+    
+    
+    const pieChartConfig = {
+      series: pieNumsSeps[i],
+      chart: {
+        type: "pie",
+        events: {
+          dataPointSelection: function(event, chartContext, config) {
+            var selectedDataIndex = config.dataPointIndex;
+            var urls = [
+                `http://127.0.0.1:8000/All_Data/${username}`,
+                `http://127.0.0.1:8000/Show_Warning/${username}`,
+                `http://127.0.0.1:8000/Show_Errors/${username}`
+            ];
+            if (urls[selectedDataIndex]) {
+                window.location.href = urls[selectedDataIndex];
+            }
+          }
+        },
+        width: 280,
+        height: 280,
+        toolbar: {
+          show: false,
+        }
+      },
+      labels: ["Info", "Warning", "Error"],
+      title: {
+        show: "",
+      },
+      plotOptions: {
+        pie: {
+          labels: {
+            show: true,
+            offset: -25,
+            minAngleToShowLabel: 10
+          },
+          size: "100%",
+          dataLabels: {
+            offset: -25
+          }
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val, opts) {
+          return opts.w.config.series[opts.seriesIndex]; 
+        },
+        style: {
+          fontFamily: "Inter, sans-serif",
+          fontSize: "14px",
+          fontWeight: "bold",
+          colors: ["#fff"]
+        },
+      },
+      colors: ["#020617", "#ff8f00", "#e84c3d"],
+      legend: {
+        show: true,
+        position: "bottom",
+        fontFamily: "Inter, sans-serif",
+        labels: {
+          colors: "#fff",
+        }
+      }
+    };
+    
+    
+    const pieChart = new ApexCharts(pieChartID[i], pieChartConfig)
+    pieChart.render()
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+function generateRandomLogData(points = 12) {
+    const now = new Date();
+    const labels = [];
+    const info = [];
+    const warn = [];
+    const error = [];
+    for (let i = points - 1; i >= 0; i--) {
+        const d = new Date(now.getTime() - i * 60000); // 1 min intervals
+        labels.push(d.toLocaleTimeString() + ' ' + d.toLocaleDateString());
+        info.push(Math.floor(Math.random() * 10));
+        warn.push(Math.floor(Math.random() * 5));
+        error.push(Math.floor(Math.random() * 3));
+    }
+    return { labels, info, warn, error };
+}
+function renderLogLevelChart() {
+    const data = generateRandomLogData(12);
+    const ctx = document.getElementById('logLevelChart').getContext('2d');
+    if (window.logLevelChartInstance) {
+        window.logLevelChartInstance.destroy();
+    }
+    window.logLevelChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [
+                {
+                    label: 'INFO',
+                    data: data.info,
+                    borderColor: 'rgba(0, 200, 83, 1)',
+                    backgroundColor: 'rgba(0, 200, 83, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                },
+                {
+                    label: 'WARNING',
+                    data: data.warn,
+                    borderColor: 'rgba(255, 193, 7, 1)',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                },
+                {
+                    label: 'ERROR',
+                    data: data.error,
+                    borderColor: 'rgba(244, 67, 54, 1)',
+                    backgroundColor: 'rgba(244, 67, 54, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top', labels: { color: '#fff', font: { size: 16 } } },
+                title: { display: false }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Time & Date', color: '#fff' }, ticks: { color: '#fff' } },
+                y: { title: { display: true, text: 'Log Count', color: '#fff' }, beginAtZero: true, ticks: { color: '#fff' } }
+            }
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', renderLogLevelChart);
+</script>
+<script>
+function generateFilteredLogData(filter) {
+    // Simulate different data for each filter (Today, Yesterday, Last Week, Last Month)
+    let points = 12;
+    if (filter === 'Today') points = 24;
+    else if (filter === 'Last_Day') points = 24;
+    else if (filter === 'Last_Week') points = 7;
+    else if (filter === 'Last_Month') points = 30;
+    const now = new Date();
+    const labels = [];
+    const info = [];
+    const warn = [];
+    const error = [];
+    for (let i = points - 1; i >= 0; i--) {
+        let d;
+        if (filter === 'Last_Week') {
+            d = new Date(now.getTime() - i * 24 * 60 * 60000); // days
+        } else if (filter === 'Last_Month') {
+            d = new Date(now.getTime() - i * 24 * 60 * 60000); // days
+        } else {
+            d = new Date(now.getTime() - i * 60 * 60000); // hours
+        }
+        labels.push(d.toLocaleString());
+        info.push(Math.floor(Math.random() * 10));
+        warn.push(Math.floor(Math.random() * 5));
+        error.push(Math.floor(Math.random() * 3));
+    }
+    return { labels, info, warn, error };
+}
+function renderFilteredLogLevelChart() {
+    // Get filter value from the filter select (default to Today)
+    let filter = document.getElementById('option_name')?.value || 'Today';
+    const data = generateFilteredLogData(filter);
+    const ctx = document.getElementById('filteredLogLevelChart').getContext('2d');
+    if (window.filteredLogLevelChartInstance) {
+        window.filteredLogLevelChartInstance.destroy();
+    }
+    window.filteredLogLevelChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [
+                {
+                    label: 'INFO',
+                    data: data.info,
+                    borderColor: 'rgba(0, 200, 83, 1)',
+                    backgroundColor: 'rgba(0, 200, 83, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                },
+                {
+                    label: 'WARNING',
+                    data: data.warn,
+                    borderColor: 'rgba(255, 193, 7, 1)',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                },
+                {
+                    label: 'ERROR',
+                    data: data.error,
+                    borderColor: 'rgba(244, 67, 54, 1)',
+                    backgroundColor: 'rgba(244, 67, 54, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top', labels: { color: '#fff', font: { size: 16 } } },
+                title: { display: false }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Time & Date', color: '#fff' }, ticks: { color: '#fff' } },
+                y: { title: { display: true, text: 'Log Count', color: '#fff' }, beginAtZero: true, ticks: { color: '#fff' } }
+            }
+        }
+    });
+}
+// Re-render filtered chart on filter change
+const filterSelect = document.getElementById('option_name');
+if (filterSelect) {
+       filterSelect.addEventListener('change', renderFilteredLogLevelChart);
+}
+document.addEventListener('DOMContentLoaded', renderFilteredLogLevelChart);
+</script>
+<script>
+function updateFilterLabel() {
+    let filter = document.getElementById('option_name')?.value || 'Today';
+    let label = 'by Date Filter';
+    if (filter === 'Today') label = 'Today';
+    else if (filter === 'Last_Day') label = 'Yesterday';
+    else if (filter === 'Last_Week') label = 'Last Week';
+    else if (filter === 'Last_Month') label = 'Last Month';
+    document.getElementById('filterLabel').textContent = label;
+}
+function updateLabelAndChart() {
+    updateFilterLabel();
+    renderFilteredLogLevelChart();
+}
+const filterSelect2 = document.getElementById('option_name');
+if (filterSelect2) {
+    filterSelect2.addEventListener('change', updateLabelAndChart);
+}
+document.addEventListener('DOMContentLoaded', updateFilterLabel);
+// Also update label after filter form submit
+const filterForm = document.querySelector('form[action*="Sorting_Data"]');
+if (filterForm) {
+    filterForm.addEventListener('submit', function(e) {
+        setTimeout(updateLabelAndChart, 100); // update after reload
+    });
+}
+</script>
+<script>
+// Sample static data for complete history
+const sampleHistoryData = {
+    labels: [
+        '2025-05-22', '2025-05-23', '2025-05-24', '2025-05-25', '2025-05-26', '2025-05-27', '2025-05-28',
+        '2025-05-29', '2025-05-30', '2025-05-31', '2025-06-01', '2025-06-02', '2025-06-03', '2025-06-04',
+        '2025-06-05', '2025-06-06', '2025-06-07', '2025-06-08', '2025-06-09', '2025-06-10', '2025-06-11',
+        '2025-06-12', '2025-06-13', '2025-06-14', '2025-06-15', '2025-06-16', '2025-06-17', '2025-06-18',
+        '2025-06-19', '2025-06-20'
+    ],
+    info:   [2, 3, 4, 5, 3, 2, 4, 5, 6, 7, 5, 4, 3, 2, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 3, 4, 5, 6, 7],
+    warn:   [1, 1, 2, 2, 1, 1, 2, 2, 3, 3, 2, 2, 1, 1, 2, 2, 3, 3, 4, 3, 2, 2, 1, 1, 1, 1, 2, 2, 3, 3],
+    error:  [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+};
+function renderHistoryLogLevelChart() {
+    const data = sampleHistoryData;
+    const ctx = document.getElementById('historyLogLevelChart').getContext('2d');
+    if (window.historyLogLevelChartInstance) {
+        window.historyLogLevelChartInstance.destroy();
+    }
+    window.historyLogLevelChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [
+                {
+                    label: 'INFO',
+                    data: data.info,
+                    borderColor: 'rgba(0, 200, 83, 1)',
+                    backgroundColor: 'rgba(0, 200, 83, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                },
+                {
+                    label: 'WARNING',
+                    data: data.warn,
+                    borderColor: 'rgba(255, 193, 7, 1)',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                },
+                {
+                    label: 'ERROR',
+                    data: data.error,
+                    borderColor: 'rgba(244, 67, 54, 1)',
+                    backgroundColor: 'rgba(244, 67, 54, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top', labels: { color: '#fff', font: { size: 16 } } },
+                title: { display: false }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Date', color: '#fff' }, ticks: { color: '#fff' } },
+                y: { title: { display: true, text: 'Log Count', color: '#fff' }, beginAtZero: true, ticks: { color: '#fff' } }
+            }
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', renderHistoryLogLevelChart);
+</script>
+<style>
+.dot-green { color: #00c853; }
+.dot-yellow { color: #ffc107; }
+.dot-red { color: #f44336; }
+</style>
+</html>

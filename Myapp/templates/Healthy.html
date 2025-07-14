@@ -1,0 +1,638 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+        font-family: "Helvetica 55";
+      }
+      @font-face {
+          font-family: "Helvetica 55";
+          src: url("{% static '../static/HelveticaNeueLTStd-Roman.otf' %}" );
+      }
+    @font-face {
+        font-family: "ArrayRegular";
+        src: url("{% static '../static/Array-Regular.otf' %}")
+    }
+    .projectType::-webkit-scrollbar {
+        height: 7px;
+    }
+    .projectType::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+        box-shadow: inset 0px 4px 30.3px rgba(255, 255, 255, 0.4);
+    }
+    .projectType::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #ececec 0%, #dfd9da 100%);
+    }
+    .theBody::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #222222 0%, #272727 100%);
+    }
+    .theBody::-webkit-scrollbar {
+        width: 8px;
+    }
+    .theBody::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+    }
+    .theBody::-webkit-scrollbar-thumb {
+        background: #4c4c4d;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    }
+    .contentBlock::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #ececec 0%, #dfd9da 100%);
+    }
+    .contentBlock::-webkit-scrollbar {
+        width: 8px;
+    }
+    .contentBlock::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+    }
+    .contentBlock::-webkit-scrollbar-thumb {
+        background: #044CDE;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    }
+    .otherContent{
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+    }
+    .anotherContent{
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+    }
+    .asideContainer{
+        box-shadow: 0px 0px 7.3px 1px rgba(77, 32, 255, 0.25);
+    }
+    .asideItem:hover{
+        background-color: rgba(55, 48, 155, 0.25);
+        border-radius: 5px;
+        transition: 0.2s ease all;
+        cursor: pointer;
+    }
+    .title2{
+        font-family: "ArrayRegular";
+    }
+    details {
+        width: 90%;
+        margin: 0 auto ;
+        background: #282828;
+        margin-bottom: .5rem;
+        box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+        border-radius: 5px;
+        overflow: hidden;
+      }
+      
+      summary {
+        padding: 1rem;
+        display: block;
+        background: #333;
+        padding-left: 2.2rem;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+      }
+      
+      summary:before {
+        border-width: .4rem;
+        border-style: solid;
+        position: absolute;
+        top: 1.3rem;
+        left: 1rem;
+        transform: rotate(0);
+        transform-origin: .2rem 50%;
+        transition: .25s transform ease;
+      }
+
+      details[open] > summary:before {
+        transform: rotate(90deg);
+      }
+      
+      details summary::-webkit-details-marker {
+        display:none;
+      }
+      
+      details > p {
+        padding-bottom: 1rem;
+        margin-bottom: 0;
+      }
+</style>
+<style>
+    .wrapper {
+        display: table;
+        margin: 0;
+        padding: 35px 40px 40px;
+      }
+      
+      .gauge {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #e7e7e7;
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.09), 0 0 35px 5px rgba(255, 255, 255, 0.29);
+        width: 200px;
+        height: 100px;
+        border-radius: 100px 100px 0 0;
+        position: relative;
+        overflow: hidden;
+        /* safari fix */
+        -webkit-transform-style: flat;
+        -webkit-transform: translateZ(0px);
+      }
+      .gauge.min-scaled {
+        transform: scale(0.5);
+      }
+      
+      .gauge-center {
+        content: attr(data-before);
+        color: #fff;
+        width: 60%;
+        height: 60%;
+        background: #15222e;
+        border-radius: 100px 100px 0 0;
+        position: absolute;
+        box-shadow: 0 -13px 15px -10px rgba(0, 0, 0, 0.28);
+        right: 21%;
+        bottom: 0;
+      }
+      .gauge-center #counterOne {
+        color: #fff;
+        font-size: 1.2em;
+        width: 100%;
+        padding: 30px 0 0 0;
+        text-align: center;
+        float: left;
+        -webkit-font-smoothing: antialiased;
+      }
+      .gauge-center #counterTwo {
+        color: #fff;
+        font-size: 1.5em;
+        width: 100%;
+        padding: 20px 0 0 0;
+        text-align: center;
+        float: left;
+        -webkit-font-smoothing: antialiased;
+      }
+      .gauge-center #counterThree {
+        color: #fff;
+        font-size: 1.5em;
+        width: 100%;
+        padding: 20px 0 0 0;
+        text-align: center;
+        float: left;
+        -webkit-font-smoothing: antialiased;
+      }
+      
+      .needle {
+        width: 78px;
+        height: 7px;
+        background: #ffffff;
+        border-bottom-left-radius: 100%;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 100%;
+        border-top-right-radius: 5px;
+        position: absolute;
+        bottom: 4px;
+        left: 20px;
+        transform-origin: 100% 4px;
+        box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.38);
+        transition: transform 0.8s;
+        transition-timing-function: cubic-bezier(0.65, 1.95, 0.03, 0.32);
+      }
+      
+      .slice-colors .st {
+        position: absolute;
+        bottom: 0;
+        width: 200px;
+        height: 200px;
+      }
+
+      .slice-colors .st.slice-item:nth-child(1) {
+        left: -100px;
+        transform-origin: bottom right;
+        transform: rotate(-33deg);
+      }
+      .slice-colors .st.slice-item:nth-child(2) {
+        left: 54px;
+        transform: rotate(-33deg);
+      }
+      .slice-colors .st.slice-item:nth-child(3) {
+        transform: rotate(33deg);
+        transform-origin: bottom left;
+        left: 100px;
+      }
+      
+      .s-box {
+        margin: 0 auto;
+        width: 200px;
+        text-align: center;
+      }
+
+      .addDetailsSummary{
+        top: 35%;
+      }
+
+      .addDataDetails{
+        width: 90%;
+        margin: 0 auto ;
+        background: none;
+        margin-bottom: 0rem;
+        box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      .addDataDetails[open] > .addDetailsSummary{
+        top: 8%;
+      }
+      
+      details summary::-webkit-details-marker {
+        display:none;
+      }
+
+      .addDetailsSummary{
+        padding: 0rem;
+        display: block;
+        background: none;
+        padding-left: 0rem;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+      }
+      div[disabled]:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+      }
+</style>
+<style>
+  .toast {
+    background-color: #030303;
+    color: white;
+    position: absolute;
+    z-index: 100;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    top: 15px;
+    right: 36%;
+    border-radius: 5px;
+  }
+  .toast-info {
+    background-color: #3276b1;
+    color: white;
+    position: absolute;
+    z-index: 100;
+    border-radius: 5px;
+  }
+  .toast-info2 {
+    background-color: #2f96b4;
+    color: white;
+    position: absolute;
+    z-index: 100;
+    border-radius: 5px;
+  }
+  .toast-error {
+    background-color: #bd362f;
+    color: white;
+    position: absolute;
+    z-index: 100;
+    border-radius: 5px;
+  }
+  .toast-success {
+    background-color: #51a351;
+    color: white;
+    position: absolute;
+    z-index: 100;
+    border-radius: 5px;
+  }
+  .toast-warning {
+    background-color: #f89406;
+    color: white;
+    position: absolute;
+    z-index: 100;
+    border-radius: 5px;
+  }
+</style>
+<body class="theBody bg-[#1c152a]">
+    <!-- {% for word in Keyword_Values %}
+      <p class="text-white">{{ word }}</p>
+    {% endfor %} -->
+    {% include 'includes/leftLogoutBtn.html' %}
+    {% include 'includes/topLogoutBtn.html' %}
+    {% include 'includes/dropdown.html' with inPage="Healthy" %}
+    {% include 'includes/navbar.html' %}
+    {% include 'includes/sidebar.html' with inPage="Healthy" %}
+
+    <div class="centerContent absolute top-[15%] left-[9%] xl:left-[16%] xl:top-[10%] w-[80%] z-[-30]">
+        <div class="realContent">
+            <p class="text-[#E2E2E2] text-4xl title2">Health</p>
+            <p class="text-center text-[#E2E2E2] text-4xl">System: DSS-QA</p>
+            <!-- <form class="mb-9 mt-9" action="{% url 'Add_New_Keyword' user_name %}" method="post">
+                {% csrf_token %}
+                <label class="text-white">Select Keyword Here</label>
+                <select class="w-[24%] mr-2 ml-2 h-[40px] rounded-lg mt-1 text-white text-sm border-[0.2px] border-[#CAB2B2] border-dashed bg-[#291A48]" type="text" name="keyword_name" placeholder="enter keyword" name="keyword_name">
+                  <option value="EPU PSU Temperature">EPU PSU Temperature (Celsius)</option>
+                  <option value="EPU Ambient Temperature">EPU Ambient Temperature (Celsius)</option>
+                  <option value="EPU on-chip Temperature">EPU on-chip Temperature (Celsius)</option>
+                  <option value="Battery Time Remaining">Battery Time Remaining (minutes)</option>
+                  <option value="Battery charge">Battery charge (percentage)</option>
+                  <option value="Battery Temperature">Battery Temperature (Celsius)</option>
+                  <option value="UPS Temperature">UPS Temperature (Celsius)</option>
+                </select>
+                <input name="action" value="Add" class="xl:mt-1 mt-4 cursor-pointer text-[#ffffff] hover:border-none transition-all bg-[#291A48] hover:bg-blue-600 text-xs pt-2 pb-2 pr-4 pl-4 rounded-lg border-dashed border-[0.1px] border-blue-600" type="submit" value="Update"/>
+                <input name="action" value="Delete" class="xl:mt-1 mt-4 cursor-pointer text-[#ffffff] hover:border-none transition-all bg-[#291A48] hover:bg-red-600 text-xs pt-2 pb-2 pr-4 pl-4 rounded-lg border-dashed border-[0.1px] border-red-600" type="submit" value="Delete"/>
+            </form> -->
+            <div class="informationBlock pt-3 pb-8 pl-6 pr-2 bg-[#26293c] rounded-lg mt-9">
+              <div class="w-full flex justify-between items-center pr-4">
+                <p class="wordTitle text-white text-2xl font-semibold tracking-wide mt-9 mb-9">Live Data Coming up..</p>
+                <div class="flex gap-x-2">
+                  <div class="flex justify-center items-center gap-x-1">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="5" cy="5" r="5" fill="#22C55E"/>
+                    </svg>      
+                    <p class="text-white">0-30</p>              
+                  </div>
+                  <div class="flex justify-center items-center gap-x-1">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="5" cy="5" r="5" fill="#eab308"/>
+                    </svg>      
+                    <p class="text-white">30-60</p>              
+                  </div>
+                  <div class="flex justify-center items-center gap-x-1">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="5" cy="5" r="5" fill="#ef4444"/>
+                    </svg>      
+                    <p class="text-white">>60</p>              
+                  </div>
+                </div>
+              </div>
+              <div class="allInfo flex gap-x-4 flex-wrap gap-y-4"></div>  
+            </div>      
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let previousValues = [];
+    let previousWords;
+
+    let errorToastAllInOne = document.createElement("div");
+    errorToastAllInOne.classList.add("errorToastAllInOne")
+
+    let warningToastAllInOne = document.createElement("div");
+    warningToastAllInOne.classList.add("warningToastAllInOne")
+
+    
+
+    toastr.options = {
+      "timeOut": "3000", // 3 seconds for both error and warning toasts
+      "extendedTimeOut": "1000", // Extended time on hover
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut",
+      "hideDuration": "10",
+    };
+
+    function fetchData(){
+      $.ajax({
+        url: '/Meter_values',
+        method: 'GET',
+        success: function(data) {
+          toastr.clear(); 
+          console.log("data", data.response)
+            if(previousValues !== Object.values(Object.values(data.response)[0])){
+                const title = document.querySelectorAll(".title")
+
+                title.forEach((wrap) => {
+                    wrap.remove()
+                })
+                const allInfo = document.querySelector(".allInfo")
+                const wordTitle = document.querySelector(".wordTitle")
+
+                for (let j=0; j<Object.keys(data.response).length ; ++j){
+                  wordTitle.innerHTML = "String: "+Object.keys(data.response)[j]
+                  for (let i=0; i<Object.values(Object.values(data.response)[j]).length; ++i){
+                      if(Object.keys(Object.values(data.response)[j])[i].split(" ")[Object.keys(Object.values(data.response)[j])[i].split(" ").length - 1] === "charge"){
+                          if((Object.values(Object.values(data.response)[j])[i] > 60)){
+                            allInfo.innerHTML += `
+                                  <div class="title flex justify-between lg:w-96 w-full w-full bg-[#26293c] pt-3 pb-3 pl-4 pr-4 rounded-lg border-2 border-blue-500 mb-2">
+                                    <p class="text-xl font-semibold tracking-wide text-white">${Object.keys(Object.values(data.response)[j])[i]}(%)</p>
+                                    <p class="text-xl font-semibold tracking-wide text-red-500">${Object.values(Object.values(data.response)[j])[i]}</p>
+                                  </div>
+                                `
+                              }
+                              else if((Object.values(Object.values(data.response)[j])[i] > 30) && (Object.values(Object.values(data.response)[j])[i] <= 60)){
+                                allInfo.innerHTML += `
+                                      <div class="title flex justify-between lg:w-96 w-full bg-[#26293c] pt-3 pb-3 pl-4 pr-4 rounded-lg border-2 border-blue-500 mb-2">
+                                        <p class="text-xl font-semibold tracking-wide text-white">${Object.keys(Object.values(data.response)[j])[i]}(%)</p>
+                                        <p class="text-xl font-semibold tracking-wide text-yellow-500">${Object.values(Object.values(data.response)[j])[i]}</p>
+                                      </div> 
+                                    `
+                                  }
+                                  else if((Object.values(Object.values(data.response)[j])[i] < 30)){
+                                    allInfo.innerHTML += `
+                                          <div class="title flex justify-between lg:w-96 w-full bg-[#26293c] pt-3 pb-3 pl-4 pr-4 rounded-lg border-2 border-blue-500 mb-2">
+                                            <p class="text-xl font-semibold tracking-wide text-white">${Object.keys(Object.values(data.response)[j])[i]}(%)</p>
+                                            <p class="text-xl font-semibold tracking-wide text-green-500">${Object.values(Object.values(data.response)[j])[i]}</p>
+                                          </div> 
+                                        `
+                                      }
+                          }
+                          else if(Object.keys(Object.values(data.response)[j])[i].split(" ")[Object.keys(Object.values(data.response)[j])[i].split(" ").length - 1] === "Temperature"){
+                            if((Object.values(Object.values(data.response)[j])[i] > 60)){
+                              allInfo.innerHTML += `
+                                    <div class="title flex justify-between lg:w-96 w-full bg-[#26293c] pt-3 pb-3 pl-4 pr-4 rounded-lg border-2 border-blue-500 mb-2">
+                                      <p class="text-xl font-semibold tracking-wide text-white">${Object.keys(Object.values(data.response)[j])[i]}(°C)</p>
+                                      <p class="text-xl font-semibold tracking-wide text-red-500">${Object.values(Object.values(data.response)[j])[i]}</p>
+                                    </div>
+                                  `
+                                }
+                                else if((Object.values(Object.values(data.response)[j])[i] > 30) && (Object.values(Object.values(data.response)[j])[i] <= 60)){
+                                  allInfo.innerHTML += `
+                                        <div class="title flex justify-between lg:w-96 w-full bg-[#26293c] pt-3 pb-3 pl-4 pr-4 rounded-lg border-2 border-blue-500 mb-2">
+                                          <p class="text-xl font-semibold tracking-wide text-white">${Object.keys(Object.values(data.response)[j])[i]}(°C)</p>
+                                          <p class="text-xl font-semibold tracking-wide text-yellow-500">${Object.values(Object.values(data.response)[j])[i]}</p>
+                                        </div> 
+                                      `
+                                    }
+                                    else if((Object.values(Object.values(data.response)[j])[i] < 30)){
+                                      allInfo.innerHTML += `
+                                            <div class="title flex justify-between lg:w-96 w-full bg-[#26293c] pt-3 pb-3 pl-4 pr-4 rounded-lg border-2 border-blue-500 mb-2">
+                                              <p class="text-xl font-semibold tracking-wide text-white">${Object.keys(Object.values(data.response)[j])[i]}(°C)</p>
+                                              <p class="text-xl font-semibold tracking-wide text-green-500">${Object.values(Object.values(data.response)[j])[i]}</p>
+                                            </div> 
+                                          `
+                                        }
+                            }
+                            else{
+                              if((Object.values(Object.values(data.response)[j])[i] > 60)){
+                                allInfo.innerHTML += `
+                                      <div class="title flex justify-between lg:w-96 w-full bg-[#26293c] pt-3 pb-3 pl-4 pr-4 rounded-lg border-2 border-blue-500 mb-2">
+                                        <p class="text-xl font-semibold tracking-wide text-white">${Object.keys(Object.values(data.response)[j])[i]}(minutes)</p>
+                                        <p class="text-xl font-semibold tracking-wide text-red-500">${Object.values(Object.values(data.response)[j])[i]}</p>
+                                      </div>
+                                    `
+                                  }
+                                  else if((Object.values(Object.values(data.response)[j])[i] > 30) && (Object.values(Object.values(data.response)[j])[i] <= 60)){
+                                    allInfo.innerHTML += `
+                                          <div class="title flex justify-between lg:w-96 w-full bg-[#26293c] pt-3 pb-3 pl-4 pr-4 rounded-lg border-2 border-blue-500 mb-2">
+                                            <p class="text-xl font-semibold tracking-wide text-white">${Object.keys(Object.values(data.response)[j])[i]}(minutes)</p>
+                                            <p class="text-xl font-semibold tracking-wide text-yellow-500">${Object.values(Object.values(data.response)[j])[i]}</p>
+                                          </div> 
+                                        `
+                                      }
+                                      else if((Object.values(Object.values(data.response)[j])[i] < 30)){
+                                        allInfo.innerHTML += `
+                                              <div class="title flex justify-between lg:w-96 w-full bg-[#26293c] pt-3 pb-3 pl-4 pr-4 rounded-lg border-2 border-blue-500 mb-2">
+                                                <p class="text-xl font-semibold tracking-wide text-white">${Object.keys(Object.values(data.response)[j])[i]}(minutes)</p>
+                                                <p class="text-xl font-semibold tracking-wide text-green-500">${Object.values(Object.values(data.response)[j])[i]}</p>
+                                              </div> 
+                                            `
+                                          }
+                              }
+                  }
+              }
+            }
+            console.log(previousValues)
+            previousValues = [...Object.values(Object.values(data.response)[0])]
+            previousWords = Object.keys(Object.values(data.response)[0])
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+      });
+    }
+    setInterval(fetchData, 5000);
+
+    function fetchDataForToasts(){
+      $.ajax({
+        url: '/Meter_values',
+        method: 'GET',
+        success: function(data) {
+            toastr.clear(); 
+            console.log("data", data.response)
+            previousValues = [...Object.values(Object.values(data.response)[0])]
+            previousWords = Object.keys(Object.values(data.response)[0])
+
+            for(let x=0; x<previousValues.length; ++x){
+              if((previousValues[x]<30) && (previousWords[x].split(" ")[previousWords[x].split(" ").length - 1] === "charge")){
+                let pTag = document.createElement("p")
+                pTag.classList.add("pTag")
+                pTag.innerHTML = `${previousWords[x]} is at ${previousValues[x]}%`
+                errorToastAllInOne.appendChild(pTag)
+                console.log("if block", errorToastAllInOne)
+              }
+              else if((previousValues[x]>60) && (previousWords[x].split(" ")[previousWords[x].split(" ").length - 1] === "Temperature")){
+                let pTag = document.createElement("p")
+                pTag.classList.add("pTag")
+                pTag.innerHTML = `${previousWords[x]} is at ${previousValues[x]}°C`
+                errorToastAllInOne.appendChild(pTag)
+                console.log("else if block", errorToastAllInOne)
+              }
+              else if((previousValues[x]>60) && (previousWords[x].split(" ")[previousWords[x].split(" ").length - 1] === "Remaining")){
+                let pTag = document.createElement("p")
+                pTag.classList.add("pTag")
+                pTag.innerHTML = `${previousWords[x]} is at ${previousValues[x]}°C`
+                errorToastAllInOne.appendChild(pTag)
+                console.log("else if block", errorToastAllInOne)
+              }
+              else if((previousValues[x]>30) && (previousValues[x]<=60) && (previousWords[x].split(" ")[previousWords[x].split(" ").length - 1] === "charge")){
+                let pTag = document.createElement("p")
+                pTag.classList.add("pTag")
+                pTag.innerHTML = `${previousWords[x]} is at ${previousValues[x]}°C`
+                warningToastAllInOne.appendChild(pTag)
+                console.log("if block", warningToastAllInOne)
+              }
+              else if((previousValues[x]>30) && (previousValues[x]<=60) && (previousWords[x].split(" ")[previousWords[x].split(" ").length - 1] === "Temperature")){
+                let pTag = document.createElement("p")
+                pTag.classList.add("pTag")
+                pTag.innerHTML = `${previousWords[x]} is at ${previousValues[x]}°C`
+                warningToastAllInOne.appendChild(pTag)
+                console.log("else if block", warningToastAllInOne)
+              }
+              else if((previousValues[x]>30) && (previousValues[x]<=60) && (previousWords[x].split(" ")[previousWords[x].split(" ").length - 1] === "Remaining")){
+                let pTag = document.createElement("p")
+                pTag.classList.add("pTag")
+                pTag.innerHTML = `${previousWords[x]} is at ${previousValues[x]}°C`
+                warningToastAllInOne.appendChild(pTag)
+                console.log("else if block", warningToastAllInOne)
+              }
+            }
+            
+            if(document.body.contains(document.querySelector(".errorToastAllInOne"))){
+              errorToastAllInOne.remove()
+            }
+            if(document.body.contains(document.querySelector(".warningToastAllInOne"))){
+              warningToastAllInOne.remove()
+            }
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+      });
+    }
+
+    fetchDataForToasts();
+    
+    function showErrorToasts(){
+      for (let x=0; x<previousValues.length; ++x){
+        if((previousValues[x]>=60) && (errorToastAllInOne.children.length > 0)){
+          toastr.clear();
+          toastr.error(`${ errorToastAllInOne.innerHTML }`);
+        }
+      }
+    }
+
+    function showWarningToasts(){
+      for (let x=0; x<previousValues.length; ++x){
+        if((previousValues[x]>30) && (warningToastAllInOne.children.length > 0)){
+          toastr.clear();
+          toastr.warning(`${ warningToastAllInOne.innerHTML }`);
+        }
+      }
+    }
+
+    setTimeout(showErrorToasts, 100);
+    if(document.body.contains(document.querySelector(".errorToastAllInOne"))){
+      errorToastAllInOne.remove()
+    }
+    if(document.body.contains(document.querySelector(".warningToastAllInOne"))){
+      warningToastAllInOne.remove()
+    }
+    setTimeout(showWarningToasts, 2700);
+    
+</script>
+
+</html>

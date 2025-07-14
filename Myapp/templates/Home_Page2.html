@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Log File</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 100px;
+            margin-left: 150px;
+            font-family: 'Times New Roman', Times, serif;
+            
+        }
+        .heading {
+            font-size: 50px;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .file_select {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            font-family: 'Times New Roman', Times, serif;
+            padding-right: 30px;
+        }
+        .submit {
+            border: 2px solid rgb(52, 20, 168);
+            padding: 10px 20px;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: rgb(36, 22, 170);
+            border-radius: 15px;
+            font-family: 'Times New Roman', Times, serif;
+            margin-left: 40px; /* Adjusted margin to decrease space */
+            color: white;
+        }
+        input[type="file"] {
+            border: 2px solid #1a1a1b;
+            padding: 10px;
+            width: 50%;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .select_label {
+            font-size: 30px;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
+            margin-top: 15px;
+        }
+        .cancel_button {
+            text-decoration: none;
+            color: black;
+            border: 2px solid black;
+            font-family: 'Times New Roman', Times, serif;
+            padding: 10px 15px;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: pink;
+            border-radius: 15px;
+            margin-right: 80px; /* Adjusted margin to decrease space */
+        }
+       table{
+        width: 90%;
+        text-align: center;
+        margin-top: 40px;
+       border-collapse: collapse;
+       }
+       th,td{
+        border: 1px solid #1a1a1b; /* Border for table cells */
+        padding: 10px; /* Padding inside cells */
+        text-align: left; /* Align text to the left */
+        text-align: center;
+       }
+    </style>
+</head>
+<body>
+    <div>
+        <p class="heading">Parsing.</p>
+    </div>
+    <div class="file_select">
+        <p class="select_label">Select Log File</p>
+        <form method="post" action="{% url 'Searching_CSV' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="csv_file" id="csv_file" required/>
+            <button type="submit" class="submit">Upload</button>
+        </form>
+        {% if data %}
+        <a type="button" href="{% url 'Visualization' %}" class="cancel_button">Go-To Filters</a>
+        {% endif %}
+    </div>
+    <div class="content">
+        <table border="2">
+            <thead>
+                <tr>
+                    {% for columns in data.0.keys%}
+                    <th>{{columns}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            
+                {% for i in data%}
+                <tr>
+                    {% for values in i.values %}
+                    <td>{{values}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+           
+        </table>
+    </div>
+    <!-- <div class="table_data">
+        <table border="2">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                </tr>
+            </thead>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Event Templates</td>
+                <td>Occurences</td>
+            </tr>
+        </table>
+    </div> -->
+</body>
+</html>

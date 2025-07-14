@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard - Log Analysis</title>
+<style>
+    html, body {
+        height: 100%;
+    }
+    body {
+        background-color: #1c152a; /* bg-gray-800, provides a base for the whole page */
+        color: #d1d5db; /* text-gray-300 */
+    }
+    /* Fallback font */
+    *{
+        font-family: "Helvetica 55", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    @font-face {
+        font-family: "Helvetica 55";
+        src: url("{% static '../static/HelveticaNeueLTStd-Roman.otf' %}" );
+    }
+    @font-face {
+        font-family: "ArrayRegular";
+        src: url("{% static '../static/Array-Regular.otf' %}")
+    }
+    
+    /* Scrollbar styles from your original file, adapted for dark theme */
+    .dark-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    .dark-scrollbar::-webkit-scrollbar-track {
+        background: #1f2937; /* bg-gray-800 */
+        border-radius: 10px;
+    }
+    .dark-scrollbar::-webkit-scrollbar-thumb {
+        background: #4b5563; /* bg-gray-600 */
+        border-radius: 10px;
+    }
+    .dark-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #6b7280; /* bg-gray-500 */
+    }
+
+    /* --- New Styles for UI Improvement --- */
+    .loader {
+        border: 4px solid #4b5563; /* border-gray-600 */
+        border-top: 4px solid #3b82f6; /* Blue-500 */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .log-line:hover .copy-btn {
+        opacity: 1;
+    }
+</style>
+
+</head>
+<body>
+
+    {# The included templates likely form a flex container for the layout #}
+    {% include 'includes/dropdown.html' with inPage="result" %}
+    {% include 'includes/navbar.html' %}
+    {% include 'includes/sidebar.html' with inPage="result" %}
+    {% include 'includes/leftLogoutBtn.html' %}
+    {% include 'includes/topLogoutBtn.html' %}
+
+    {# Main Content Area - This wrapper helps fix the gap and manage responsiveness #}
+    <main class="p-4 sm:p-6 lg:p-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-gray-900 border border-gray-700 shadow-lg rounded-2xl">
+                <div class="p-4 sm:p-6 lg:p-8 border-b border-gray-700">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Log Analysis Dashboard</h2>
+                            <p class="text-sm text-gray-400 mt-1">
+                                Displaying logs from the file uploaded on the
+                                <a href="{% url 'Prediction_Task' user_name=user_name calling_request='forecast' %}" class="font-medium text-indigo-400 hover:text-indigo-300">Predictions</a> page.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 sm:p-6 border-b border-gray-700">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <button id="all-btn" class="log-btn flex items-center gap-2 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 5h10v10H5V5z" /></svg>
+                            <span>All</span>
+                        </button>
+                        <button id="info-btn" class="log-btn flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-green-500">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                            <span>Info</span>
+                        </button>
+                        <button id="warn-btn" class="log-btn flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-yellow-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.21 3.001-1.742 3.001H4.42c-1.532 0-2.492-1.667-1.742-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd" /></svg>
+                            <span>Warning</span>
+                        </button>
+                        <button id="error-btn" class="log-btn flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-red-500">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
+                            <span>Error</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="log-display" class="dark-scrollbar p-2 sm:p-4 h-[32rem] overflow-y-auto">
+                    <div class="flex flex-col items-center justify-center h-full text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <h3 class="mt-2 text-lg font-medium text-gray-400">Ready to Analyze Logs</h3>
+                        <p class="mt-1 text-sm text-gray-500">Select a log level above to get started. <br> Ensure you've uploaded a file on the predictions page.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const logDisplay = document.getElementById('log-display');
+        const buttons = document.querySelectorAll('.log-btn');
+        const userName = "{{ user_name }}";
+
+        const getLevelStyles = (line) => {
+            const upperLine = line.toUpperCase();
+            if (upperLine.includes('ERROR')) return {
+                icon: `<svg class="h-5 w-5 text-red-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>`,
+            };
+            if (upperLine.includes('WARN') || upperLine.includes('WARNING')) return {
+                icon: `<svg class="h-5 w-5 text-yellow-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.21 3.001-1.742 3.001H4.42c-1.532 0-2.492-1.667-1.742-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd" /></svg>`,
+            };
+            if (upperLine.includes('INFO')) return {
+                icon: `<svg class="h-5 w-5 text-green-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>`,
+            };
+            return {
+                icon: `<svg class="h-5 w-5 text-gray-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>`,
+            };
+        };
+
+        function fetchLogs(url) {
+            logDisplay.innerHTML = '<div class="flex items-center justify-center h-full"><div class="loader"></div></div>';
+            
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    logDisplay.innerHTML = ''; 
+                    if (data.response && data.response.length > 0 && !data.response[0].startsWith("Log file not found")) {
+                        const logContainer = document.createElement('div');
+                        logContainer.className = 'flex flex-col gap-2';
+
+                        data.response.forEach(line => {
+                            const styles = getLevelStyles(line);
+                            
+                            const logLineDiv = document.createElement('div');
+                            logLineDiv.className = `log-line flex items-start gap-3 p-3 rounded-lg transition-colors duration-200 font-mono text-sm relative bg-gray-800 hover:bg-gray-700/50 border border-gray-700/50`;
+
+                            const copyButton = document.createElement('button');
+                            copyButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>`;
+                            copyButton.className = 'copy-btn absolute top-2 right-2 p-1 text-gray-500 hover:text-gray-300 rounded-md opacity-0 transition-opacity duration-200';
+                            copyButton.onclick = (e) => { 
+                                e.stopPropagation();
+                                navigator.clipboard.writeText(line);
+                                const originalText = copyButton.innerHTML;
+                                copyButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+                                setTimeout(() => { copyButton.innerHTML = originalText; }, 1500);
+                            };
+
+                            const iconSpan = document.createElement('span');
+                            iconSpan.innerHTML = styles.icon;
+
+                            const textSpan = document.createElement('span');
+                            textSpan.className = 'flex-grow break-all text-gray-300';
+                            textSpan.textContent = line;
+
+                            logLineDiv.appendChild(iconSpan);
+                            logLineDiv.appendChild(textSpan);
+                            logLineDiv.appendChild(copyButton);
+                            logContainer.appendChild(logLineDiv);
+                        });
+                        logDisplay.appendChild(logContainer);
+                    } else {
+                        let message = "No logs found for this level.";
+                        if (data.response && data.response[0].startsWith("Log file not found")) {
+                            message = data.response[0];
+                        }
+                        logDisplay.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p class="mt-2 text-gray-500">${message}</p></div>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching logs:', error);
+                    logDisplay.innerHTML = `<div class="flex items-center justify-center h-full"><p class="text-red-500 font-semibold">Failed to load logs. Please check the console for details.</p></div>`;
+                });
+        }
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                let url;
+                switch (button.id) {
+                    case 'all-btn': url = `/All_Data/${userName}`; break;
+                    case 'info-btn': url = `/Show_Info/${userName}`; break;
+                    case 'warn-btn': url = `/Show_Warning/${userName}`; break;
+                    case 'error-btn': url = `/Show_Errors/${userName}`; break;
+                }
+                if (url) fetchLogs(url);
+            });
+        });
+    });
+    </script>
+</body>
+</html>

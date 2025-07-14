@@ -1,0 +1,685 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>    
+    </head>
+    <style>
+        .mainbody{
+            background-color: #cfd1d6;
+            height: 100vh;
+            font-family: 'Times New Roman', Times, serif;
+
+        }
+        .Visualization{
+            margin-top: 3px;
+            margin-left: 25px;
+            color: rgb(45, 17, 172);
+        }
+        .first_heading{
+            font-size: 35px;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .another_body{
+            width: 90%;
+            height: 85vh;
+           background-color: white;
+           
+            
+        }
+        .toggle_button{
+            text-decoration: none;
+            border: 1px solid green;
+            height: 30px;
+            margin-top: 15px;
+            margin-left: 10px;
+            padding: 0px 15px;
+            color: white;
+            background-color: green; 
+        }
+       .nav-link{
+        color: white;
+        font-size: small;
+       }
+       .topnavbar_next,.from-to{
+        margin-top: 2px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+       }
+       .from-to{
+        padding: 0px 15px;
+        border: 1px solid black;
+        background-color: black;
+        color: white;
+        font-size: small;
+        width: 40%;
+        height: 30px;
+        margin-top: 10px;
+       }
+       .row{
+        text-align: center;
+       }
+       .selectmenu{
+        width: 40%;
+        height: 30px; /* Set desired height */
+      padding: 5px; /* Adjust padding as needed */
+      font-size: 14px; /* Adjust font size as needed */
+      line-height: 1.5; /* Ensure proper line height */
+    }
+    .serach_query{
+        width: 70%;
+        margin-right: 20px;
+        height: 30px;
+       
+        padding: 10px;
+        margin-left: 10px;
+    }
+    .query-submit{
+        height: 30px;
+        padding:0px 10px;
+        border: 1px solid green;
+        background-color: green;
+        color: white;
+    }
+       hr{
+        margin: 0 auto;
+        border: 1px solid rgb(134, 131, 131);
+       }
+       .load_options{
+        display: flex; flex-direction: row;
+        margin-left: 10px;
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 0px 20px;
+        height: 30px;
+       }
+      .search-query{
+        margin-top: 10px;
+      }
+      .bar-chart{
+        height: 140px;
+        width: 100%;
+      }
+      .bar-chart{
+        display: flex;
+        justify-content: center;
+      }
+      .terminal_logs{
+        background-color: rgb(90, 88, 88);color: white;
+        font-family: 'Times New Roman', Times, serif;width: 100%;
+        margin-left: 0px;
+        margin-top: 1px;
+        height: 30px;
+      }
+      .scrollable-div {
+             height: 160px;/* Adjust the height as needed */
+            overflow-y: auto; /* Ensure vertical scrollbar */
+            overflow-x: hidden; /* Hide horizontal scrollbar if not needed */
+           
+           
+        }
+
+        /* Custom scrollbar styling for WebKit browsers */
+        .scrollable-div::-webkit-scrollbar {
+            width: 10px; /* Width of the scrollbar */
+        }
+
+        .scrollable-div::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Color of the scrollbar track */
+        }
+
+        .scrollable-div::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scrollbar thumb */
+            border-radius: 5px; /* Rounded corners of the scrollbar thumb */
+        }
+
+        .scrollable-div::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Color of the scrollbar thumb on hover */
+        }
+        .row-heading{
+            display: flex;
+            justify-content: center;
+            font-weight: bold;
+            color:rgb(45, 17, 172) ;
+            
+           
+        }
+    </style>
+    <body>
+        <div class="mainbody">
+            <div class="Visualization">
+                <p class="first_heading">Visualization</p>
+            </div>
+            <div style="display: flex;justify-content: center;">
+            <div class="another_body">
+                <div class="top_navbar">
+                    <nav class="navbar navbar-expand-sm bg-dark fixed" style="height:15x;">
+                        <div class="container-fluid">
+                          <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="navbar-brand" style="color: white;">rayLog</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#">Search</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#">Streams</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#">Alerts</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Dashboards</a>
+                              </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Enterprice</a>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="#">Link</a></li>
+                                  <li><a class="dropdown-item" href="#">Another link</a></li>
+                                  <li><a class="dropdown-item" href="#">A third link</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">System</a>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="#">Link</a></li>
+                                  <li><a class="dropdown-item" href="#">Another link</a></li>
+                                  <li><a class="dropdown-item" href="#">A third link</a></li>
+                                </ul>
+                              </li>
+                          </ul>
+                          <div class="right_side d-flex" style="color: white;font-size: small;">
+                            <i class="bi bi-gear icon" style="margin-right: 20px;"></i>
+                            <i class="bi bi-pencil icon"></i>
+                          </div>
+                        </div>
+                      </nav>
+                </div>
+                <div class="topnavbar_next">
+                    <a href="" class="toggle_button">Button</a>
+                    <div class="from-to">
+                        <p style="margin-top: 5px;" >From: 7 days age</p>
+                        <p style="margin-top: 5px;">Until: now</p>
+                    </div>
+                    <div class="selectmenu">
+                        <select class="form-select">
+                            <option selected>Select an option</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                          </select>
+                    </div>
+                    <div class="update-button" style="display: flex;flex-direction: row;margin-right: 5px;">
+                        <i class="bi bi-caret-right-fill" style="margin-top: 15px;margin-right: 5px;"></i>
+                        <a href="#" style="text-decoration: none;margin-top: 10px; color: black;">updating</a>
+                    </div>
+                    
+                </div>
+                
+                <div class="search-query">
+                    <div class="query_serach">
+                        <form accept="" action="{% url 'search_words' %}" method="post" style="display: flex;flex-direction: row;">
+                            {% csrf_token %}
+                            <input type="test" style="width:70%;"placeholder="Enter comma seperated values" class="serach_query" name="serach_query"/>
+                            <input type="submit" class="query-submit"/>
+                        </fSaveorm>
+                        <div class="load_options" >
+                            <i class="bi bi-star" style="margin-right: 2px;margin-top: 5px;"></i>
+                            <p style="margin-right: 10px;">save</p>
+                            <p style="margin-right: 10px;">Load</p>
+                            <i class="bi bi-share" style="margin-right: 2px;margin-top: 5px;"></i>
+                            <p style="margin-right: 10px;">share</p>
+                            <i class="bi bi-three-dots" style="margin-right: 2px;margin-top: 5px;"></i>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="message_count">
+                    <nav class="navbar navbar-expand-sm bg-dark fixed" style="height: 30px;">
+                        <div class="container-fluid">
+                          <ul class="navbar-nav">
+                            <li class="nav-item" style="color: white; margin-top: 5px;">
+                                <i class="bi bi-three-dots-vertical" ></i>
+                              </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Message Count</a>
+                              </li>
+                            
+                          </ul>
+                          <div class="right_side d-flex" style="color: white;font-size: small;">
+                            <i class="bi bi-dash-square" style="margin-right: 20px;"></i> 
+                            <i class="bi bi-gear icon" style="margin-right: 20px;"></i>
+                            <i class="bi bi-pencil icon"  style="margin-right: 20px;"></i>
+                            <i class="bi bi-caret-down-fill" ></i>
+
+                          </div>
+                        </div>
+                      </nav>
+                </div>
+                <hr>
+                <div class="bar-chart">
+                    <canvas id="myBarChart" height="200px" width="1500px"></canvas>
+                </div>
+                <hr>
+                <div class="graphs">
+                    <div class="row">
+                        <div class="col-md-4" style="font-size: small;">
+                            <nav class="navbar navbar-expand-sm bg-dark fixed" style="height: 30px;">
+                                <div class="container-fluid">
+                                  <ul class="navbar-nav">
+                                    <li class="nav-item" style="color: white; margin-top: 10px;">
+                                        <i class="bi bi-three-dots-vertical" ></i>
+                                      </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Count by facility</a>
+                                      </li>
+                                    
+                                  </ul>
+                                  <div class="right_side d-flex" style="color: white;font-size: small;">
+                                    <i class="bi bi-dash-square" style="margin-right: 20px;"></i> 
+                                    <i class="bi bi-gear icon" style="margin-right: 20px;"></i>
+                                    <i class="bi bi-pencil icon"  style="margin-right: 20px;"></i>
+                                    <i class="bi bi-caret-down-fill" ></i>
+        
+                                  </div>
+                                </div>
+                              </nav>
+                              <div class="container mt-5 text-center chart-container">
+                                <canvas id="myPieChart" height="200px" width="200px" style="margin: 0;"></canvas>
+                              </div>
+                        </div>
+                        <div class="col-md-8" style="font-size: small;">
+                            <nav class="navbar navbar-expand-sm bg-dark fixed" style="height: 30px;">
+                                <div class="container-fluid">
+                                  <ul class="navbar-nav">
+                                    <li class="nav-item" style="color: white; margin-top: 10px;">
+                                        <i class="bi bi-three-dots-vertical" ></i>
+                                      </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Aggregating count by application name</a>
+                                      </li>
+                                    
+                                  </ul>
+                                  <div class="right_side d-flex" style="color: white;font-size: small;">
+                                    <i class="bi bi-dash-square" style="margin-right: 20px;"></i> 
+                                    <i class="bi bi-gear icon" style="margin-right: 20px;"></i>
+                                    <i class="bi bi-pencil icon"  style="margin-right: 20px;"></i>
+                                    <i class="bi bi-caret-down-fill" ></i>
+        
+                                  </div>
+                                </div>
+                              </nav>
+                              <div class="graph">
+               
+                                <canvas id="myBarChart2" height="400px" width="1200px"></canvas>
+                            </div>
+                              
+                        </div>
+                    </div>
+                    <hr style="margin-top: 5px;">
+                    <div class="treminal">
+                        <nav class="navbar navbar-expand-sm bg-dark fixed" style="height: 30px;">
+                            <div class="container-fluid">
+                              <ul class="navbar-nav">
+                                <li class="nav-item" style="color: white; margin-top: 10px;">
+                                    <i class="bi bi-three-dots-vertical" ></i>
+                                  </li>
+                                
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Log.widget</a>
+                                  </li>
+                                
+                              </ul>
+                              <div class="right_side d-flex" style="color: white;font-size: small;">
+                                <i class="bi bi-dash-square" style="margin-right: 20px;"></i> 
+                                <i class="bi bi-gear icon" style="margin-right: 20px;"></i>
+                                <i class="bi bi-pencil icon"  style="margin-right: 20px;"></i>
+                                <i class="bi bi-caret-down-fill" ></i>
+    
+                              </div>
+                            </div>
+                          </nav>
+                          <div class="logs">
+                            <div class="row row-heading" style="height: 25px;"  >
+                                <div class="col-md-2">
+                                    <p>EventId</p>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>EventTemplate</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <p>Occurrences</p>
+                                </div>
+                            </div>
+                          
+                    <div class="scrollable-div" style="font-size: small;overflow-y: auto;">
+                          {% for row in data %}
+                        <div class="row terminal_logs ">
+                            <div class="col-md-2">
+                                <p>{{ row.EventId }}</p>
+                            </div>
+                        <div class="col-md-8">
+                            <p>{{ row.EventTemplate }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p>{{ row.Occurrences }}</p>
+                        </div>
+                        </div>
+                            {% endfor %}
+                    </div>
+                </div>
+
+                          <div class="logs">
+                            <!-- <table border="2">
+                                <thead>
+                                    <tr>
+                                        {% for columns in data.0.keys%}
+                                        <th>{{columns}}</th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                
+                                    {% for i in data%}
+                                    <tr>
+                                        {% for values in i.values %}
+                                        <td>{{values}}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                               
+                            </table> -->
+                          </div>
+                        <!-- <div class="logs">
+                            <div class="row" style="height: 25px;"  >
+                                <div class="col-md-2">
+                                    <p>timestamp</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>source</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>message</p>
+                                </div>
+                            </div>
+                            <div class="scrollable-div" style="font-size: small;overflow-y: auto;">
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                            <div class="row terminal_logs"  >
+                                <div class="col-md-2">
+                                    <p>123443</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>chekcing</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>listrning the music with ear phones</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    </div>
+                    
+                </div>
+
+            </div>
+            <input type="hidden" id="myVar" name="variable" value="{{ word_counts }}">
+            </div>
+        </div>
+        </div>
+        
+        
+        <script>
+            
+            var myVar = document.getElementById("myVar").value;
+            var len_words="words"
+            let labels = [];
+            let data2 = [];
+            if (myVar.length>1){
+                console.log("values are",myVar,typeof(myVar));
+                jsonString = myVar.replace(/'/g, '"').replace(/^\{|\}$/g, '');
+                console.log(jsonString)
+                let pairs = jsonString.split(',');
+
+        // Initialize arrays for labels and data
+               
+
+        // Step 3: Iterate over pairs to extract keys and values
+                pairs.forEach(pair => {
+                let [key, value] = pair.split(':');  // Split by colon
+                labels.push(key.replace(/"/g, '').trim());              // Trim and store key
+                data2.push(Number(value.trim()));      // Trim, convert to number, and store value
+                });
+            }
+            const ctx = document.getElementById('myBarChart').getContext('2d');
+            const myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels:labels,
+                    // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [{
+                        label:len_words,
+                        data:data2,
+                        // data: [65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40],
+                        backgroundColor: [
+                            '#eda93b',
+
+                        ],
+                        borderColor: [
+                            '#eda93b',
+                            
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            barPercentage: 0.8,
+                            categoryPercentage: 0.8
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            const ctx2 = document.getElementById('myBarChart2').getContext('2d');
+            const myBarChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [{
+                        label:'10 Minutes',
+                        data: [65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40],
+                        backgroundColor: [
+                            '#eda93b',
+
+                        ],
+                        borderColor: [
+                            '#eda93b',
+                            
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            barPercentage: 0.8,
+                            categoryPercentage: 0.8
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            const data = {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+      datasets: [{
+        label: 'My Dataset',
+        data: [12, 19, 3, 5, 2], // Values for each segment
+        backgroundColor: [
+          'rgba(255, 99, 132, 1)', // Red (solid)
+          'rgba(54, 162, 235, 1)', // Blue (solid)
+          'rgba(255, 206, 86, 1)', // Yellow (solid)
+          'rgba(75, 192, 192, 1)', // Green (solid)
+          'rgba(153, 102, 255, 1)'  // Purple (solid)
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)'
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    // Configuration options
+    const config = {
+      type: 'pie',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // Allows for manual height adjustment
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Data pie chart'
+          }
+        }
+      },
+    };
+
+    // Create the pie chart
+    const myPieChart = new Chart(
+      document.getElementById('myPieChart'),
+      config
+      );
+            </script>
+    </body>
+</html>

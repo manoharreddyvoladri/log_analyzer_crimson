@@ -1,0 +1,1482 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>Document</title>
+</head>
+<style>
+  .apexcharts-legend-marker{
+    margin-right: 8px !important;
+  }
+    .apexcharts-yaxis-label {
+      fill: #fff !important;
+    }
+    .apexcharts-xaxis-label {
+      fill: #fff !important;
+    }
+    *{
+        margin: 0px;
+        padding: 0px;
+        font-family: "Helvetica 55";
+      }
+      @font-face {
+          font-family: "Helvetica 55";
+          src: url("{% static '../static/HelveticaNeueLTStd-Roman.otf' %}" );
+      }
+    @font-face {
+        font-family: "ArrayRegular";
+        src: url("{% static '../static/Array-Regular.otf' %}")
+    }
+    .projectType::-webkit-scrollbar {
+        height: 7px;
+    }
+    .projectType::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+        box-shadow: inset 0px 4px 30.3px rgba(255, 255, 255, 0.4);
+    }
+    .projectType::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #ececec 0%, #dfd9da 100%);
+    }
+    .theBody::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #222222 0%, #272727 100%);
+    }
+    .theBody::-webkit-scrollbar {
+        width: 8px;
+    }
+    .theBody::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+    }
+    .theBody::-webkit-scrollbar-thumb {
+        background: #4c4c4d;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    }
+    .theBody{
+      overflow-x: hidden;
+    }
+    .otherContent{
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+    }
+    .anotherContent{
+        background-color: darkorange;
+        background-image: linear-gradient(
+            130deg,#1c18ff,
+            #00af20 41.07%,
+            #319197 76.05%
+        );
+    }
+    .asideContainer{
+        box-shadow: 0px 0px 7.3px 1px rgba(77, 32, 255, 0.25);
+    }
+    .asideItem:hover{
+        background-color: rgba(55, 48, 155, 0.25);
+        border-radius: 5px;
+        transition: 0.2s ease all;
+        cursor: pointer;
+    }
+    .title{
+        font-family: "ArrayRegular";
+    }
+    details {
+      width: 90%;
+      margin: 0 auto ;
+      background: #282828;
+      margin-bottom: .5rem;
+      box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    summary {
+      padding: 1rem;
+      display: block;
+      background: #333;
+      padding-left: 2.2rem;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    summary:before {
+      border-width: .4rem;
+      border-style: solid;
+      position: absolute;
+      top: 1.3rem;
+      left: 1rem;
+      transform: rotate(0);
+      transform-origin: .2rem 50%;
+      transition: .25s transform ease;
+    }
+
+    details[open] > summary:before {
+      transform: rotate(90deg);
+    }
+
+    details summary::-webkit-details-marker {
+      display:none;
+    }
+
+    details > p {
+      padding-bottom: 1rem;
+      margin-bottom: 0;
+    }
+  .wordContentBlock::-webkit-scrollbar-track-piece {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #222222 0%, #272727 100%);
+  }
+  .wordContentBlock::-webkit-scrollbar {
+      width: 8px;
+  }
+  .wordContentBlock::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+  }
+  .wordContentBlock::-webkit-scrollbar-thumb {
+      background: #4c4c4d;
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+  }
+  .addDetailsSummary{
+    top: 35%;
+  }
+
+  .addDataDetails{
+    width: 90%;
+    margin: 0 auto ;
+    background: none;
+    margin-bottom: 0rem;
+    box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .addDataDetails[open] > .addDetailsSummary{
+    top: 8%;
+  }
+
+  details summary::-webkit-details-marker {
+    display:none;
+  }
+
+  .addDetailsSummary{
+    padding: 0rem;
+    display: block;
+    background: none;
+    padding-left: 0rem;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+  .wordTitle{
+    padding: 1rem;
+    display: block;
+    background: #26293c;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+  .apexcharts-tooltip {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+  .apexcharts-line .apexcharts-tooltip {
+    width: 500px !important;
+}
+</style>
+<body class="theBody bg-[#1c152a]">
+    {% include 'includes/leftLogoutBtn.html' %}
+    {% include 'includes/topLogoutBtn.html' %}
+    {% include 'includes/dropdown.html' with inPage="predictions" %}
+    {% include 'includes/navbar.html' %}
+    {% include 'includes/sidebar.html' with inPage="result" %}
+    <div class="centerContent absolute top-[15%] left-[9%] xl:left-[16%] xl:top-[10%] w-[80%] z-[-30] text-white">
+        <div class="realContent">
+            <p class="text-[#E2E2E2] text-4xl title">File Upload</p>
+        </div>
+        <div class="mt-8 w-[100%]">
+            <form action="{% url 'Prediction_Task' user_name  'website' %}" method="post" enctype="multipart/form-data" class="w-full flex flex-col md:flex-row items-center justify-center gap-4 bg-[#23143a] p-6 rounded-lg shadow-lg border border-[#3a235a]">
+                {% csrf_token %}
+                <div class="flex flex-col md:flex-row items-center gap-4">
+                    <label class="mb-1 text-white font-semibold">Upload Log File</label>
+                    <label class="relative w-72 h-[40px] flex items-center cursor-pointer group">
+                        <input type="file" name="log_file" accept=".log,.txt" class="absolute inset-0 opacity-0 cursor-pointer z-10" required title="Upload your log file" placeholder="Upload your log file" onchange="this.form.submit()" />
+                        <span class="w-full h-full flex items-center justify-center rounded-lg text-white text-sm bg-gradient-to-r from-[#1f2937] to-[#3b82f6] border border-[#3b82f6] px-3 py-2 font-semibold shadow hover:brightness-125 transition-all">
+
+                            <svg class="mr-2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 16V4M12 16l-4-4m4 4l4-4"/><rect x="4" y="16" width="16" height="4" rx="2"/></svg>
+                            Choose File
+                        </span>
+                    </label>
+
+                    {% if uploaded_file_name %}
+                    <div class="mt-2 text-green-400 text-sm">File uploaded: <span class="font-semibold">{{ uploaded_file_name }}</span> <span class="ml-2 text-gray-400">({{ uploaded_file_type }})</span></div>
+                    {% endif %}
+                  </form>
+                    <form action="{% url 'Train_Model' user_name %}" method="post">
+                    {% csrf_token %}
+                        <button type="submit" class="flex items-center gap-2 bg-gradient-to-r from-[#3b82f6] to-[#1c18ff] hover:from-[#1c18ff] hover:to-[#3b82f6] text-white px-5 py-2.5 rounded-lg font-semibold shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                            ⚡ Train
+                        </button>
+                    </form>
+                </div>
+
+        </div>
+
+        {% if messages %}
+          <div class="mt-4 w-full text-center">
+            {% for message in messages %}
+              <div class="text-sm px-4 py-2 rounded font-semibold {% if message.tags == 'success' %}bg-green-600 text-white{% else %}bg-red-600 text-white{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if request.session.last_trained %}
+          <p class="text-white text-sm mt-2">🕒 Last Trained: {{ request.session.last_trained }}</p>
+        {% endif %}
+
+
+        {% if context.error_msg %}
+            <div class="mt-4 text-red-400 bg-[#2d1a1a] p-3 rounded text-center shadow">{{ context.error_msg }}</div>
+        {% endif %}
+        {% if context.forecast_table %}
+        <div class="mt-10 w-full flex flex-col items-center">
+            <h2 class="text-2xl font-bold mb-4 text-white flex items-center gap-2"><span>📅</span> Monthly Message Count <span class="text-[#49A84D]">(Actual + Predicted)</span></h2>
+            <div class="overflow-x-auto w-full max-w-2xl rounded-lg shadow-lg border border-[#3a235a]">
+                <table class="min-w-full bg-[#291A48] text-white rounded-lg text-center">
+                    <thead class="bg-gradient-to-r from-[#1c18ff] to-[#49A84D] text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-lg">Month</th>
+                            <th class="px-6 py-3 text-lg">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in context.forecast_table %}
+                        <tr class="hover:bg-[#3a235a] transition-all">
+                            <td class="border-b border-[#3a235a] px-6 py-3">{{ row.Month }}</td>
+                            <td class="border-b border-[#3a235a] px-6 py-3">{{ row.Count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+        {% if context.forecast_plot %}
+        <div class="mt-10 w-full flex flex-col items-center">
+            <h2 class="text-2xl font-bold mb-4 text-white flex items-center gap-2"><span>📈</span> Log Message Frequency Forecast</h2>
+            <div class="bg-white rounded-lg shadow-lg p-4 flex justify-center items-center" style="max-width: 650px; width: 100%;">
+                <img src="data:image/png;base64,{{ context.forecast_plot }}" alt="Forecast Plot" class="rounded-lg" style="width: 100%; max-width: 600px;" />
+            </div>
+        </div>
+        {% endif %}
+        <!-- Graph and user stats card removed as requested -->
+
+
+
+    </div>
+</body>
+<script>
+  let x="{{last_values}}"
+
+  let z="{{default_words}}"
+  let Count_data="{{Count_data}}"
+
+  if (x){
+    //console.log(x)
+
+    //console.log(z)
+    //console.log(Count_data)
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+  let changed_date='{{option_value}}'
+  if (changed_date){
+    var params = {
+    param1: changed_date,
+};
+  }
+  else{
+    var params = {
+    param1: "Today",
+};
+}
+    $.ajax({
+        url: '/Visualization_Loop',
+        method: 'GET',
+        data: params,
+
+        success: function(data) {
+
+          wholeData = data
+            console.log(data);
+            times = data
+            renderLineChart(data)
+            const lastValWords = document.querySelector(".lastValWords")
+            const lastValNums = document.querySelector(".lastValNums")
+
+            let lastX = []
+            let lastY = []
+
+            lastValWords.innerHTML = Object.values(Object.keys(data.last_values))
+            lastValNums.innerHTML = Object.values(Object.values(data.last_values))
+
+            lastValWords.innerHTML.split(",").forEach((lastValWord) => {
+              lastX.push(lastValWord.slice(0, lastValWord.length))
+            })
+
+            lastValNums.innerHTML.split(",").forEach((lastValWord) => {
+              lastY.push(Number(lastValWord))
+            })
+
+            const defaultWords = document.querySelector(".defaultWords")
+            const countDataItems = document.querySelector(".countDataItems")
+            const logLevelItems = document.querySelector(".logLevelItems")
+            const searchStringItems = document.querySelector(".searchStringItems")
+
+            renderBarGraphs(data, lastX, lastY)
+
+            if (document.querySelector("#bar-chart-charge").children.length > 1) {
+              document.querySelector("#bar-chart-charge").removeChild(document.querySelector("#bar-chart-charge").firstChild);
+            }
+            if (document.querySelector("#bar-chart-time").children.length > 1) {
+              document.querySelector("#bar-chart-time").removeChild(document.querySelector("#bar-chart-time").firstChild);
+            }
+            if (document.querySelector("#bar-chart-temperature").children.length > 1) {
+              document.querySelector("#bar-chart-temperature").removeChild(document.querySelector("#bar-chart-temperature").firstChild);
+            }
+        },
+        error: function(error) {
+            //console.error("error", error);
+        }
+    });
+
+
+    let previousValues;
+    let wholeData
+    let times;
+    let x_scale_values;
+    setInterval(function() {
+      let changed_date='{{option_value}}'
+      if (changed_date){
+        var params = {
+        param1: changed_date,
+    };
+      }
+      else{
+        var params = {
+        param1: "Today",
+    };
+  }
+        $.ajax({
+            url: '/Visualization_Loop',
+            method: 'GET',
+            data: params,
+
+            success: function(data) {
+
+              wholeData = data
+                console.log(data);
+                times = data
+                renderLineChart(data)
+                const lastValWords = document.querySelector(".lastValWords")
+                const lastValNums = document.querySelector(".lastValNums")
+
+                let lastX = []
+                let lastY = []
+
+                lastValWords.innerHTML = Object.values(Object.keys(data.last_values))
+                lastValNums.innerHTML = Object.values(Object.values(data.last_values))
+
+                lastValWords.innerHTML.split(",").forEach((lastValWord) => {
+                  lastX.push(lastValWord.slice(0, lastValWord.length))
+                })
+
+                lastValNums.innerHTML.split(",").forEach((lastValWord) => {
+                  lastY.push(Number(lastValWord))
+                })
+
+                const defaultWords = document.querySelector(".defaultWords")
+                const countDataItems = document.querySelector(".countDataItems")
+                const logLevelItems = document.querySelector(".logLevelItems")
+                const searchStringItems = document.querySelector(".searchStringItems")
+
+                renderBarGraphs(data, lastX, lastY)
+
+                if (document.querySelector("#bar-chart-charge").children.length > 1) {
+                  document.querySelector("#bar-chart-charge").removeChild(document.querySelector("#bar-chart-charge").firstChild);
+                }
+                if (document.querySelector("#bar-chart-time").children.length > 1) {
+                  document.querySelector("#bar-chart-time").removeChild(document.querySelector("#bar-chart-time").firstChild);
+                }
+                if (document.querySelector("#bar-chart-temperature").children.length > 1) {
+                  document.querySelector("#bar-chart-temperature").removeChild(document.querySelector("#bar-chart-temperature").firstChild);
+                }
+            },
+            error: function(error) {
+                //console.error("error", error);
+            }
+        });
+    }, 10000);
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  const wordContentBlock = document.querySelector(".wordContentBlock")
+
+  const infoBtn = document.querySelector(".infoBtn")
+  const infoPath = document.querySelector(".infoPath")
+  infoBtn.classList.add("bg-[#1c152a]")
+
+  const warningBtn = document.querySelector(".warningBtn")
+  const warningPath = document.querySelector(".warningPath")
+  warningBtn.classList.add("bg-[#1c152a]")
+
+  const criticalBtn = document.querySelector(".criticalBtn")
+  const criticalPath = document.querySelector(".criticalPath")
+  criticalBtn.classList.add("bg-[#1c152a]")
+
+  const closeBtn = document.querySelector(".closeBtn")
+
+  closeBtn.addEventListener("click", () => {
+    wordContentBlock.classList.add("hidden")
+
+    infoBtn.classList.add("bg-[#1c152a]")
+    infoBtn.classList.remove("bg-[#3B71CA]")
+    infoPath.setAttribute("fill", "#939393")
+
+    warningBtn.classList.add("bg-[#1c152a]")
+    warningBtn.classList.remove("bg-[#E4A11B]")
+    warningPath.setAttribute("fill", "#939393")
+
+    criticalBtn.classList.add("bg-[#1c152a]")
+    criticalBtn.classList.remove("bg-[#DC4C64]")
+    criticalPath.setAttribute("fill", "#939393")
+
+    healthBtn.classList.add("bg-[#1c152a]")
+    healthBtn.classList.remove("bg-[#14A44D]")
+    healthPath.setAttribute("fill", "#939393")
+  })
+
+  function callDjangoFunction(param1, param2) {
+      $.ajax({
+          url: "{% url 'Soring_Word_Wise' %}",  // URL pattern name
+          type: 'GET',
+          data: {
+              'param1': param1,
+              'param2': param2
+          },
+          success: function(response) {
+              //console.log('Success:', response);
+              if((param2 === "INFO")){
+                  infoBtn.classList.add("bg-[#3B71CA]")
+                  infoPath.setAttribute("fill", "#fff")
+
+                  warningBtn.classList.add("bg-[#1c152a]")
+                  warningBtn.classList.remove("bg-[#E4A11B]")
+                  warningPath.setAttribute("fill", "#939393")
+
+                  criticalBtn.classList.add("bg-[#1c152a]")
+                  criticalBtn.classList.remove("bg-[#DC4C64]")
+                  criticalPath.setAttribute("fill", "#939393")
+
+                  wordContentBlock.classList.remove("hidden")
+                  if(document.querySelector(".tag")){
+                      document.querySelectorAll(".tag").forEach((t) => {
+                          t.remove()
+                      })
+                  }
+                  for( let i=0; i<response.Requested_Data.length; ++i){
+                      const tag = document.createElement("p")
+                      tag.classList.add("tag")
+                      tag.classList.add("mt-2")
+                      tag.classList.add("text-white")
+                      tag.classList.add("mr-2")
+                      tag.classList.add("ml-2")
+                      tag.innerHTML = response.Requested_Data[i]
+                      wordContentBlock.appendChild(tag)
+                  }
+              }
+              else if((param2 === "WARNING")){
+                  warningBtn.classList.add("bg-[#E4A11B]")
+                  warningPath.setAttribute("fill", "#fff")
+
+                  infoBtn.classList.add("bg-[#1c152a]")
+                  infoBtn.classList.remove("bg-[#3B71CA]")
+                  infoPath.setAttribute("fill", "#939393")
+
+                  criticalBtn.classList.add("bg-[#1c152a]")
+                  criticalBtn.classList.remove("bg-[#DC4C64]")
+                  criticalPath.setAttribute("fill", "#939393")
+
+                  wordContentBlock.classList.remove("hidden")
+                  if(document.querySelector(".tag")){
+                      document.querySelectorAll(".tag").forEach((t) => {
+                          t.remove()
+                      })
+                  }
+                  for( let i=0; i<response.Requested_Data.length; ++i){
+                      const tag = document.createElement("p")
+                      tag.classList.add("tag")
+                      tag.classList.add("mt-2")
+                      tag.classList.add("text-white")
+                      tag.classList.add("mr-2")
+                      tag.classList.add("ml-2")
+                      tag.innerHTML = response.Requested_Data[i]
+                      wordContentBlock.appendChild(tag)
+                  }
+              }
+              else if((param2 === "ERROR")){
+                  criticalBtn.classList.add("bg-[#DC4C64]")
+                  criticalPath.setAttribute("fill", "#fff")
+
+                  infoBtn.classList.add("bg-[#1c152a]")
+                  infoBtn.classList.remove("bg-[#3B71CA]")
+                  infoPath.setAttribute("fill", "#939393")
+
+                  warningBtn.classList.add("bg-[#1c152a]")
+                  warningBtn.classList.remove("bg-[#E4A11B]")
+                  warningPath.setAttribute("fill", "#939393")
+
+                  wordContentBlock.classList.remove("hidden")
+                  if(document.querySelector(".tag")){
+                      document.querySelectorAll(".tag").forEach((t) => {
+                          t.remove()
+                      })
+                  }
+                  for( let i=0; i<response.Requested_Data.length; ++i){
+                      const tag = document.createElement("p")
+                      tag.classList.add("tag")
+                      tag.classList.add("mt-2")
+                      tag.classList.add("text-white")
+                      tag.classList.add("mr-2")
+                      tag.classList.add("ml-2")
+                      tag.innerHTML = response.Requested_Data[i]
+                      wordContentBlock.appendChild(tag)
+                  }
+              }
+          },
+          error: function(xhr, status, error) {
+              //console.error('Error:', error);
+          }
+      });
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    const lastVal = document.querySelector(".lastVal")
+    const barChartContainer = document.querySelector(".barChartContainer")
+
+    let lastValTimeXCords = []
+    let lastValTimeYCords = []
+
+    let lastValChargeXCords = []
+    let lastValChargeYCords = []
+
+    let lastValTemperatureXCords = []
+    let lastValTemperatureYCords = []
+
+    const defaultWords = document.querySelector(".defaultWords")
+    const countDataItems = document.querySelector(".countDataItems")
+    const logLevelItems = document.querySelector(".logLevelItems")
+    const searchStringItems = document.querySelector(".searchStringItems")
+    let defaultWordSeps = defaultWords.innerHTML.match(/\[([^\]]*)\]/g);
+    let lastVarSepNums = lastVal.innerHTML.slice(12, lastVal.innerHTML.length-2).match(/\d+/g)
+    let lastValSep = lastVal.innerHTML.slice(12, lastVal.innerHTML.length-2).match(/'([^']*)'/g)
+    let lastValYCods = []
+    let lastValXCods = []
+    let pieTitles = []
+    let pieNumsSeps = []
+    let countNums = 0
+    //console.log(countDataItems.innerHTML)
+    countDataItems.innerHTML.match(/'([^']*)'/g).forEach((item) => {
+      if(countNums%4 === 0){
+        pieTitles.push(item.slice(1, item.length - 1))
+      }
+      countNums++;
+    })
+    let nums = []
+    countDataItems.innerHTML.match(/\{([^}]*)\}/g).toString().match(/\d+/g).forEach((item) => {
+      pieNumsSeps.pop()
+      nums.push(Number(item))
+      //console.log(nums)
+      pieNumsSeps.push(nums)
+    })
+
+    lastValSep.forEach( (lastY) => {
+        lastValYCods.push(lastY.slice(1, lastY.length-1))
+    })
+    lastVarSepNums.forEach( (lastX) => {
+        lastValXCods.push(Number(lastX))
+    })
+
+    lastValYCods.forEach((xCord) => {
+      if(xCord.split(" ")[xCord.split(" ").length - 1] === "Remaining"){
+        lastValTimeYCords.push(xCord)
+        lastValTimeXCords.push(lastValXCods[lastValYCods.indexOf(xCord)])
+      }
+      else if(xCord.split(" ")[xCord.split(" ").length - 1] === "charge"){
+        lastValChargeYCords.push(xCord)
+        lastValChargeXCords.push(lastValXCods[lastValYCods.indexOf(xCord)])
+      }
+      else if(xCord.split(" ")[xCord.split(" ").length - 1] === "Temperature"){
+        lastValTemperatureYCords.push(xCord)
+        lastValTemperatureXCords.push(lastValXCods[lastValYCods.indexOf(xCord)])
+      }
+    })
+
+    console.log("lastValTimeYCords", lastValTimeYCords)
+    console.log("lastValTimeXCords", lastValTimeXCords)
+
+    console.log("lastValChargeYCords", lastValChargeYCords)
+    console.log("lastValChargeXCords", lastValChargeXCords)
+
+    console.log("lastValTemperatureYCords", lastValTemperatureYCords)
+    console.log("lastValTemperatureXCords", lastValTemperatureXCords)
+
+    let changingLastValXCords = []
+
+
+
+    for(let i=0; i<lastValYCods.length; ++i){
+      if (lastValYCods[i].split(" ")[lastValYCods[i].split(" ").length - 1] === "charge"){
+        changingLastValXCords.push(lastValYCods[i] + " (%)");
+      }
+      else if (lastValYCods[i].split(" ")[lastValYCods[i].split(" ").length - 1] === "Temperature") {
+        changingLastValXCords.push(lastValYCods[i] + " (°C)");
+      }
+      else{
+        changingLastValXCords.push(lastValYCods[i] + " (minutes)");
+      }
+    }
+
+    const chartConfigTemperature = {
+      series: [
+        {
+          name: "Value",
+          data: lastValTemperatureXCords,
+        },
+      ],
+      chart: {
+        type: "bar",
+        height: 240,
+        toolbar: {
+          show: false,
+        },
+      },
+      legend:{
+        show: true,
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          fontSize: '24px',
+          fontWeight: 'bold',
+        }
+      },
+      colors: [
+        function({ value, seriesIndex, w }) {
+          if (value <= 30) {
+            return '#22c55e'; // Green for values <= 30
+          } else if (value > 30 && value <= 60) {
+            return '#eab308'; // Yellow for values between 30 and 60
+          } else {
+            return '#ef4444'; // Red for values > 60
+          }
+        }
+      ],
+      plotOptions: {
+        bar: {
+          columnWidth: "40%",
+          borderRadius: 2,
+        },
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "14px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+          formatter: function (value) {
+            return `${value}(°C)`;
+          }
+        },
+        categories: lastValTemperatureYCords,
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "18px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: false,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    };
+
+  const chartTemperature = new ApexCharts(document.querySelector("#bar-chart-temperature"), chartConfigTemperature);
+  chartTemperature.render();
+
+  const chartConfigCharge = {
+  series: [
+    {
+      name: "Value",
+      data: lastValChargeXCords,
+    },
+  ],
+  chart: {
+    type: "bar",
+    height: 240,
+    toolbar: {
+      show: false,
+    },
+  },
+  title: {
+    show: "",
+  },
+  dataLabels: {
+    enabled: true,
+    style: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+    }
+  },
+  colors: [
+  function({ value, seriesIndex, w }) {
+    if (value <= 30) {
+      return '#22c55e'
+    }
+    else if((value > 30) && (value <= 60)){
+        return '#eab308'
+    }
+    else if((value > 60)){
+        return '#ef4444'
+    }
+  }
+  ],
+  plotOptions: {
+    bar: {
+      columnWidth: "40%",
+      borderRadius: 2,
+    },
+  },
+  xaxis: {
+    axisTicks: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "18px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+    categories: lastValChargeYCords,
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "18px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+  },
+  grid: {
+    show: false,
+    borderColor: "#dddddd",
+    strokeDashArray: 5,
+    xaxis: {
+      lines: {
+        show: true,
+      },
+    },
+    padding: {
+      top: 5,
+      right: 20,
+    },
+  },
+  fill: {
+    opacity: 0.8,
+  },
+  tooltip: {
+    theme: "dark",
+  },
+  };
+  const chartCharge = new ApexCharts(document.querySelector("#bar-chart-charge"), chartConfigCharge);
+  chartCharge.render();
+
+  const chartConfigTime = {
+  series: [
+    {
+      name: "Value",
+      data: lastValTimeXCords,
+    },
+  ],
+  chart: {
+    type: "bar",
+    height: 240,
+    toolbar: {
+      show: false,
+    },
+  },
+  title: {
+    show: "",
+  },
+  dataLabels: {
+    enabled: true,
+    style: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+    }
+  },
+  colors: [
+  function({ value, seriesIndex, w }) {
+    if (value <= 30) {
+      return '#22c55e'
+    }
+    else if((value > 30) && (value <= 60)){
+        return '#eab308'
+    }
+    else if((value > 60)){
+        return '#ef4444'
+    }
+  }
+  ],
+  plotOptions: {
+    bar: {
+      columnWidth: "40%",
+      borderRadius: 2,
+    },
+  },
+  xaxis: {
+    axisTicks: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "18px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+    categories: lastValTimeYCords,
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: "#616161",
+        fontSize: "18px",
+        fontFamily: "inherit",
+        fontWeight: 400,
+      },
+    },
+  },
+  grid: {
+    show: false,
+    borderColor: "#dddddd",
+    strokeDashArray: 5,
+    xaxis: {
+      lines: {
+        show: true,
+      },
+    },
+    padding: {
+      top: 5,
+      right: 20,
+    },
+  },
+  fill: {
+    opacity: 0.8,
+  },
+  tooltip: {
+    theme: "dark",
+  },
+  };
+  const chartTime = new ApexCharts(document.querySelector("#bar-chart-time"), chartConfigTime);
+  chartTime.render();
+
+
+function renderBarGraphs(data, lastX, lastY){
+
+  if(lastX.includes("Battery Time Remaining") === false){
+    document.querySelector(".timeBarChart").classList.add("hidden")
+  }
+  if(lastX.includes("Battery charge") === false){
+    document.querySelector(".chargeBarChart").classList.add("hidden")
+  }
+
+  let lastValTimeXCords = []
+  let lastValTimeYCords = []
+
+  let lastValChargeXCords = []
+  let lastValChargeYCords = []
+
+  let lastValTemperatureXCords = []
+  let lastValTemperatureYCords = []
+
+
+  console.log("lastX", lastX)
+  //console.log("lastY", lastY)
+  //console.log("rendering BAR GRAPH", Object.values(Object.keys(data.last_values))[i].split(" ")[Object.values(Object.keys(data.last_values))[i].split(" ").length - 1])
+
+  for(let i=0; i<lastX.length; ++i){
+    if(lastX[i].split(" ")[lastX[i].split(" ").length - 1] === "charge"){
+      lastValChargeYCords.push(lastX[i])
+      lastValChargeXCords.push(lastY[i])
+    }
+    else if(lastX[i].split(" ")[lastX[i].split(" ").length - 1] === "Temperature"){
+      lastValTemperatureYCords.push(lastX[i])
+      lastValTemperatureXCords.push(lastY[i])
+    }
+
+    else{
+      lastValTimeYCords.push(lastX[i])
+      lastValTimeXCords.push(lastY[i])
+    }
+  }
+
+    chartTemperature.updateSeries([{
+      data: lastValTemperatureXCords
+    }]);
+
+    chartTemperature.updateOptions({
+      xaxis: {
+        categories: lastValTemperatureYCords
+      }
+    });
+
+    chartCharge.updateSeries([{
+      data: lastValChargeXCords
+    }]);
+
+    chartCharge.updateOptions({
+      xaxis: {
+        categories: lastValChargeYCords
+      }
+    });
+
+    chartTime.updateSeries([{
+      data: lastValTimeXCords
+    }]);
+
+    chartTime.updateOptions({
+      xaxis: {
+        categories: lastValTimeYCords
+      }
+    });
+
+}
+
+
+
+  //console.log("rendering BAR GRAPH", Object.values(Object.values(data.last_values)))
+
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+  function renderLineChart(data){
+    //console.log("rendered", data)
+
+    let defaultNumsForLineChart = Object.values(Object.values(data.default_words))
+    let defaultWordsForLineChart = Object.values(Object.keys(data.default_words))
+
+      const lineCharts = document.querySelector(".lineCharts")
+      var lineChartID = []
+      for(let i=0; i<defaultNumsForLineChart.length; ++i){
+        //console.log("defaultNumsForLineChart", defaultNumsForLineChart)
+        //console.log("defaultWordsForLineChart", defaultWordsForLineChart)
+        let categories = Object.values(Object.values(data.x_scale_values))[i.toString()]
+        //console.log("categories", categories)
+        if(document.body.contains(document.querySelector(`.lineCharty${i}`))){
+          document.querySelector(`.lineCharty${i}`).remove()
+        }
+        const lineChartDivElement = `
+              <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md xl:w-[49%] w-full mt-9 lineCharty${i} border-2 border-blue-500">
+                <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                  <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                      class="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div class="flex justify-between items-center w-[100%] mr-5">
+                    <p class="block max-w-sm font-sans text-lg font-medium leading-normal text-white antialiased lineChartName">
+                      ${defaultWordsForLineChart[i]}
+                    </p>
+                    <div class="flex gap-x-2">
+                      <div class="flex justify-center items-center gap-x-1">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="5" cy="5" r="5" fill="#22C55E"/>
+                        </svg>
+                        <p class="text-white">0-30</p>
+                      </div>
+                      <div class="flex justify-center items-center gap-x-1">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="5" cy="5" r="5" fill="#eab308"/>
+                        </svg>
+                        <p class="text-white">30-60</p>
+                      </div>
+                      <div class="flex justify-center items-center gap-x-1">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="5" cy="5" r="5" fill="#ef4444"/>
+                        </svg>
+                        <p class="text-white">>60</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pt-6 px-2 pb-0">
+                  <div id="lineChart${i}"></div>
+                </div>
+              </div>
+        `
+
+        lineCharts.insertAdjacentHTML('beforeend', lineChartDivElement);
+        lineChartID.push(document.querySelector(`#lineChart${i}`))
+
+        const lineChartRenderer = new ApexCharts(lineChartID[i], {
+          series: [
+            {
+              data: defaultNumsForLineChart[i],
+            },
+          ],
+          chart: {
+            type: "line",
+            height: 240,
+            toolbar: {
+              show: false,
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          colors: ["#25aef3"],
+          stroke: {
+            lineCap: "round",
+            curve: "smooth",
+          },
+          markers: {
+            size: 5,
+            hover: {
+              sizeOffset: 3,
+            },
+            discrete: defaultNumsForLineChart[i].map((value, index) => {
+              let color;
+              if (value <= 30) {
+                color = "#00E396";
+              } else if (value > 30 && value <= 60) {
+                color = "#FEB019";
+              } else {
+                color = "#FF4560";
+              }
+              return {
+                seriesIndex: 0,
+                dataPointIndex: index,
+                fillColor: color,
+                strokeColor: color,
+                size: 5,
+              };
+            }),
+          },
+          grid: {
+            show: false,
+            borderColor: "#dddddd",
+            strokeDashArray: 5,
+            xaxis: {
+              lines: {
+                show: true,
+              },
+            },
+            padding: {
+              top: 5,
+              right: 20,
+            },
+          },
+          fill: {
+            opacity: 0.8,
+          },
+          tooltip: {
+            theme: "dark",
+            x: {
+              formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                const currentValue = defaultNumsForLineChart[i][dataPointIndex];
+                //console.log("defaultWordsForLineChart[i]", defaultWordsForLineChart[i]);
+                currentNameOfChart = currentValue;
+                return `${times.Time_Values[defaultWordsForLineChart[i]][dataPointIndex]} Value: ${currentValue}`;
+              },
+            },
+            y: {
+              formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+                //console.log("value", value);
+                let contentBefore = '';
+                let contentAfter = '';
+                if (value > 30) {
+                  if (times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]].length === 9) {
+                    for (let x = 0; x < 4; x++) {
+                      contentBefore += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    for (let x = 5; x < 9; x++) {
+                      contentAfter += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    return `
+                    <br>
+                    <strong>Before</strong>
+                    <br>
+                    ${contentBefore}
+                    <br>
+                    <strong>Present</strong>
+                    <br>
+                    <p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][4]}</p>
+                    <br>
+                    <strong>After</strong>
+                    <br>
+                    ${contentAfter}
+                  `;
+                  } else if (times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]].length === 5) {
+                    for (let x = 0; x < 4; x++) {
+                      contentBefore += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    return `
+                    <br>
+                    <strong>Before</strong>
+                    <br>
+                    ${contentBefore}
+                    <br>
+                    <strong>Present</strong>
+                    <br>
+                    <p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][4]}</p>
+                  `;
+                  } else {
+                    for (let x = 0; x < times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]].length; x++) {
+                      contentBefore += `<p class='mt-1'>${times.log_data[defaultWordsForLineChart[i]][dataPointIndex][defaultNumsForLineChart[i][dataPointIndex]][x]}</p>`;
+                    }
+                    return `
+                    <br>
+                    <strong>All Logs</strong>
+                    <br>
+                    ${contentBefore}
+                    <br>
+                  `;
+                  }
+                } else {
+                  return `
+                    <strong>${value}</strong>
+                  `;
+                }
+              },
+            },
+          },
+        });
+
+        lineChartRenderer.render();
+
+        let yAxisTitle = defaultWordsForLineChart[i].split(" ").slice(-1)[0] === "charge"
+        ? "Percentage(%)"
+        : (defaultWordsForLineChart[i].split(" ").slice(-1)[0] === "Temperature") ? "Celsius(°C)" : "Minutes"
+
+        function zoomOutChart(){
+          lineChartRenderer.updateOptions({
+            xaxis: {
+              min: undefined,
+              max: undefined,
+              type: 'category',
+              axisTicks: {
+                show: false,
+              },
+              axisBorder: {
+                show: false,
+              },
+              title: {
+                text: `${defaultWordsForLineChart[i]} - Date and Time`,
+                style: {
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                },
+              },
+              categories: categories
+            },
+            yaxis: {
+              min: undefined,
+              max: undefined,
+              title: {
+                text: yAxisTitle,
+                style: {
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                },
+              },
+            }
+          });
+        }
+        setTimeout(zoomOutChart, 1);
+      }
+    }
+
+
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+  const pieCharts = document.querySelector(".pieCharts")
+  var pieChartID = []
+  var pieChartConfig = []
+  var username = "{{ user_name }}".replace(" ", "%20")
+  for (var i = 0; i < pieTitles.length; ++i) {
+    const chartDivElement = `
+      <div class="relative flex flex-col rounded-xl bg-[#26293c] bg-clip-border text-gray-700 shadow-md mt-9 w-full border-2 border-blue-500 h-full">
+            <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+              <div class="w-max rounded-lg bg-gray-900 p-5 text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                  class="h-6 w-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-white">Substring: ${pieTitles[i]}</p>
+              </div>
+            </div>
+            <div class="py-6 mt-4 grid place-items-center px-2">
+              <div id="${"pieChartID"+i}"></div>
+            </div>
+          </div>
+    `
+    pieCharts.insertAdjacentHTML('beforeend', chartDivElement);
+    pieChartID.push(document.querySelector(`#pieChartID${i}`))
+
+
+    const pieChartConfig = {
+      series: pieNumsSeps[i],
+      chart: {
+        type: "pie",
+        events: {
+          dataPointSelection: function(event, chartContext, config) {
+            var selectedDataIndex = config.dataPointIndex;
+            var urls = [
+                `http://127.0.0.1:8000/All_Data/${username}`,
+                `http://127.0.0.1:8000/Show_Warning/${username}`,
+                `http://127.0.0.1:8000/Show_Errors/${username}`
+            ];
+            if (urls[selectedDataIndex]) {
+                window.location.href = urls[selectedDataIndex];
+            }
+          }
+        },
+        width: 280,
+        height: 280,
+        toolbar: {
+          show: false,
+        }
+      },
+      labels: ["Info", "Warning", "Error"],
+      title: {
+        show: "",
+      },
+      plotOptions: {
+        pie: {
+          labels: {
+            show: true,
+            offset: -25,
+            minAngleToShowLabel: 10
+          },
+          size: "100%",
+          dataLabels: {
+            offset: -25
+          }
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val, opts) {
+          return opts.w.config.series[opts.seriesIndex];
+        },
+        style: {
+          fontFamily: "Inter, sans-serif",
+          fontSize: "14px",
+          fontWeight: "bold",
+          colors: ["#fff"]
+        },
+      },
+      colors: ["#020617", "#ff8f00", "#e84c3d"],
+      legend: {
+        show: true,
+        position: "bottom",
+        fontFamily: "Inter, sans-serif",
+        labels: {
+          colors: "#fff",
+        }
+      }
+    };
+
+
+    const pieChart = new ApexCharts(pieChartID[i], pieChartConfig)
+    pieChart.render()
+  }
+</script>
+
+
+<script>
+
+const options = {
+  chart: {
+    height: "100%",
+    maxWidth: "100%",
+    type: "area",
+    fontFamily: "Inter, sans-serif",
+    dropShadow: {
+      enabled: false,
+    },
+    toolbar: {
+      show: false,
+    },
+  },
+  tooltip: {
+    enabled: true,
+    x: {
+      show: false,
+    },
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      opacityFrom: 0.55,
+      opacityTo: 0,
+      shade: "#1C64F2",
+      gradientToColors: ["#1C64F2"],
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    width: 6,
+  },
+  grid: {
+    show: false,
+    strokeDashArray: 4,
+    padding: {
+      left: 2,
+      right: 2,
+      top: 0
+    },
+  },
+  series: [
+    {
+      name: "New users",
+      data: [6500, 6418, 6456, 6526, 6356, 6456],
+      color: "#1A56DB",
+    },
+  ],
+  xaxis: {
+    categories: ['01 February', '02 February', '03 February', '04 February', '05 February', '06 February', '07 February'],
+    labels: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+  },
+  yaxis: {
+    show: false,
+  },
+}
+
+if (document.getElementById("area-chart") && typeof ApexCharts !== 'undefined') {
+  const chart = new ApexCharts(document.getElementById("area-chart"), options);
+  chart.render();
+}
+
+
+</script>
+</html>

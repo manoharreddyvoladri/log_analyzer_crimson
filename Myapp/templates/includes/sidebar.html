@@ -1,0 +1,66 @@
+{% comment %}
+  This single component creates:
+  1. A responsive, off-canvas sidebar for mobile/tablet.
+  2. A fixed, visible sidebar for desktop (lg screens and up).
+  It's controlled by a little bit of JavaScript to toggle the 'is-open' state.
+{% endcomment %}
+
+<div id="sidebar-backdrop" class="fixed inset-0 bg-black/60 z-30 lg:hidden hidden"></div>
+
+<aside id="application-sidebar" class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full lg:translate-x-0 border-r border-gray-700 bg-[#26293c]">
+    <div class="flex flex-col h-full">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-700">
+            <a href="{% url 'Dashboard' user_name %}" class="flex items-center gap-x-2">
+                <svg width="24" height="24" viewBox="0 0 191 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M32.672 6.792H30.736C30.6293 6.536 30.4693 6.25867 30.256 5.96C30.0427 5.65067 29.776 5.36267 29.456 5.096C29.136 4.82933 28.7573 4.60533 28.32 4.424C27.8933 4.24267 27.408 4.152 26.864 4.152C26.2773 4.152 25.712 4.26933 25.168 4.504C24.6347 4.728 24.16 5.00533 23.744 5.424C23.3387 5.84267 23.0027 6.36267 22.736 6.984C22.4693 7.59467 22.336 8.264 22.336 8.992C22.336 9.72 22.4693 10.3893 22.736 11C23.0027 11.6107 23.3387 12.1253 23.744 12.544C24.16 12.9627 24.6347 13.2427 25.168 13.464C25.712 13.6853 26.2773 13.792 26.864 13.792C27.408 13.792 27.8933 13.7013 28.32 13.52C28.7573 13.3387 29.136 13.1147 29.456 12.848C29.776 12.5813 30.0427 12.2933 30.256 11.984C30.4693 11.6747 30.6293 11.3973 30.736 11.152H32.672C32.48 11.8827 32.128 12.544 31.616 13.136C31.104 13.728 30.4693 14.224 29.712 14.624C28.9547 15.0133 28.0853 15.208 27.104 15.208C26.1547 15.208 25.2907 15.0187 24.512 14.64C23.744 14.2613 23.0987 13.7547 22.576 13.12C22.0533 12.4853 21.664 11.7547 21.408 10.928C21.152 10.1013 21.024 9.20533 21.024 8.24C21.024 7.27467 21.152 6.384 21.408 5.568C21.664 4.74133 22.0533 4.01067 22.576 3.376C23.0987 2.74133 23.744 2.23467 24.512 1.856C25.2907 1.47733 26.1547 1.288 27.104 1.288C28.0853 1.288 28.9547 1.48267 29.712 1.872C30.4693 2.26133 31.104 2.75733 31.616 3.36C32.128 3.96267 32.48 4.632 32.672 5.368V6.792Z" fill="#FBFBFB"></path>
+                    <path d="M41.7779 1.512H35.8259V15H41.7779V10.248H38.5059V8.616H41.7779V3.88H38.5059V2.44H41.7779V1.512Z" fill="#FBFBFB"></path>
+                    <path d="M47.7918 1.512H44.4958V15H47.7918V1.512Z" fill="#FBFBFB"></path>
+
+                    <path d="M57.9422 1.512H55.0942L51.3662 8.448V1.512H48.1102V15H51.0142L54.7582 7.968V15H57.9422V1.512Z" fill="#FBFBFB"></path>
+                    <path d="M190.222 10.936C190.222 12.16 189.27 13.12 188.078 13.12C186.886 13.12 185.934 12.16 185.934 10.936C185.934 9.712 186.886 8.752 188.078 8.752C189.27 8.752 190.222 9.712 190.222 10.936ZM188.078 0C182.95 0 178.822 4.128 178.822 9.256C178.822 14.384 182.95 18.512 188.078 18.512C193.206 18.512 197.334 14.384 197.334 9.256C197.334 4.128 193.206 0 188.078 0Z" fill="#5A36EC"></path>
+                </svg>
+                <span class="text-xl font-semibold text-white">Crimson</span>
+            </a>
+            <button type="button" id="sidebar-close-btn" class="text-gray-400 hover:text-white lg:hidden">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <nav class="flex-1 px-4 py-4 space-y-2">
+            <a href="{% url 'Dashboard' user_name %}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700/50 hover:text-white group">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                Dashboard
+            </a>
+            <a href="{% url 'Get_Strings_Logs' user_name %}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700/50 hover:text-white group">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm3.5 1a.5.5 0 000 1h5a.5.5 0 000-1h-5zM6 8a.5.5 0 01.5-.5h8a.5.5 0 010 1h-8A.5.5 0 016 8zm-1.5 3a.5.5 0 000 1h11a.5.5 0 000-1h-11z" clip-rule="evenodd" /></svg>
+                Logs
+            </a>
+            <a href="{% url 'Healthy' user_name %}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700/50 hover:text-white group">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>
+                Health
+            </a>
+            <a href="{% url 'Visualization_Task' user_name 'default' %}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700/50 hover:text-white group">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm6-4a1 1 0 10-2 0v4a1 1 0 102 0V6zm6 2a1 1 0 10-2 0v2a1 1 0 102 0V8z" /></svg>
+                Visualization
+            </a>
+            <a href="{% url 'Prediction_Task' user_name 'default' %}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700/50 hover:text-white group">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.343a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 14.95a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1zM4.343 5.343a1 1 0 001.414 1.414l.707-.707a1 1 0 00-1.414-1.414l-.707.707zM2 10a1 1 0 011-1h1a1 1 0 110 2H3a1 1 0 01-1-1zm7-7a1 1 0 00-2 0v1a1 1 0 102 0V3z" /></svg>
+                Prediction
+            </a>
+        </nav>
+
+        <div class="px-6 py-4 mt-auto border-t border-gray-700">
+            <div class="flex items-center">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://ui-avatars.com/api/?name={{user_name|slice:':1' }}&background=5A36EC&color=fff&bold=true" alt="User Avatar">
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-white">{{ user_name }}</p>
+                    <a href="{% url 'User_Logout' %}" class="text-xs font-medium text-red-400 hover:text-red-300">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>

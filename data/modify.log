@@ -1,0 +1,305 @@
+2025-02-07 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-07 07:02:22,587 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-07 01:30:53,508 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-07 02:48:38,873 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-08 19:43:37,441 - ERROR [MainThread] - High temperature detected.
+2025-02-08 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-09 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-09 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-09 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-09 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-09 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-09 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-02-09 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-09 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-09 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-10 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-10 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-10 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-11 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-11 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-02-11 20:11:21,486 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-02-11 05:48:13,474 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-12 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-12 18:35:15,128 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-02-14 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-14 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-14 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-15 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-15 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-15 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-19 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-19 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-19 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-02-19 20:11:21,486 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-02-21 19:48:13,474 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-21 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-21 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-24 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-24 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-24 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-24 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-25 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-02-25 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-25 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-25 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-25 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-26 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-26 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-26 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-02-26 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-26 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-02-27 18:35:15,128 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-02-27 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-27 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-27 20:11:21,486 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-02-27 19:48:13,474 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-28 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-28 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-28 18:35:15,128 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-02-28 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-28 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-02-28 20:11:21,486 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-02-28 19:48:13,474 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-28 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-02-28 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-04 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-04 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-05 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-05 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-06 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-06 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-08 07:02:22,587 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-08 01:30:53,508 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-08 02:48:38,873 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-08 19:43:37,441 - ERROR [MainThread] - High temperature detected.
+2025-03-08 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-09 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-09 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-09 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-09 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-09 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-09 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-09 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-09 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-09 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-10 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-10 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-10 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-11 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-11 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-11 20:11:21,486 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-11 05:48:13,474 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-12 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-12 18:35:15,128 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-03-12 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-14 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-14 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-14 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-15 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-15 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-15 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-19 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-19 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-19 20:11:21,486 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-19 19:48:13,474 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-21 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-21 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-21 18:35:15,128 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-03-24 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-24 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-24 20:11:21,486 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-24 19:48:13,474 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-25 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-25 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-25 18:35:15,128 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-03-25 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-25 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-26 20:11:21,486 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-26 19:48:13,474 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-26 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-26 13:39:42,884 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-26 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-27 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-27 23:34:18,272 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-03-27 20:21:05,848 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-27 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-28 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-28 18:35:15,128 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-03-28 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-03-28 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-28 13:23:30,820 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-28 03:49:29,126 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-03-28 11:32:44,846 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-03-28 06:20:34,514 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-04 04:29:42,945 - ERROR [MainThread] - High temperature detected.
+2025-04-04 13:39:42,884 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-04-05 19:36:42,221 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-04-05 02:05:05,258 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-06 23:34:18,272 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-04-06 20:21:05,848 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-04-08 07:02:22,587 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-04-08 01:30:53,508 - ERROR [MainThread] - High temperature detected.
+2025-04-08 02:48:38,873 - ERROR [MainThread] - High temperature detected.
+2025-04-08 19:43:37,441 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-08 04:29:42,945 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-04-09 13:39:42,884 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-04-09 19:36:42,221 - ERROR [MainThread] - High temperature detected.
+2025-04-09 02:05:05,258 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-09 23:34:18,272 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-04-09 20:21:05,848 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-04-09 16:30:52,912 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-04-09 05:00:59,422 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-09 04:29:42,945 - ERROR [MainThread] - High temperature detected.
+2025-04-09 13:39:42,884 - ERROR [MainThread] - High temperature detected.
+2025-04-10 19:36:42,221 - ERROR [MainThread] - High temperature detected.
+2025-04-10 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-04-10 23:34:18,272 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-04-11 20:21:05,848 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-11 16:30:52,912 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-11 20:11:21,486 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-04-11 05:48:13,474 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-04-12 16:30:52,912 - ERROR [MainThread] - High temperature detected.
+2025-04-12 18:35:15,128 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-04-12 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-04-14 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-04-14 04:29:42,945 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-04-14 13:39:42,884 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-04-15 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-15 02:05:05,258 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-15 23:34:18,272 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-04-19 20:21:05,848 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-04-19 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-04-19 20:11:21,486 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-04-19 19:48:13,474 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-04-21 17:15:27,398 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-21 17:15:27,398 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-04-21 18:35:15,128 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-24 05:30:41,776 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-24 05:00:59,422 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-04-24 20:11:21,486 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-04-24 19:48:13,474 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-04-25 17:15:27,398 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-04-25 17:15:27,398 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-04-25 18:35:15,128 - ERROR [MainThread] - High temperature detected.
+2025-04-25 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-04-25 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-04-26 20:11:21,486 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-04-26 19:48:13,474 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-04-26 04:29:42,945 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-04-26 13:39:42,884 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-04-26 19:36:42,221 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-27 02:05:05,258 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-04-27 23:34:18,272 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-04-27 20:21:05,848 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-27 16:30:52,912 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-28 17:15:27,398 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-04-28 18:35:15,128 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-04-28 17:15:27,398 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-04-28 05:30:41,776 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-04-28 13:23:30,820 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-04-28 03:49:29,126 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-04-28 11:32:44,846 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-04-28 06:20:34,514 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-04 04:29:42,945 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-04 13:39:42,884 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-05 19:36:42,221 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-05 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-06 23:34:18,272 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-06 20:21:05,848 - ERROR [MainThread] - High temperature detected.
+2025-05-08 07:02:22,587 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-08 01:30:53,508 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-08 02:48:38,873 - ERROR [MainThread] - High temperature detected.
+2025-05-08 19:43:37,441 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-08 04:29:42,945 - ERROR [MainThread] - High temperature detected.
+2025-05-09 13:39:42,884 - ERROR [MainThread] - High temperature detected.
+2025-05-09 19:36:42,221 - ERROR [MainThread] - High temperature detected.
+2025-05-09 02:05:05,258 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-09 23:34:18,272 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-09 20:21:05,848 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-09 16:30:52,912 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-09 05:00:59,422 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-09 04:29:42,945 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-09 13:39:42,884 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-10 19:36:42,221 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-10 02:05:05,258 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-10 23:34:18,272 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-05-11 20:21:05,848 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-11 16:30:52,912 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-11 20:11:21,486 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-11 05:48:13,474 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-12 16:30:52,912 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-12 18:35:15,128 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-12 05:30:41,776 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-14 05:00:59,422 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-05-14 04:29:42,945 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-14 13:39:42,884 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-15 19:36:42,221 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-15 02:05:05,258 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-15 23:34:18,272 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-19 20:21:05,848 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-19 16:30:52,912 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-05-19 20:11:21,486 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-19 19:48:13,474 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-05-21 17:15:27,398 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-21 17:15:27,398 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-21 18:35:15,128 - ERROR [MainThread] - High temperature detected.
+2025-05-24 05:30:41,776 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-05-24 05:00:59,422 - ERROR [MainThread] - High temperature detected.
+2025-05-24 20:11:21,486 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-24 19:48:13,474 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-25 17:15:27,398 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-25 17:15:27,398 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-25 18:35:15,128 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-25 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-25 05:00:59,422 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-26 20:11:21,486 - ERROR [MainThread] - High temperature detected.
+2025-05-26 19:48:13,474 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-26 04:29:42,945 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-26 13:39:42,884 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-26 19:36:42,221 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-27 02:05:05,258 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-27 23:34:18,272 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-27 20:21:05,848 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-05-27 16:30:52,912 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-28 17:15:27,398 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-28 18:35:15,128 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-05-28 17:15:27,398 - ERROR [MainThread] - High temperature detected.
+2025-05-28 05:30:41,776 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-28 13:23:30,820 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-28 03:49:29,126 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-28 11:32:44,846 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-28 06:20:34,514 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-29 07:32:13,280 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-29 04:39:04,860 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-29 11:50:38,171 - ERROR [MainThread] - High temperature detected.
+2025-05-29 15:36:55,185 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-29 21:10:15,580 - ERROR [LearnerHandler-/10.10.34.11:52476:LearnerHandler@575] - ******* GOODBYE /10.10.34.11:52476 ********
+2025-05-29 16:28:13,892 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-05-29 05:55:09,863 - ERROR [RecvWorker:188978561024:QuorumCnxManager$RecvWorker@762] - Connection broken for id 188978561024, my id = 3, error =
+2025-05-30 23:31:52,247 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-05-30 09:14:20,131 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-30 18:45:45,373 - ERROR [MainThread] - High temperature detected.
+2025-05-30 12:41:22,023 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-30 03:09:12,850 - ERROR [MainThread] - High temperature detected.
+2025-03-07 19:43:37,441 - ERROR [MainThread] - Low temperature detected.
+2025-03-07 19:46:37,441 - ERROR [MainThread] - Low temperature detected.
+2025-03-07 19:43:37,441 - ERROR [MainThread] - Low temperature detected.
+2025-03-07 19:43:37,441 - ERROR [MainThread] - Low temperature detected.
+2025-05-30 21:34:00,543 - ERROR [/10.10.34.13:3888:QuorumCnxManager$Listener@493] - Received connection request /10.10.34.13:45309
+2025-05-30 08:25:01,784 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-30 09:43:23,473 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-30 18:51:41,774 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-30 01:12:06,656 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-05-30 06:35:06,338 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-06-03 08:28:23,415 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-06-03 13:23:30,820 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-06-05 03:49:29,126 - ERROR [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@476] - Processed session termination for sessionid: 0x24f0557806a0010
+2025-06-05 11:32:44,846 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-06-05 06:20:34,514 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-06-06 07:02:22,587 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open
+2025-06-06 01:30:53,508 - ERROR [SessionTracker:ZooKeeperServer@325] - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded
+2025-06-06 02:48:38,873 - ERROR [SendWorker:188978561024:QuorumCnxManager$SendWorker@688] - Send worker leaving thread
+2025-06-07 19:43:37,441 - ERROR [MainThread] - Low temperature detected.
+
+2025-06-07 09:43:23,473 - ERROR [LearnerHandler-/10.10.34.12:59480:LearnerHandler@562] - Unexpected exception causing shutdown while sock still open

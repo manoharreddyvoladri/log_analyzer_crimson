@@ -1,0 +1,6 @@
+Month,ERROR - ******* GOODBYE /10.10.34.11:52476 ********,"ERROR - Connection broken for id 188978561024, my id = 3, error =","ERROR - Expiring session 0x14f05578bd80006, timeout of 10000ms exceeded",ERROR - High temperature detected.,ERROR - Low temperature detected.,ERROR - Processed session termination for sessionid: 0x24f0557806a0010,ERROR - Received connection request /10.10.34.13:45309,ERROR - Send worker leaving thread,ERROR - Unexpected exception causing shutdown while sock still open
+2025-02,0,3,23,1,0,9,0,13,16
+2025-03,0,4,22,1,4,11,0,15,16
+2025-04,5,6,15,9,0,10,9,9,6
+2025-05,10,10,7,12,0,9,11,12,16
+2025-06,0,0,3,0,1,2,0,2,2
