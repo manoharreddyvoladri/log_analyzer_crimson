@@ -37,6 +37,8 @@ urlpatterns=[
     # path('debug-session/', views.debug_session, name='debug_session'),
     # path('clear-session/', views.clear_session, name='clear_session'),
     path('Show_Info/<str:user_name>', views.Show_Info, name='Show_Info'),
+    path('logout/', views.user_logout, name='user_logout'),
+
 
     
     

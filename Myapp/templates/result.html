@@ -23,6 +23,8 @@
     {% include 'includes/dropdown.html' with inPage="result" %}
     {% include 'includes/navbar.html' %}
     {% include 'includes/sidebar.html' with inPage="result" %}
+    {% include 'includes/sidebar.html' with user_name=user_name %}
+
 
     <div class="centerContent absolute top-[15%] left-[9%] xl:left-[16%] xl:top-[10%] w-[80%] z-[-30] text-white">
         <div class="realContent">
@@ -33,12 +35,13 @@
             <div class="flex flex-col lg:flex-row gap-8">
 
                 <div class="flex-1 bg-[#23203a] rounded-2xl shadow-lg p-8 border border-[#3a3655] flex flex-col items-center">
-                    <h2 class="text-xl font-bold text-white mb-3">File Prediction</h2>
+                    <!-- <h2 class="text-xl font-bold text-white mb-3">File Prediction</h2>
                     <p class="text-gray-400 text-center mb-5 text-sm">Upload a new log file to train the model.</p>
                     <a href="{% url 'Prediction_Task' user_name 'website' %}" class="w-full text-center bg-[#49A84D] cursor-pointer text-white font-semibold transition-all hover:bg-[#267a2e] text-sm py-3 px-8 rounded-lg border-none shadow-lg">
                         Upload new file
                     </a>
-                    <hr class="border-gray-600 my-6 w-full">
+                    <hr class="border-gray-600 my-6 w-full"> -->
+                    <h2 class="text-xl font-bold text-white mb-3">                  </h2>
                     <h2 class="text-xl font-bold text-white mb-3">Overall Error Forecast</h2>
                     <p class="text-gray-400 text-center mb-5 text-sm">View the forecast for all combined ERROR messages.</p>
                     <button id="show-combined-error-btn" class="w-full text-center bg-blue-600 cursor-pointer text-white font-semibold transition-all hover:bg-blue-700 text-sm py-3 px-8 rounded-lg border-none shadow-lg">

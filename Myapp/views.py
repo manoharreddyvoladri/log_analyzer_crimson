@@ -688,21 +688,31 @@ def Register(request):
     return render(request,'createAccount.html')
 
 def User_Login(request):
-    request.session['csv_data']=""
-    if request.method=='POST':
-        User_Email=request.POST['email']
-        Password=request.POST['password']
-        request.session['user_email']=User_Email
-        ###print(User_Email,Password)
-        User_Details=User_Register.objects.filter(Email=User_Email,Password=Password).values()
+    request.session['csv_data'] = ""
+    if request.method == 'POST':
+        User_Email = request.POST['email']
+        Password = request.POST['password']
+        request.session['user_email'] = User_Email
+
+        # Fetch user details
+        User_Details = User_Register.objects.filter(Email=User_Email, Password=Password).values()
+        
         if User_Details:
-            return redirect(reverse('Dashboard',kwargs={'user_name':User_Details[0]['Name']}))
+            username = User_Details[0]['Name']  # ✅ get the username correctly
+            return redirect('Prediction_Task', user_name=username, calling_request='forecast')  # ✅ use correct variable
         else:
-            return render(request,'login.html',{"message":"credentials are wrong! "})
-    # return render(request,'Login_Page.html')
-    return render(request,'login.html')
+            return render(request, 'login.html', {"message": "Credentials are wrong!"})
+
+    return render(request, 'login.html')
 
 
+
+from django.shortcuts import redirect
+from django.contrib.auth import logout
+
+def user_logout(request):
+    logout(request)
+    return redirect('User_Login')
 # In your views.py file
 
 def Dashboard(request, user_name):
