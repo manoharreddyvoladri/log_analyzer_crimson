@@ -209,6 +209,15 @@
     {% include 'includes/navbar.html' %}
     {% include 'includes/sidebar.html' with inPage="result" %}
     <div class="centerContent absolute top-[15%] left-[9%] xl:left-[16%] xl:top-[10%] w-[80%] z-[-30] text-white">
+        <div class="realContent w-full flex flex-col items-center">
+            {% if greeting %}
+            <h1 class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-4">
+                {{ greeting }} 
+            </h1>
+            {% endif %}
+            <p class="text-[#E2E2E2] text-4xl title mt-2">              </p>
+
+        </div>
         <div class="realContent">
             <p class="text-[#E2E2E2] text-4xl title">File Upload</p>
         </div>
@@ -251,7 +260,7 @@
         {% endif %}
 
         {% if request.session.last_trained %}
-          <p class="text-white text-sm mt-2">🕒 Last Trained: {{ request.session.last_trained }}</p>
+          <p class="text-white text-sm mt-2 text-center">🕒 Last Trained: {{ request.session.last_trained }}</p>
         {% endif %}
 
 
@@ -289,11 +298,7 @@
             </div>
         </div>
         {% endif %}
-        <!-- Graph and user stats card removed as requested -->
-
-
-
-    </div>
+        </div>
 </body>
 <script>
   let x="{{last_values}}"
@@ -952,7 +957,7 @@
     theme: "dark",
   },
   };
-  const chartTime = new ApexCharts(document.querySelector("#bar-chart-time"), chartConfigTime);
+  const chartTime = new ApexCharts(document.querySelector("#bar-chart-time"), chartTime);
   chartTime.render();
 
 

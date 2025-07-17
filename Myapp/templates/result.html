@@ -90,34 +90,41 @@
 
 
         {% if forecast_table %}
-        <div class="w-full max-w-7xl mx-auto mt-16">
-            <h2 class="text-2xl font-bold mb-6 text-white text-center flex items-center justify-center gap-2">
-                Forecast for
-                {% if level_guess|lower == 'error' %}<span class="text-red-500">{{ input_msg }}</span>
-                {% elif level_guess|lower == 'info' %}<span class="text-green-500">{{ input_msg }}</span>
-                {% elif level_guess|lower == 'warn' or level_guess|lower == 'warning' %}<span class="text-yellow-400">{{ input_msg }}</span>
-                {% else %}<span class="text-white">{{ input_msg }}</span>
-                {% endif %}
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mx-auto my-8">
-                <div class="bg-[#23203a] p-6 rounded-xl shadow-lg border border-[#3a3655] text-center transition-all hover:border-purple-500">
-                    <p class="text-gray-400 text-sm font-semibold uppercase tracking-wider">Total Historical</p>
-                    <p class="text-4xl font-bold text-white mt-2">{{ total_historical }}</p>
+        <div id="specific-forecast-container" class="w-full max-w-7xl mx-auto mt-16">
+            
+            <div class="w-full bg-[#23203a] rounded-xl shadow-lg border border-[#3a3655] mb-8">
+                <div class="px-6 py-4 border-b border-[#3a3655] flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-white flex items-center gap-2">
+                        Forecast for
+                        {% if level_guess|lower == 'error' %}<span class="text-red-500">{{ input_msg }}</span>
+                        {% elif level_guess|lower == 'info' %}<span class="text-green-500">{{ input_msg }}</span>
+                        {% elif level_guess|lower == 'warn' or level_guess|lower == 'warning' %}<span class="text-yellow-400">{{ input_msg }}</span>
+                        {% else %}<span class="text-white">{{ input_msg }}</span>
+                        {% endif %}
+                    </h2>
+                    <a href="{% url 'Result_Forecast' user_name %}" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold text-sm py-2 px-4 rounded-lg transition-all">
+                        Reset
+                    </a>
                 </div>
-                <div class="bg-[#23203a] p-6 rounded-xl shadow-lg border border-[#3a3655] text-center transition-all hover:border-purple-500">
-                    <p class="text-gray-400 text-sm font-semibold uppercase tracking-wider">Total Predicted (7 months)</p>
-                    <p class="text-4xl font-bold text-white mt-2">{{ total_predicted }}</p>
-                </div>
-                <div class="bg-[#23203a] p-6 rounded-xl shadow-lg border border-[#3a3655] text-center transition-all hover:border-purple-500">
-                    <p class="text-gray-400 text-sm font-semibold uppercase tracking-wider">Immediate Trend</p>
-                    {% if forecast_percent_change is not None %}
-                        <p class="text-4xl font-bold mt-2" style="color: {{ forecast_percent_color }};">
-                            {{ forecast_percent_change|floatformat:2 }}%
-                        </p>
-                    {% else %}
-                        <p class="text-2xl text-gray-500 mt-3">N/A</p>
-                    {% endif %}
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+                    <div class="bg-[#1c152a] p-6 rounded-lg text-center">
+                        <p class="text-gray-400 text-sm font-semibold uppercase tracking-wider">Total Historical</p>
+                        <p class="text-4xl font-bold text-white mt-2">{{ total_historical }}</p>
+                    </div>
+                    <div class="bg-[#1c152a] p-6 rounded-lg text-center">
+                        <p class="text-gray-400 text-sm font-semibold uppercase tracking-wider">Total Predicted (7 months)</p>
+                        <p class="text-4xl font-bold text-white mt-2">{{ total_predicted }}</p>
+                    </div>
+                    <div class="bg-[#1c152a] p-6 rounded-lg text-center">
+                        <p class="text-gray-400 text-sm font-semibold uppercase tracking-wider">Immediate Trend</p>
+                        {% if forecast_percent_change is not None %}
+                            <p class="text-4xl font-bold mt-2" style="color: {{ forecast_percent_color }};">
+                                {{ forecast_percent_change|floatformat:2 }}%
+                            </p>
+                        {% else %}
+                            <p class="text-2xl text-gray-500 mt-3">N/A</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 

@@ -511,11 +511,20 @@ def get_combined_error_forecast(request):
 
 
 def Prediction_Task(request, user_name, calling_request):
-    """Handle file upload for predictions"""
+    """Handle file upload for predictions and greet the user."""
     uploaded_file_name = None
     uploaded_file_type = None
     upload_error = None
     
+    # Greeting logic
+    hour = datetime.now().hour
+    if 5 <= hour < 12:
+        greeting = f"Good Morning, {user_name}"
+    elif 12 <= hour < 17:
+        greeting = f"Good Afternoon, {user_name}"
+    else:
+        greeting = f"Good Evening, {user_name}"
+
     if request.method == 'POST' and 'log_file' in request.FILES:
         try:
             log_file = request.FILES['log_file']
@@ -541,6 +550,7 @@ def Prediction_Task(request, user_name, calling_request):
         'uploaded_file_name': uploaded_file_name,
         'uploaded_file_type': uploaded_file_type,
         'upload_error': upload_error,
+        'greeting': greeting,  # Pass greeting to the template
     }
     
     return render(request, 'predictions.html', context)
@@ -616,6 +626,14 @@ def Train_Model(request, user_name):
             'user_name': user_name,
             'upload_error': f"Training failed: {str(e)}"
         })
+
+
+
+
+
+
+
+
 
 
 
@@ -1712,26 +1730,3 @@ def All_Data_Loop(request):
             'response':""
         }
         return JsonResponse(data)
-
-
-
-def Prediction_Task(request,user_name, calling_request):
-
-    # New logic: Only handle file upload and show file name/type here
-    uploaded_file_name = None
-    uploaded_file_type = None
-    if request.method == 'POST' and 'log_file' in request.FILES:
-        log_file = request.FILES['log_file']
-        uploaded_file_name = log_file.name
-        uploaded_file_type = log_file.content_type
-        # Save file to session or temp location for later use in result.html
-        request.session['uploaded_log_file'] = log_file.read().decode('utf-8')
-
-    context = {
-        'user_name': user_name,
-        'uploaded_file_name': uploaded_file_name,
-        'uploaded_file_type': uploaded_file_type,
-    }
-    return render(request, 'predictions.html', context)
-
-
