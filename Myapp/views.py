@@ -1,105 +1,337 @@
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+
 import pandas as pd
 import numpy as np
 import re
-import itertools
-from datetime import datetime
-from sklearn.preprocessing import MinMaxScaler
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Input
-from django.db.models import Count
-from django.db.models.functions import TruncMonth, ExtractMonth
 import os
 import glob
+import joblib
 import warnings
 import traceback
-from django.views.decorators.csrf import csrf_exempt
-import joblib
+import itertools
+import matplotlib.colors as mcolors
+from datetime import datetime
 
-# Suppress TensorFlow warnings
+# ML/DL Imports
+import tensorflow as tf
+from keras.models import Sequential, load_model
+from keras.layers import LSTM, Dense, Dropout, Input
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+
+# Suppress TensorFlow/Keras warnings for cleaner output
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-warnings.filterwarnings('ignore')
+warnings.filterwarnings('ignore', category=UserWarning, module='keras')
 
-def create_lstm_model():
-    """Create LSTM model with proper session management"""
-    tf.keras.backend.clear_session()
-    model = Sequential([
-        Input(shape=(3, 1)),
-        LSTM(32, return_sequences=False),
-        Dense(1)
-    ])
-    model.compile(optimizer="adam", loss="mse")
-    return model
+# --- Configuration & Global Helpers ---
+
+# Define the directory to save models and scalers
+MODEL_DIR = os.path.join("PhaseI", "models")
+os.makedirs(MODEL_DIR, exist_ok=True) # Ensure directory exists
+
+# Define paths for the new combined model and scaler
+COMBINED_MODEL_PATH = os.path.join(MODEL_DIR, "combined_log_model.h5")
+COMBINED_SCALER_PATH = os.path.join(MODEL_DIR, "combined_scaler.save")
+
 
 def parse_log_line(line):
-    """Enhanced log parsing with multiple pattern support"""
-    patterns = [
-        r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+) - (\w+)\s+\[(.*?)\] - (.*)$",
-        r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+) - (\w+) \[(.*?)\] - (.*)$",
-        r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) - (\w+) \[(.*?)\] - (.*)$",
-        r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+) (\w+) \[(.*?)\] (.*)$"
-    ]
-    
-    for pattern in patterns:
-        match = re.match(pattern, line)
-        if match:
-            try:
-                dt_str = match.group(1)
-                if ',' in dt_str:
-                    dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S,%f")
-                else:
-                    dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
-                level = match.group(2).strip()
-                thread = match.group(3).strip()
-                message = match.group(4).strip()
-                return dt, level, thread, message
-            except (ValueError, IndexError) as e:
-                continue
+    """
+    Parses a single log line using a flexible regex to find timestamp, level, thread, and message.
+    Returns a tuple (datetime, level, thread, message).
+    """
+    # Regex to capture standard log formats
+    match = re.match(r"^([\d\-]+\s[\d:,]+)\s*-\s*(\w+)\s*\[(.*?)\]\s*-\s*(.*)", line)
+    if match:
+        timestamp_str, level, thread, message = match.groups()
+        try:
+            # Attempt to parse timestamp with milliseconds
+            dt = datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S,%f")
+        except ValueError:
+            # Fallback to parsing without milliseconds
+            dt = datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
+        return dt, level.strip(), thread.strip(), message.strip()
     return None, None, None, None
 
-
-def get_logs_from_session(request, level=None):
+def get_log_df_from_session(request):
     """
-    Helper function to get and filter logs from the session.
-    `level` can be 'INFO', 'WARN', 'ERROR', or None (for all).
+    Retrieves log data from session, parses it, and returns a Pandas DataFrame.
+    Returns None if no data is available.
     """
     log_content = request.session.get('uploaded_log_file')
     if not log_content:
-        return ["Log file not found in session. Please upload a file from the 'Predictions' page first."]
+        return None
 
-    lines = log_content.strip().split('\n')
+    lines = log_content.strip().splitlines()
+    logs = [parse_log_line(line) for line in lines]
     
-    if not level:
-        return lines # Return all lines if no level is specified
+    valid_logs = [log for log in logs if all(log)]
+    if not valid_logs:
+        return None
 
-    filtered_lines = []
-    # Define keywords for each level
-    keywords = {
-        'INFO': ['INFO'],
-        'WARN': ['WARN', 'WARNING'],
-        'ERROR': ['ERROR']
-    }
-    
-    if level in keywords:
-        search_terms = keywords[level]
-        for line in lines:
-            # Case-insensitive search for keywords
-            if any(term in line.upper() for term in search_terms):
-                filtered_lines.append(line)
-    
-    return filtered_lines if filtered_lines else [f"No logs found for level: {level}"]
+    df = pd.DataFrame(valid_logs, columns=["Timestamp", "Level", "Thread", "Message"])
+    df["Date"] = pd.to_datetime(df["Timestamp"]).dt.date
+    df["Month"] = pd.to_datetime(df["Timestamp"]).dt.to_period("M")
+    # This 'LogKey' is crucial for the combined model approach
+    df["LogKey"] = df["Level"] + " - " + df["Message"]
+    return df
 
-def prepare_sequences(series, steps=3):
-    """Prepare sequences for LSTM training"""
+
+def create_sequences(data, window=3):
+    """
+    Creates sequences for LSTM model training.
+    """
     X, y = [], []
-    for i in range(len(series) - steps):
-        X.append(series[i:i + steps])
-        y.append(series[i + steps])
+    if len(data) <= window:
+        return np.array(X), np.array(y)
+    for i in range(len(data) - window):
+        X.append(data[i:i + window])
+        y.append(data[i + window])
     return np.array(X), np.array(y)
+
+
+# --- Core ML Views ---
+
+@csrf_exempt
+def Train_Model(request, user_name):
+    """
+    Trains the new combined LSTM model based on the logic from st3.py.
+    This replaces the old method of training one model per error.
+    """
+    df = get_log_df_from_session(request)
+    if df is None:
+        messages.error(request, "Log file not found in session. Please upload a file first.")
+        return redirect('Prediction_Task', user_name=user_name, calling_request='website')
+
+    try:
+        # Group by month and LogKey to get counts, similar to st3.py
+        monthly_counts = df.groupby(["Month", "LogKey"]).size().unstack(fill_value=0).sort_index()
+
+        if monthly_counts.empty or len(monthly_counts) < 4:
+            messages.warning(request, "Not enough monthly data to train a reliable model (requires at least 4 months of logs).")
+            return redirect('Prediction_Task', user_name=user_name, calling_request='website')
+
+        # Scale the data using StandardScaler
+        scaler = StandardScaler()
+        scaled_data = scaler.fit_transform(monthly_counts)
+        
+        # Create sequences for training
+        X, y = create_sequences(scaled_data, window=3)
+
+        if X.shape[0] == 0:
+            messages.warning(request, "Could not create training sequences from the log data.")
+            return redirect('Prediction_Task', user_name=user_name, calling_request='website')
+        
+        # Reshape data for LSTM [samples, timesteps, features]
+        X = X.reshape((X.shape[0], X.shape[1], X.shape[2]))
+
+        # Define the LSTM model architecture from st3.py
+        tf.keras.backend.clear_session()
+        model = Sequential([
+            Input(shape=(X.shape[1], X.shape[2])),
+            LSTM(64, return_sequences=True),
+            Dropout(0.4),
+            LSTM(64, return_sequences=True),
+            Dropout(0.3),
+            LSTM(32),
+            Dropout(0.2),
+            Dense(y.shape[1]) # Output layer matches number of unique LogKeys
+        ])
+        model.compile(optimizer="adam", loss="mse")
+
+        # Train the model
+        model.fit(X, y, epochs=100, batch_size=8, verbose=0)
+
+        # Save the trained model and the scaler
+        model.save(COMBINED_MODEL_PATH)
+        joblib.dump(scaler, COMBINED_SCALER_PATH)
+        
+        request.session['last_trained'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        messages.success(request, "New combined model has been trained and saved successfully!")
+
+    except Exception as e:
+        messages.error(request, f"An error occurred during model training: {str(e)}")
+        traceback.print_exc()
+
+    return redirect('Prediction_Task', user_name=user_name, calling_request='website')
+
+
+
+@ensure_csrf_cookie
+def Result_Forecast(request, user_name):
+    """
+    Handles forecasting for a specific message using the main combined model.
+    """
+    context = {'user_name': user_name}
+
+    if request.method == 'POST':
+        input_msg = request.POST.get('input_msg', '').strip()
+        context['input_msg'] = input_msg
+
+        if not input_msg:
+            context['error_msg'] = 'Please enter a log message to forecast.'
+            return render(request, 'result.html', context)
+        
+        # Check if the main model exists
+        if not os.path.exists(COMBINED_MODEL_PATH) or not os.path.exists(COMBINED_SCALER_PATH):
+            context['error_msg'] = 'The main prediction model has not been trained yet. Please train it on the Predictions page first.'
+            return render(request, 'result.html', context)
+
+        df = get_log_df_from_session(request)
+        if df is None:
+            context['error_msg'] = 'Log data not found. Please re-upload your file.'
+            return render(request, 'result.html', context)
+
+        try:
+            # Load model and scaler
+            model = load_model(COMBINED_MODEL_PATH, compile=False)
+            scaler = joblib.load(COMBINED_SCALER_PATH)
+
+            # Prepare data exactly as it was for training
+            monthly_counts = df.groupby(["Month", "LogKey"]).size().unstack(fill_value=0).sort_index()
+            
+            # Find columns that match the user's search term
+            matched_cols = [col for col in monthly_counts.columns if input_msg.lower() in col.lower()]
+            
+            if not matched_cols:
+                context['error_msg'] = f"No log patterns found matching '{input_msg}'."
+                return render(request, 'result.html', context)
+            
+            # For simplicity, we'll forecast for the first match.
+            # A more advanced version could show all matches.
+            target_col = matched_cols[0]
+            context['level_guess'] = target_col.split(' - ')[0]
+
+            # Scale the historical data
+            scaled_data = scaler.transform(monthly_counts)
+
+            # --- Forecasting ---
+            def forecast_next(data, steps=7):
+                output = []
+                current = data[-3:].copy()
+                for _ in range(steps):
+                    x_input = current.reshape((1, current.shape[0], current.shape[1]))
+                    yhat = model.predict(x_input, verbose=0)[0]
+                    output.append(yhat)
+                    current = np.vstack([current[1:], [yhat]])
+                return np.array(output)
+
+            forecast_scaled = forecast_next(scaled_data, steps=7)
+            forecast_unscaled = scaler.inverse_transform(forecast_scaled)
+
+            # Create a forecast DataFrame
+            last_month = monthly_counts.index[-1].to_timestamp()
+            future_months = pd.date_range(last_month + pd.offsets.MonthBegin(1), periods=7, freq='MS').to_period("M")
+            forecast_df = pd.DataFrame(forecast_unscaled, columns=monthly_counts.columns, index=future_months)
+            
+            # Combine historical and forecast data for the target column
+            historical_series = monthly_counts[target_col]
+            forecast_series = forecast_df[target_col].clip(0).round() # Clip at 0 and round
+
+            full_series = pd.concat([historical_series, forecast_series])
+
+            context['forecast_table'] = [{"Month": month.to_timestamp(), "Count": int(count)} for month, count in full_series.items()]
+            context['forecast_actual'] = {'values': historical_series.tolist()}
+            
+            # Calculate stats for display
+            context['total_historical'] = int(historical_series.sum())
+            context['total_predicted'] = int(forecast_series.sum())
+
+            if historical_series.iloc[-1] > 0:
+                change = ((forecast_series.iloc[0] - historical_series.iloc[-1]) / historical_series.iloc[-1]) * 100
+                context['forecast_percent_change'] = change
+                context['forecast_percent_color'] = '#22c55e' if change >= 0 else "#ffffff" # Green for up, Red for down
+            
+        except Exception as e:
+            context['error_msg'] = f"An error occurred during prediction: {e}"
+            traceback.print_exc()
+
+    return render(request, 'result.html', context)
+
+
+def get_combined_error_forecast(request):
+    """
+    API-style view to get forecast data for all ERROR messages using the single combined model.
+    """
+    if not os.path.exists(COMBINED_MODEL_PATH) or not os.path.exists(COMBINED_SCALER_PATH):
+        return JsonResponse({'error': 'Model not trained. Please go to the Predictions page and train the model.'}, status=404)
+
+    df = get_log_df_from_session(request)
+    if df is None:
+        return JsonResponse({'error': 'Log data not found in session. Please upload a file.'}, status=404)
+
+    try:
+        model = load_model(COMBINED_MODEL_PATH, compile=False)
+        scaler = joblib.load(COMBINED_SCALER_PATH)
+
+        monthly_counts = df.groupby(["Month", "LogKey"]).size().unstack(fill_value=0).sort_index()
+
+        # Check if historical data is sufficient
+        if len(monthly_counts) < 3:
+             return JsonResponse({'error': 'Not enough historical data (at least 3 months required) to make a prediction.'}, status=400)
+
+        scaled_data = scaler.transform(monthly_counts)
+        
+        # --- Forecasting Logic ---
+        def forecast_next(data, steps=7):
+            output = []
+            current = data[-3:].copy() # Use last 3 known steps to predict next one
+            for _ in range(steps):
+                x_input = current.reshape((1, current.shape[0], current.shape[1]))
+                yhat = model.predict(x_input, verbose=0)[0]
+                output.append(yhat)
+                current = np.vstack([current[1:], [yhat]])
+            return np.array(output)
+
+        forecast_scaled = forecast_next(scaled_data, steps=7)
+        forecast_unscaled = scaler.inverse_transform(forecast_scaled)
+
+        # Create a forecast DataFrame
+        last_month = monthly_counts.index[-1].to_timestamp()
+        future_months = pd.date_range(last_month + pd.offsets.MonthBegin(1), periods=7, freq='MS').to_period("M")
+        forecast_df = pd.DataFrame(forecast_unscaled, columns=monthly_counts.columns, index=future_months)
+
+        # Filter for error logs and prepare data for the frontend
+        error_cols = [col for col in monthly_counts.columns if col.startswith("ERROR")]
+        
+        if not error_cols:
+            return JsonResponse({'error': 'No ERROR logs found in the uploaded file to forecast.'}, status=404)
+        
+        color_cycle = itertools.cycle(mcolors.TABLEAU_COLORS.values())
+        combined_error_data = []
+
+        for col in error_cols:
+            historical_data = monthly_counts[col].tolist()
+            predicted_data = forecast_df[col].clip(0).round().tolist()
+            
+            # Skip if there's no activity at all
+            if sum(historical_data) + sum(predicted_data) == 0:
+                continue
+
+            combined_error_data.append({
+                'label': col.replace("ERROR - ", ""),
+                'color': next(color_cycle),
+                'months': [str(m) for m in monthly_counts.index] + [str(m) for m in forecast_df.index],
+                'values': [int(v) for v in historical_data] + [int(v) for v in predicted_data]
+            })
+
+        return JsonResponse({'combined_error_data': combined_error_data})
+
+    except Exception as e:
+        traceback.print_exc()
+        return JsonResponse({'error': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+
+
+
+
+
+
+
+
 
 def process_log_data_for_charts(log_data):
     """Process log data to create chart data"""
@@ -162,486 +394,78 @@ def process_log_data_for_charts(log_data):
         }
     }
 
-def LSTM_Forecast_from_session(request, input_msg):
-    """LSTM forecasting logic with enhanced error handling"""
-    result = {
-        'error_msg': None, 
-        'forecast_table': None, 
-        'forecast_actual': None,
-        'forecast_predicted': None,
-        'level_guess': None,
-        'combined_error_data': None,
-        'monthly_trend_data': None
-    }
-    
-    try:
-        tf.keras.backend.clear_session()
-        
-        log_data = request.session.get('uploaded_log_file')
-        if not log_data:
-            result['error_msg'] = 'No log file found in session. Please upload a log file first.'
-            return result
-            
-        if len(log_data.strip()) == 0:
-            result['error_msg'] = 'Log file appears to be empty. Please upload a valid log file.'
-            return result
-        
-        # Parse log data
-        lines = [line.strip() for line in log_data.splitlines() if line.strip()]
-        if not lines:
-            result['error_msg'] = 'No valid log lines found in the uploaded file.'
-            return result
-            
-        parsed = []
-        for line in lines:
-            parsed_line = parse_log_line(line)
-            if parsed_line[0] is not None:
-                parsed.append(parsed_line)
-        
-        if not parsed:
-            result['error_msg'] = 'No valid log entries could be parsed. Please check the log format.'
-            return result
-            
-        log_df = pd.DataFrame(parsed, columns=["date", "level", "thread", "message"])
-        log_df = log_df.dropna()
-        
-        if log_df.empty:
-            result['error_msg'] = 'No valid log entries found after parsing.'
-            return result
-            
-        log_df["month"] = log_df["date"].dt.to_period("M")
-        
-        # Define time periods
-        monthly_index = pd.period_range("2025-01", "2025-05", freq="M")
-        future_months = pd.period_range("2025-06", "2025-12", freq="M")
-        full_index = monthly_index.append(future_months)
-        
-        # Create monthly trend data for the specific message
-        if input_msg and input_msg.strip():
-            input_matches = log_df[log_df["message"].str.strip().str.lower() == input_msg.strip().lower()]
-            
-            if not input_matches.empty:
-                monthly_trend = input_matches.groupby(input_matches["date"].dt.to_period("M")).size()
-                trend_data = []
-                for month in monthly_trend.index:
-                    trend_data.append({
-                        'month': str(month),
-                        'count': int(monthly_trend[month])
-                    })
-                result['monthly_trend_data'] = trend_data
-        
-        # Individual message forecast
-        if input_msg and input_msg.strip():
-            input_matches = log_df[log_df["message"].str.strip().str.lower() == input_msg.strip().lower()]
-            
-            if input_matches.empty:
-                result['error_msg'] = f"No exact matching messages found for: '{input_msg}'"
-                return result
-            
-            level_guess = input_matches['level'].mode().iloc[0] if not input_matches.empty else 'UNKNOWN'
-            result['level_guess'] = level_guess
-            
-            msg_monthly = input_matches.groupby("month").size().reindex(monthly_index, fill_value=0)
-            
-            if msg_monthly.sum() < 4:
-                result['error_msg'] = f"Not enough data points for the input message to forecast (found {msg_monthly.sum()}, need at least 4)."
-                return result
-            
-            # LSTM Model for individual message
-            try:
-                scaler = MinMaxScaler(feature_range=(0, 1))
-                scaled_msg = scaler.fit_transform(msg_monthly.values.reshape(-1, 1))
-                X_msg, y_msg = prepare_sequences(scaled_msg, steps=3)
-                
-                if X_msg.shape[0] > 0:
-                    model = create_lstm_model()
-                    
-                    model.fit(
-                        X_msg.reshape(X_msg.shape[0], X_msg.shape[1], 1), 
-                        y_msg, 
-                        epochs=10, 
-                        verbose=0,
-                        batch_size=1
-                    )
-                    
-                    # Forecasting
-                    input_seq = scaled_msg[-3:].flatten()
-                    msg_preds = []
-                    
-                    for _ in range(7):
-                        pred = model.predict(input_seq.reshape(1, 3, 1), verbose=0)
-                        msg_preds.append(pred[0][0])
-                        input_seq = np.append(input_seq[1:], pred[0][0])
-                    
-                    forecast_vals_msg = scaler.inverse_transform(np.array(msg_preds).reshape(-1, 1))
-                    forecast_vals_msg = np.maximum(forecast_vals_msg.flatten(), 0).round().astype(int)
-                    
-                    msg_forecast_series = pd.Series(forecast_vals_msg, index=future_months)
-                    msg_full = pd.concat([msg_monthly, msg_forecast_series])
-                    
-                    # Prepare data for frontend
-                    result['forecast_table'] = [
-                        {"Month": month.to_timestamp(), "Count": int(count)} 
-                        for month, count in msg_full.items()
-                    ]
-                    
-                    result['forecast_actual'] = {
-                        'months': [str(m) for m in monthly_index],
-                        'values': [int(x) for x in msg_monthly.values]
-                    }
-                    
-                    result['forecast_predicted'] = {
-                        'months': [str(m) for m in future_months],
-                        'values': [int(x) for x in forecast_vals_msg]
-                    }
-                    
-                    del model
-                    tf.keras.backend.clear_session()
-                    
-            except Exception as e:
-                result['error_msg'] = f"Error in LSTM forecasting: {str(e)}"
-                tf.keras.backend.clear_session()
-                return result
-        
-        # Combined ERROR forecast
-        error_logs = log_df[log_df["level"] == "ERROR"]
-        
-        if not error_logs.empty:
-            unique_error_messages = error_logs["message"].unique()
-            colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', 
-                     '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
-            combined_data = []
-            color_index = 0
-            
-            for msg in unique_error_messages:
-                try:
-                    monthly_counts = error_logs[error_logs["message"] == msg].groupby("month").size().reindex(monthly_index, fill_value=0)
-                    
-                    if monthly_counts.sum() < 2:
-                        continue
-                    
-                    scaler = MinMaxScaler(feature_range=(0, 1))
-                    scaled = scaler.fit_transform(monthly_counts.values.reshape(-1, 1))
-                    X, y = prepare_sequences(scaled, steps=3)
-                    
-                    if X.shape[0] == 0:
-                        continue
-                    
-                    model_id = re.sub(r'[^a-zA-Z0-9]', '_', input_msg[:20])
-                    model_path = os.path.join("PhaseI", "models", f"model_{model_id}.h5")
-                    scaler_path = model_path.replace(".h5", "_scaler.gz")
-                    if os.path.exists(model_path) and os.path.exists(scaler_path):
-                        model = load_model(model_path)
-                        scaler = joblib.load(scaler_path)
-                    else:
-                        model = create_lstm_model()
-                        model.fit(
-                            X.reshape(X.shape[0], X.shape[1], 1), 
-                            y, 
-                            epochs=10, 
-                            verbose=0,
-                            batch_size=1
-                        )
-                    
-                    # Forecasting
-                    input_seq = scaled[-3:].flatten()
-                    preds = []
-                    
-                    for _ in range(7):
-                        pred = model.predict(input_seq.reshape(1, 3, 1), verbose=0)
-                        preds.append(pred[0][0])
-                        input_seq = np.append(input_seq[1:], pred[0][0])
-                    
-                    forecast_vals = scaler.inverse_transform(np.array(preds).reshape(-1, 1))
-                    forecast_vals = np.maximum(forecast_vals.flatten(), 0).round().astype(int)
-                    
-                    label = msg[:30] + ("..." if len(msg) > 30 else "")
-                    color = colors[color_index % len(colors)]
-                    
-                    combined_data.append({
-                        'label': label,
-                        'full_message': msg,
-                        'color': color,
-                        'actual_values': [int(x) for x in monthly_counts.values],
-                        'predicted_values': [int(x) for x in forecast_vals],
-                        'actual_months': [str(m) for m in monthly_index],
-                        'predicted_months': [str(m) for m in future_months],
-                        'all_months': [str(m) for m in full_index],
-                        'months': [str(m) for m in full_index], 
-                        'values': [int(x) for x in monthly_counts.values] + [int(x) for x in forecast_vals] 
-                    })
-                    
-                    color_index += 1
-                    del model
-                    tf.keras.backend.clear_session()
-                    
-                except Exception as e:
-                    print(f"Error processing message '{msg}': {e}")
-                    tf.keras.backend.clear_session()
-                    continue
-            
-            result['combined_error_data'] = combined_data
-            
-            if not combined_data:
-                result['error_msg'] = 'No ERROR messages had sufficient data for forecasting (minimum 2 occurrences required).'
-    
-    except Exception as e:
-        result['error_msg'] = f"Unexpected error processing log file: {str(e)}"
-        print(f"Exception in LSTM_Forecast_from_session: {e}")
-        traceback.print_exc()
-        tf.keras.backend.clear_session()
-    
-    return result
-
-@ensure_csrf_cookie
-def Result_Forecast(request, user_name):
-    """Main view for handling forecast results"""
-    forecast_table = None
-    error_msg = None
-    level_guess = None
-    input_msg = None
-    forecast_actual = None
-    forecast_predicted = None
-    combined_error_data = None
-    forecast_percent_change = None
-    forecast_percent_color = '#fff'
-    monthly_trend_data = None
-    chart_data = {}
-    
-    # Additional statistics
-    total_historical = 0
-    total_predicted = 0
-    
-    # Check if session has log file
-    if 'uploaded_log_file' not in request.session:
-        context = {
-            'user_name': user_name,
-            'error_msg': 'No log file found in session. Please upload a log file first.',
-        }
-        return render(request, 'result.html', context)
-    
-    # Process log data for charts
-    log_data = request.session.get('uploaded_log_file')
-    chart_data = process_log_data_for_charts(log_data)
-    
-    # Load combined error data even without POST (for initial page load)
-    try:
-        # Pass an empty string for input_msg to only get combined error data
-        initial_forecast_result = LSTM_Forecast_from_session(request, "")
-        combined_error_data = initial_forecast_result.get('combined_error_data')
-        # Capture any initial errors, but don't display them unless no data is found
-        if initial_forecast_result.get('error_msg') and not combined_error_data:
-            error_msg = initial_forecast_result.get('error_msg')
-    except Exception as e:
-        error_msg = f"Error loading combined error data: {str(e)}"
-
-    if request.method == 'POST':
-        input_msg = request.POST.get('input_msg', '').strip()
-        
-        if not input_msg:
-            error_msg = 'Please enter a log message to forecast.'
-        else:
-            # Get forecast results for the specific message
-            forecast_result = LSTM_Forecast_from_session(request, input_msg)
-            
-            forecast_table = forecast_result.get('forecast_table')
-            error_msg = forecast_result.get('error_msg')
-            level_guess = forecast_result.get('level_guess')
-            forecast_actual = forecast_result.get('forecast_actual')
-            forecast_predicted = forecast_result.get('forecast_predicted')
-            monthly_trend_data = forecast_result.get('monthly_trend_data')
-            
-            # The combined_error_data is already loaded, but you can update it if the function returns it
-            if forecast_result.get('combined_error_data'):
-                combined_error_data = forecast_result.get('combined_error_data')
-
-            # Calculate totals
-            if forecast_actual and forecast_actual.get('values'):
-                total_historical = sum(forecast_actual['values'])
-            if forecast_predicted and forecast_predicted.get('values'):
-                total_predicted = sum(forecast_predicted['values'])
-            
-            # Calculate percent change for badge
-            if forecast_actual and forecast_predicted and len(forecast_actual['values']) > 0 and len(forecast_predicted['values']) > 0:
-                try:
-                    actual_last = forecast_actual['values'][-1]
-                    predicted_first = forecast_predicted['values'][0]
-                    if actual_last != 0:
-                        forecast_percent_change = ((predicted_first - actual_last) / abs(actual_last)) * 100
-                        forecast_percent_color = '#22c55e' if forecast_percent_change > 0 else "#ebebeb"
-                except (IndexError, ZeroDivisionError):
-                    forecast_percent_change = None
-                    forecast_percent_color = '#fff'
-
-    context = {
-        'user_name': user_name,
-        'forecast_table': forecast_table,
-        'forecast_actual': forecast_actual,
-        'forecast_predicted': forecast_predicted,
-        'error_msg': error_msg,
-        'level_guess': level_guess,
-        'input_msg': input_msg,
-        'forecast_percent_change': forecast_percent_change,
-        'forecast_percent_color': forecast_percent_color,
-        'combined_error_data': combined_error_data,
-        'total_historical': total_historical,
-        'total_predicted': total_predicted,
-        'monthly_trend_data': monthly_trend_data,
-        'chart_data': chart_data,
-    }
-    
-    return render(request, 'result.html', context)
-
-def get_combined_error_forecast(request):
-    """
-    An API-style view that computes and returns the combined error forecast data.
-    """
-    if 'uploaded_log_file' not in request.session:
-        return JsonResponse({'error': 'No log file found in session.'}, status=400)
-
-    # We pass an empty string because we only want the combined error part
-    forecast_result = LSTM_Forecast_from_session(request, "")
-
-    if forecast_result.get('error_msg') and not forecast_result.get('combined_error_data'):
-         return JsonResponse({'error': forecast_result['error_msg']}, status=500)
-
-    return JsonResponse({
-        'combined_error_data': forecast_result.get('combined_error_data')
-    })
-
+       
+  
+# --- Standard Django Views (User Management, Page Rendering, etc.) ---
 
 def Prediction_Task(request, user_name, calling_request):
-    """Handle file upload for predictions and greet the user."""
-    uploaded_file_name = None
-    uploaded_file_type = None
-    upload_error = None
+    """Handle file upload and render the main predictions page."""
+    context = {'user_name': user_name}
     
-    # Greeting logic
     hour = datetime.now().hour
     if 5 <= hour < 12:
-        greeting = f"Good Morning, {user_name}"
+        context['greeting'] = f"Good Morning, {user_name}"
     elif 12 <= hour < 17:
-        greeting = f"Good Afternoon, {user_name}"
+        context['greeting'] = f"Good Afternoon, {user_name}"
     else:
-        greeting = f"Good Evening, {user_name}"
+        context['greeting'] = f"Good Evening, {user_name}"
 
     if request.method == 'POST' and 'log_file' in request.FILES:
+        log_file = request.FILES['log_file']
         try:
-            log_file = request.FILES['log_file']
-            uploaded_file_name = log_file.name
-            uploaded_file_type = log_file.content_type
-            
-            # Validate file size (max 10MB)
-            if log_file.size > 10 * 1024 * 1024:
-                upload_error = "File size too large. Maximum 10MB allowed."
+            if log_file.size > 20 * 1024 * 1024: # 20MB limit
+                messages.error(request, "File is too large. Maximum size is 20MB.")
             else:
                 file_content = log_file.read().decode('utf-8', errors='ignore')
-                if len(file_content.strip()) == 0:
-                    upload_error = "File appears to be empty."
+                if not file_content.strip():
+                    messages.warning(request, "The uploaded file appears to be empty.")
                 else:
                     request.session['uploaded_log_file'] = file_content
+                    request.session['uploaded_file_name'] = log_file.name
                     request.session.modified = True
-                    
+                    messages.success(request, f"Successfully uploaded '{log_file.name}'.")
         except Exception as e:
-            upload_error = f"Error uploading file: {str(e)}"
+            messages.error(request, f"Failed to read file: {e}")
     
-    context = {
-        'user_name': user_name,
-        'uploaded_file_name': uploaded_file_name,
-        'uploaded_file_type': uploaded_file_type,
-        'upload_error': upload_error,
-        'greeting': greeting,  # Pass greeting to the template
-    }
-    
+    # Pass session info to context for display
+    context['uploaded_file_name'] = request.session.get('uploaded_file_name')
+    context['last_trained'] = request.session.get('last_trained')
+
     return render(request, 'predictions.html', context)
+
+
+def get_logs_from_session(request, level=None):
+    """
+    Helper function to get and filter logs from the session for display on the dashboard.
+    `level` can be 'INFO', 'WARN', 'ERROR', or None (for all).
+    """
+    log_content = request.session.get('uploaded_log_file')
+    if not log_content:
+        return ["Log file not found. Please upload a file on the 'Predictions' page."]
+
+    lines = log_content.strip().split('\n')
+    if not level:
+        return lines
+
+    keywords = {
+        'INFO': ['INFO'],
+        'WARN': ['WARN', 'WARNING'],
+        'ERROR': ['ERROR']
+    }
+    search_terms = keywords.get(level, [])
+    
+    filtered_lines = [line for line in lines if any(term in line.upper() for term in search_terms)]
+    
+    return filtered_lines if filtered_lines else [f"No logs found for level: {level}"]
+
+
+
+
+
 
 
 from django.views.decorators.csrf import csrf_exempt
 import joblib
-
-@csrf_exempt
-def Train_Model(request, user_name):
-    """Train and save LSTM model for all ERROR messages"""
-    from django.contrib import messages
-    from datetime import datetime
-
-    log_data = request.session.get('uploaded_log_file')
-    if not log_data:
-        return render(request, 'predictions.html', {
-            'user_name': user_name,
-            'upload_error': "No log file found in session. Please upload a file first."
-        })
-
-    try:
-        # Parse log lines
-        lines = [line.strip() for line in log_data.splitlines() if line.strip()]
-        parsed = [parse_log_line(line) for line in lines if parse_log_line(line)[0] is not None]
-
-        log_df = pd.DataFrame(parsed, columns=["date", "level", "thread", "message"])
-        log_df["month"] = log_df["date"].dt.to_period("M")
-
-        error_logs = log_df[log_df["level"] == "ERROR"]
-        error_counts = error_logs.groupby(["month", "message"]).size().unstack(fill_value=0)
-
-        # 🔥 Define model save path
-        model_dir = os.path.join("PhaseI", "models")
-        if not os.path.exists(model_dir):
-            os.makedirs(model_dir)
-
-        # ❌ Delete older models
-        for file in glob.glob(os.path.join(model_dir, "model_*.h5")):
-            os.remove(file)
-        for file in glob.glob(os.path.join(model_dir, "*_scaler.gz")):
-            os.remove(file)
-
-        # 🎯 Train and Save new models
-        for message in error_counts.columns:
-            y = error_counts[message].values
-            if len(y) < 4:
-                continue
-
-            scaler = MinMaxScaler()
-            y_scaled = scaler.fit_transform(y.reshape(-1, 1))
-            X, y_train = prepare_sequences(y_scaled, steps=3)
-
-            if X.shape[0] == 0:
-                continue
-
-            model = create_lstm_model()
-            model.fit(X.reshape(X.shape[0], X.shape[1], 1), y_train, epochs=100, batch_size=1, verbose=0)
-
-            model_id = re.sub(r'[^a-zA-Z0-9]', '_', message[:30])
-            model_path = os.path.join(model_dir, f"model_{model_id}.h5")
-            scaler_path = model_path.replace(".h5", "_scaler.gz")
-
-            model.save(model_path)
-            joblib.dump(scaler, scaler_path)
-        request.session['last_trained'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        messages.success(request, "Model trained and saved successfully!")
-        return redirect('Prediction_Task', user_name=user_name, calling_request='website')
-
-    except Exception as e:
-        return render(request, 'predictions.html', {
-            'user_name': user_name,
-            'upload_error': f"Training failed: {str(e)}"
-        })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 from django.shortcuts import render, redirect
 from .models import Register,User_Register,Forgot_Password
 from django.conf import settings
@@ -684,13 +508,6 @@ with open(Log_File_Path, 'a+', newline='', encoding='utf-8') as csv_file:
                 keywords[i['keyword']]=i['keyword_name']
 print(keywords)
 
-# keywords = {
-#                  'EPU_Ambient_Temperature': 'EPU Ambient Temperature',
-#                 'batterycharge': 'Battery charge',
-#                 'batterytemperature':'Battery Temperature',
-#                 'ups_temperature':'c'
-#                 # Add more keywords as needed
-#         }
 
 
 
@@ -730,8 +547,8 @@ from django.contrib.auth import logout
 
 def user_logout(request):
     logout(request)
+    request.session.flush()
     return redirect('User_Login')
-# In your views.py file
 
 def Dashboard(request, user_name):
     """
@@ -923,7 +740,6 @@ def for_checking(request):
     return HttpResponse("okay")
 
 def Visualization_Task(request,user_name,calling_request):
-    # print("calling visualizaion function",calling_request)
     csv_file_path=settings.CSV_FILE_PATH
     values=defaultdict(list)
     Time_values=defaultdict(list)
@@ -934,7 +750,6 @@ def Visualization_Task(request,user_name,calling_request):
     today = datetime.now().date()
     start_date=end_date=today
    
-    # substring_devided_data = defaultdict(lambda: {'INFO': [], 'WARNING': [], 'ERROR': []}) 
     try:
         with open(csv_file_path, 'r', newline='', encoding='utf-8') as file:
                 csv_data = file.read()
